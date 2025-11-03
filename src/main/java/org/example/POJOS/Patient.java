@@ -1,25 +1,26 @@
 package org.example.POJOS;
 
-import jdk.jfr.Recording;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Patient {
-    private int id;
+    private int patient_id;
     private String name;
     private String surname;
-    private Sex sex;
-    private LocalDate dob;
+    private String sex; //he cambiado el enumerado de sex a string para que sea compatible con sql
+    private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
     private String email;
     private int phone;
     private List<Recording> recordings;
-    private String password;
-    private String medicalHistory;
+    //private String password;
+    private String medicalhistory;
 
 
-    public Patient(int id, String name, String surname, Sex sex, LocalDate dob, String email, int phone, List<Recording> recordings, String medicalHistory) {
-        this.id = id;
+    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex, List<Recording> recordings) {
+        this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -27,11 +28,22 @@ public class Patient {
         this.email = email;
         this.phone = phone;
         this.recordings = recordings;
-        this.medicalHistory = medicalHistory;
+        this.medicalhistory = medicalhistory;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex) {
+        this.patient_id = patient_id;
+        this.name = name;
+        this.surname = surname;
+        this.sex = sex;
+        this.dob = dob;
+        this.email = email;
+        this.phone = phone;
+        this.medicalhistory = medicalhistory;
+    }
+
+    public void setPatient_id(int patient_id) {
+        this.patient_id = patient_id;
     }
 
     public void setName(String name) {
@@ -42,11 +54,11 @@ public class Patient {
         this.surname = surname;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -62,8 +74,8 @@ public class Patient {
         this.recordings = recordings;
     }
 
-    public int getId() {
-        return id;
+    public int getPatient_id() {
+        return patient_id;
     }
 
     public String getName() {
@@ -74,11 +86,11 @@ public class Patient {
         return surname;
     }
 
-    public Sex getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public LocalDate getDob() {
+    public Date getDob() {
         return dob;
     }
 
@@ -94,26 +106,39 @@ public class Patient {
         return recordings;
     }
 
-    public String getPassword() {
-        return password;
+    //public String getPassword() {
+        //return password;
+    //}
+
+    //public void setPassword(String password) {
+        //this.password = password;
+    //}
+
+    public String getMedicalhistory() {
+        return medicalhistory;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setMedicalhistory(String medicalhistory) {
+        this.medicalhistory = medicalhistory;
     }
 
-    public String getMedicalHistory() {
-        return medicalHistory;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name) && Objects.equals(surname, patient.surname) && Objects.equals(sex, patient.sex) && Objects.equals(dob, patient.dob) && Objects.equals(email, patient.email) && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory);
     }
 
-    public void setMedicalHistory(String medicalHistory) {
-        this.medicalHistory = medicalHistory;
+    @Override
+    public int hashCode() {
+        return Objects.hash(patient_id, name, surname, sex, dob, email, phone, recordings, medicalhistory);
     }
+
 
     @Override
     public String toString() {
         return "Patient{" +
-                "id=" + id +
+                "id=" + patient_id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", sex=" + sex +
