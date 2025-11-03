@@ -15,6 +15,8 @@ public class JDBCDoctorManager implements DoctorManager {
      this.manager=manager;
  }
 
+ //hola porfavor que funcione
+
  @Override
  public void addDoctor(Doctor doctor){
      String sql = "INSERT INTO Doctors (name,surname,email,phone) VALUES (?,?,?,?)";
