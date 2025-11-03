@@ -1,6 +1,4 @@
-package org.example;
-
-import java.time.LocalDate;
+package org.example.POJOS;
 
 public class Operations {
     //public void createAccount(String name, String surname, Patient.Sex sex, String email, LocalDate dob, String telephone, String password, String medicalHistory){
