@@ -11,7 +11,7 @@ public class Doctor {
     private int phone;
     private List<Patient> patients;
 
-    public Doctor(int id, String name, String surname, String email, String password, int phone, List<Patient> patients) {
+    public Doctor(int id, String name, String surname, String email, int phone, String password, List<Patient> patients) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -19,6 +19,14 @@ public class Doctor {
         this.password = password;
         this.phone = phone;
         this.patients = patients;
+    }
+
+    public Doctor(int id, String name, String surname, String email, int phone) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone=phone;
     }
 
     public int getId() {
