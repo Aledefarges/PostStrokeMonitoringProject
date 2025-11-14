@@ -2,7 +2,7 @@ package org.example.Server.POJOS;
 
 import java.sql.Date;
 import java.time.LocalDate;
-
+//bA.KNZ
 public class Recording {
     private int id;
     private LocalDate dateRecording;
@@ -21,7 +21,7 @@ public class Recording {
         return id;
     }
 
-    public Date getDateRecording() {
+    public LocalDate getDateRecording() {
         return dateRecording;
     }
 
@@ -29,7 +29,7 @@ public class Recording {
         return max_duration;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
