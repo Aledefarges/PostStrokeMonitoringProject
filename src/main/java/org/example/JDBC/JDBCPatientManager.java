@@ -3,7 +3,6 @@ package org.example.JDBC;
 import org.example.IFaces.PatientManager;
 import org.example.POJOS.Patient;
 import org.example.POJOS.Recording;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
