@@ -51,6 +51,14 @@ public class JDBCManager {
                     + "recordingDate TEXT,"
                     + "patient_id INTEGER NOT NULL)";
             stmt.executeUpdate(sql_recordings);
+
+            //Table Users
+            String sql_user = "CREATE TABLE Users ("
+                    + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "username TEXT,"
+                    + "password TEXT,"
+                    + "role TEXT)";
+            stmt.executeUpdate(sql_user);
         }
         catch(SQLException e){
             if(!e.getMessage().contains("already exists"))
