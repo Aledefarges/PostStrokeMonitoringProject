@@ -29,7 +29,7 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(4, patient.getEmail());
             ps.setInt(5, patient.getPhone());
             ps.setString(6, patient.getMedicalhistory());
-            ps.setString(7, patient.getSex()); //Da error pq ns como ponerlo con un enumerado y no string pq no existe la funcion de enumerado en SQL
+            ps.setString(7, patient.getSex().name()); //Da error pq ns como ponerlo con un enumerado y no string pq no existe la funcion de enumerado en SQL
 
             ps.executeUpdate();
             ps.close();
@@ -90,7 +90,8 @@ public class JDBCPatientManager implements PatientManager {
                 String email = rs.getString("email");
                 Integer phone = rs.getInt("phone");
                 String medicalhistory = rs.getString("medicalhistory");
-                String sex = rs.getString("sex");
+                Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+
 
                 //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
                 //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
@@ -126,7 +127,8 @@ public class JDBCPatientManager implements PatientManager {
                 String email = rs.getString("email");
                 Integer phone = rs.getInt("phone");
                 String medicalhistory = rs.getString("medicalhistory");
-                String sex = rs.getString("sex");
+                Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+
 
 
                 patient = new Patient(patient_id, name, surname, dob, email, phone, medicalhistory, sex);
@@ -157,7 +159,8 @@ public class JDBCPatientManager implements PatientManager {
                 Date dob = rs.getDate("dob");
                 Integer phone = rs.getInt("phone");
                 String medicalhistory = rs.getString("medicalhistory");
-                String sex = rs.getString("sex");
+                Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+
 
                 patient = new Patient(patient_id, name, surname, dob, email, phone, medicalhistory, sex);
             }
@@ -168,6 +171,91 @@ public class JDBCPatientManager implements PatientManager {
         return patient;
     }
 
-    //TODO updates de los atributos
+    @Override
+    public void updateName(int patient_id, String name) {
+        String sql = "UPDATE Patients SET name = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateSurName(int patient_id, String surname) {
+        String sql = "UPDATE Patients SET surname = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, surname);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateEmail(int patient_id, String email) {
+        String sql = "UPDATE Patients SET email = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateSex(int patient_id, Patient.Sex sex) {
+        String sql = "UPDATE Patients SET sex = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, sex.name());
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateDob(int patient_id, Date dob) {
+        String sql = "UPDATE Patients SET dob = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setDate(1, dob);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updatePhone(int patient_id, int phone) {
+        String sql = "UPDATE Patients SET phone = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, phone);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateMedicalHistory(int patient_id, String medicalHistory) {
+        String sql = "UPDATE Patients SET medicalHistory = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, medicalHistory);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 }
