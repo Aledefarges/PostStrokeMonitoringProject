@@ -8,6 +8,8 @@ import org.example.Server.POJOS.Recording;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDBCRecordingManager implements RecordingManager {
     private JDBCManager manager;
@@ -16,6 +18,7 @@ public class JDBCRecordingManager implements RecordingManager {
         this.manager = manager;
     }
 
+    @Override
     public void addRecording(Recording recording) {
         String sql = "INSERT INTO Recordings (type, recordingDate, patient_id) VALUES (?, ?, ?)";
 
@@ -33,6 +36,7 @@ public class JDBCRecordingManager implements RecordingManager {
             e.printStackTrace();
         }
     }
+    @Override
     public void deleteRecording (Integer recording_id){
         String sql = "DELETE FROM Recordings WHERE recording_id = ?";
         try{
@@ -46,6 +50,7 @@ public class JDBCRecordingManager implements RecordingManager {
         }
     }
 
+    @Override
     public Recording getRecordingById(Integer recording_id) {
         Recording recording = null;
 
@@ -68,6 +73,34 @@ public class JDBCRecordingManager implements RecordingManager {
             e.printStackTrace();
         }
         return recording;
+    }
+
+
+
+    public List<Recording> getListOfRecordings() {
+        List<Recording> recordings= new ArrayList<Recording>();
+
+        try {
+            Statement stmt = manager.getConnection().createStatement();
+            String sql = "SELECT * FROM recording";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
+                Integer recording_id = rs.getInt("id");
+                Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
+                Integer patient_id = rs.getInt("patient_id");
+                Recording recording = new Recording(recording_id, dateRecording, type, patient_id);
+                recordings.add(recording);
+            }
+
+            rs.close();
+            stmt.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return recordings;
     }
 
 
