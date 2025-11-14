@@ -1,4 +1,4 @@
-package org.example.Server.Bitalino;
+package Bitalino;
 
 public enum BITalinoErrorTypes {
     BT_DEVICE_NOT_CONNECTED (0, "Bluetooth Device not connected"),
