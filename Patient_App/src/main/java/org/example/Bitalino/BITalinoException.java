@@ -1,4 +1,4 @@
-package Bitalino;
+package org.example.Bitalino;
 
 public class BITalinoException extends Exception{
     private static final long serialVersionUID = 1L;

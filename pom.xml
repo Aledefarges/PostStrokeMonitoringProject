@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>Server_App</module>
+        <module>Patient_App</module>
     </modules>
 
     <properties>
