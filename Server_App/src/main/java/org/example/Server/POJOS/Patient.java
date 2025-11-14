@@ -9,7 +9,7 @@ public class Patient {
     private int patient_id;
     private String name;
     private String surname;
-    private String sex; //he cambiado el enumerado de sex a string para que sea compatible con sql
+    private Sex sex; //he cambiado el enumerado de sex a string para que sea compatible con sql
     private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
     private String email;
     private int phone;
@@ -19,7 +19,7 @@ public class Patient {
     private Doctor doctor;
 
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex, List<Recording> recordings, Doctor doctor) {
+    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -32,7 +32,7 @@ public class Patient {
         this.doctor = doctor;
     }
 
-   public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex) {
+   public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -55,7 +55,7 @@ public class Patient {
         this.surname = surname;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
@@ -87,7 +87,7 @@ public class Patient {
         return surname;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
