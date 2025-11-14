@@ -1,9 +1,13 @@
 package org.example.Server.POJOS;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 //bA.KNZ
-public class Recording {
+public class Recording implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private LocalDate dateRecording;
     private final int max_duration = 60;
