@@ -1,6 +1,8 @@
 package org.example.Server.IFaces;
 
-import org.example.POJOS.Patient;
+
+
+import org.example.Server.POJOS.Patient;
 
 import java.util.List;
 

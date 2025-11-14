@@ -1,6 +1,7 @@
 package org.example.Server.IFaces;
 
-import org.example.POJOS.Doctor;
+
+import org.example.Server.POJOS.Doctor;
 
 public interface DoctorManager {
    public void addDoctor(Doctor doctor);
