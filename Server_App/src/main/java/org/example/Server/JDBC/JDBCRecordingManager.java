@@ -23,10 +23,9 @@ public class JDBCRecordingManager implements RecordingManager {
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
             //ahora me da error pq tiene que estar creado getConnection en JDBCManager
 
-            ps.setString(1, recording.getType());
-            ps.setDate(2, recording.getDateRecording());
-            //ps.setInt(3, recording.getId())
-            //Ns si tmb hay que meter el patient_id
+            ps.setString(1, recording.getType().name());
+            ps.setDate(2, java.sql.Date.valueOf(recording.getDateRecording()));
+            ps.setInt(3, recording.getPatient_id());
 
             ps.executeUpdate();
             ps.close();
@@ -46,7 +45,7 @@ public class JDBCRecordingManager implements RecordingManager {
             e.printStackTrace();
         }
     }
-/*
+
     public Recording getRecordingById(Integer recording_id) {
         Recording recording = null;
 
@@ -57,9 +56,9 @@ public class JDBCRecordingManager implements RecordingManager {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
-                Type type = rs.getString("type");
-                //Integer patient_id = rs.getInt("patient_id");
-                recording = new Recording(recording_id, dateRecording, type);
+                Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
+                Integer patient_id = rs.getInt("patient_id");
+                recording = new Recording(recording_id, dateRecording, type, patient_id);
 
             }
 
@@ -71,6 +70,5 @@ public class JDBCRecordingManager implements RecordingManager {
         return recording;
     }
 
-*/
 
 }
