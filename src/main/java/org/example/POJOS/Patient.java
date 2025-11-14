@@ -16,9 +16,10 @@ public class Patient {
     private List<Recording> recordings;
     //private String password;
     private String medicalhistory;
+    private Doctor doctor;
 
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex, List<Recording> recordings) {
+    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex, List<Recording> recordings, Doctor doctor) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -28,9 +29,10 @@ public class Patient {
         this.phone = phone;
         this.recordings = recordings;
         this.medicalhistory = medicalhistory;
+        this.doctor = doctor;
     }
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex) {
+   public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, String sex) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -120,17 +122,27 @@ public class Patient {
     public void setMedicalhistory(String medicalhistory) {
         this.medicalhistory = medicalhistory;
     }
+    public Doctor getDoctor() {
+        return doctor;
+    }
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Patient patient = (Patient) o;
-        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name) && Objects.equals(surname, patient.surname) && Objects.equals(sex, patient.sex) && Objects.equals(dob, patient.dob) && Objects.equals(email, patient.email) && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory);
+        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name)
+                && Objects.equals(surname, patient.surname) && Objects.equals(sex, patient.sex)
+                && Objects.equals(dob, patient.dob) && Objects.equals(email, patient.email)
+                && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory)
+                && Objects.equals(doctor, patient.doctor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(patient_id, name, surname, sex, dob, email, phone, recordings, medicalhistory);
+        return Objects.hash(patient_id, name, surname, sex, dob, email, phone, recordings, medicalhistory, doctor);
     }
 
 

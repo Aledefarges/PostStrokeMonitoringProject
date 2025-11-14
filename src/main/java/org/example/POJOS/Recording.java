@@ -7,11 +7,13 @@ public class Recording {
     private LocalDate dateRecording;
     private final int max_duration = 60;
     private Type type;
+    private int patient_id;
 
-    public Recording(int id, LocalDate dateRecording, Type type) {
+    public Recording(int id, LocalDate dateRecording, Type type, int patient_id) {
         this.id = id;
         this.dateRecording = dateRecording;
         this.type = type;
+        this.patient_id = patient_id;
     }
 
     public int getId() {
@@ -42,6 +44,10 @@ public class Recording {
         this.type = type;
     }
 
+    public int getPatient_id() {return patient_id;}
+
+    public void setPatient_id(int patient_id) {this.patient_id = patient_id;}
+
     @Override
     public String toString() {
         return "Recording{" +
@@ -49,6 +55,7 @@ public class Recording {
                 ", dateRecording=" + dateRecording +
                 ", max_duration=" + max_duration +
                 ", type=" + type +
+                ", patient_id=" + patient_id +
                 '}';
     }
 
