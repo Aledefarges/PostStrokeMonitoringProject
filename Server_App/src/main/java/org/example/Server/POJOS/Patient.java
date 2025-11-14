@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Patient {
+public class Patient extends User{
     private int patient_id;
     private String name;
     private String surname;
