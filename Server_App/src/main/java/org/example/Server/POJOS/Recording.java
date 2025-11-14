@@ -2,7 +2,7 @@ package org.example.Server.POJOS;
 
 import java.sql.Date;
 import java.time.LocalDate;
-
+//bA.KNZ
 public class Recording {
     private int id;
     private LocalDate dateRecording;
