@@ -11,6 +11,8 @@
     <modules>
         <module>Server_App</module>
         <module>Patient_App</module>
+        <module>Administrator_App</module>
+        <module>Doctor_App</module>
     </modules>
 
     <properties>
