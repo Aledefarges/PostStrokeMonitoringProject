@@ -1,4 +1,4 @@
-package org.example.Bitalino;
+package Bitalino;
 
 import javax.bluetooth.RemoteDevice;
 import java.util.Vector;

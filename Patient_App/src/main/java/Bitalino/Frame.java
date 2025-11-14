@@ -1,4 +1,4 @@
-package org.example.Bitalino;
+package Bitalino;
 
 public class Frame {
     /// CRC4 check function result for the frame
