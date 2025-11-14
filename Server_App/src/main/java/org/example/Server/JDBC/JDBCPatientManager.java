@@ -1,8 +1,9 @@
 package org.example.Server.JDBC;
 
-import org.example.IFaces.PatientManager;
-import org.example.POJOS.Patient;
-import org.example.POJOS.Recording;
+
+import org.example.Server.IFaces.PatientManager;
+import org.example.Server.POJOS.Patient;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
