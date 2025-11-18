@@ -1,5 +1,9 @@
 package org.example.Server.IFaces;
 
-public interface AdministratorManager {
+import org.example.Server.POJOS.Administrator;
 
+public interface AdministratorManager {
+   public void addAdministrator(Administrator administrator);
+   public void deleteAdministrator(String email);
+   public Administrator searchAdminById(Integer id);
 }

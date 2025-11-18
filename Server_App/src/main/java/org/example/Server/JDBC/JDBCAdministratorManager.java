@@ -2,9 +2,12 @@ package org.example.Server.JDBC;
 
 import org.example.Server.IFaces.AdministratorManager;
 import org.example.Server.POJOS.Administrator;
+import org.example.Server.POJOS.Doctor;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class JDBCAdministratorManager implements AdministratorManager {
     private JDBCManager manager;
@@ -52,7 +55,26 @@ public class JDBCAdministratorManager implements AdministratorManager {
     }
 
     @Override
-    public Administrator searchAdminById(){
+    public Administrator searchAdminById(Integer id){
+        Administrator administrator=null;
+        String sql="SELECT * FROM Administrators WHERE id=?";
+        try{
+            Statement stmt=manager.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
+            Integer admin_id=rs.getInt("id");
+            String name=rs.getString("name");
+            String surname=rs.getString("surname");
+            String email=rs.getString("email");
+            Integer phone=rs.getInt("phone");
+
+            administrator = new Administrator(admin_id,name,surname,email,phone);
+
+            rs.close();
+            stmt.close();
+        }catch(SQLException e){
+            e.printStackTrace();;
+        }
+        return administrator;
     }
 }
