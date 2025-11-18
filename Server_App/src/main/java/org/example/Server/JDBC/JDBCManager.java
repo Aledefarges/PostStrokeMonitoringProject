@@ -21,27 +21,36 @@ public class JDBCManager {
     public void createTables(){
         try{
             Statement stmt = c.createStatement();
-
+            //Table Users
+            String sql_user = "CREATE TABLE Users ("
+                    + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "email TEXT UNIQUE NOT NULL,"
+                    + "password TEXT NOT NULL,"
+                    + "role TEXT CHECK (role IN ('DOCTOR', 'PATIENT', 'ADMINISTRATOR')"
+                    + ")";
+            stmt.executeUpdate(sql_user);
             //Table doctor
             String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "doctor_id INTEGER PRIMARY, "
                     + "name TEXT,"
                     + "surname TEXT,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "phone INTEGER)";
+                    + "phone INTEGER)"
+                    + "FOREIGN KEY (doctor_id) REFERENCES Users(user_id) ON DELETE CASCADE"+
+                    ")";
             stmt.executeUpdate(sql_doctor);
 
             //Table patient
             String sql_patient = "CREATE TABLE Patients ("
-                    + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "patient_id INTEGER PRIMARY KEY, "
                     + "name TEXT,"
                     + "surname TEXT,"
                     + "dob TEXT,"
-                    + "email TEXT NOT NULL UNIQUE,"
                     + "phone INTEGER,"
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
-                    + "doctor_id INTEGER NOT NULL)";
+                    + "doctor_id INTEGER REFERENCES Doctors(doctor_id) ON DELETE CASCADE,)"
+                    + "FOREIGN KEY (patient_id) REFERENCES Users(user_id) ON DELETE CASCADE"
+                    +")";
             stmt.executeUpdate(sql_patient);
 
             //Table recordings
@@ -49,24 +58,20 @@ public class JDBCManager {
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
                     + "recordingDate TEXT,"
-                    + "patient_id INTEGER NOT NULL)";
+                    + "patient_id INTEGER REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
+                    + ")";
             stmt.executeUpdate(sql_recordings);
 
-            //Table Users
-            String sql_user = "CREATE TABLE Users ("
-                    + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "username TEXT,"
-                    + "password TEXT,"
-                    + "role TEXT)";
-            stmt.executeUpdate(sql_user);
+
 
             //Table Administrators
             String sql_administrator = "CREATE TABLE Administrators ("
-                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "admin_id INTEGER PRIMARY KEY,"
                     + "name TEXT,"
                     + "surname TEXT,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "phone INTEGER)";
+                    + "phone INTEGER)"
+                    + "FOREIGN KEY (admin_id) REFERENCES Users(user_id) ON DELETE CASCADE"
+                    + ")";
             stmt.executeUpdate(sql_administrator);
         }
         catch(SQLException e){
