@@ -256,6 +256,30 @@ public class JDBCPatientManager implements PatientManager {
     }
 
 
-
+   @Override
+   public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id){
+        List<Patient> patients = new ArrayList<Patient>();
+        try{
+            Statement stmt = manager.getConnection().createStatement();
+            String sql = "SELECT * FROM Patient WHERE doctor_id = " + doctor_id;
+            ResultSet rs= stmt.executeQuery(sql);
+            while(rs.next()){
+               Integer patient_id = rs.getInt("patient_id");
+               String name = rs.getString("name");
+               String surname = rs.getString("surname");
+               Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+               Date dob = rs.getDate("dob");
+               String email = rs.getString("email");
+               Integer phone = rs.getInt("phone");
+               Patient patient = new Patient(patient_id,name,surname,sex,dob,email,phone);
+               patients.add(patient);
+            }
+            rs.close();
+            stmt.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return patients;
+   }
 
 }

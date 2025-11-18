@@ -21,6 +21,6 @@ public interface PatientManager {
     public void updateDob(int patient_id, Date dob);
     public void updatePhone(int patient_id, int phone);
     public void updateMedicalHistory(int patient_id, String medicalHistory);
-
+    public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id);
 }
 

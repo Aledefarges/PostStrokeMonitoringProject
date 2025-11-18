@@ -3,11 +3,11 @@ package org.example.Server.JDBC;
 
 import org.example.Server.IFaces.DoctorManager;
 import org.example.Server.POJOS.Doctor;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 
 public class JDBCDoctorManager implements DoctorManager {
  private JDBCManager manager;
@@ -15,8 +15,6 @@ public class JDBCDoctorManager implements DoctorManager {
  public JDBCDoctorManager(JDBCManager manager){
      this.manager=manager;
  }
-
- //hola porfavor que funcione
 
  @Override
  public void addDoctor(Doctor doctor){
@@ -29,7 +27,7 @@ public class JDBCDoctorManager implements DoctorManager {
          ps.setString(2,doctor.getSurname());
          ps.setString(3, doctor.getEmail());
          ps.setInt(4, doctor.getPhone());
-
+         //AÑADIR LISTA PACIENTES NO Sé COMO HACERLO EN JDBC
          ps.executeUpdate();
          ps.close();
 
@@ -91,7 +89,6 @@ public Doctor searchDoctorById(Integer id){
      }
      return doctor;
 }
-
 
 
 }

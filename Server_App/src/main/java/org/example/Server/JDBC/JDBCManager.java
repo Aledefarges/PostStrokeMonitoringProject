@@ -59,6 +59,15 @@ public class JDBCManager {
                     + "password TEXT,"
                     + "role TEXT)";
             stmt.executeUpdate(sql_user);
+
+            //Table Administrators
+            String sql_administrator = "CREATE TABLE Administrators ("
+                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "name TEXT,"
+                    + "surname TEXT,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "phone INTEGER)";
+            stmt.executeUpdate(sql_administrator);
         }
         catch(SQLException e){
             if(!e.getMessage().contains("already exists"))
