@@ -2,17 +2,14 @@ package org.example.Server.POJOS;
 
 public abstract class User {
     protected int id;
-    protected String username;
+    protected String email;
     protected String password;
     protected Role role;
 
-    public User(){
 
-    }
-
-    public User(int id, String username, String password, Role role) {
+    public User(int id, String email, String password, Role role) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -25,12 +22,12 @@ public abstract class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

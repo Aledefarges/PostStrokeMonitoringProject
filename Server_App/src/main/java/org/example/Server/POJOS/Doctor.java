@@ -1,39 +1,30 @@
 package org.example.Server.POJOS;
 import java.util.List;
+import java.util.Objects;
 
 public class Doctor extends User {
-    private int id;
+
     private String name;
     private String surname;
-    private String email;
     private int phone;
     private List<Patient> patients;
 
-    public Doctor(int id, String name, String surname, String email, int phone, List<Patient> patients) {
-        //¿Hay que meter super()
-        this.id = id;
+    public Doctor(int id, String password, String name, String surname, String email, int phone, List<Patient> patients) {
+        super(id, email, password, Role.DOCTOR);
+
         this.name = name;
         this.surname = surname;
-        this.email = email;
         this.phone = phone;
         this.patients = patients;
     }
 
-    public Doctor(int id, String name, String surname, String email, int phone) {
-        this.id = id;
+    public Doctor(int id, String password ,String name, String surname, String email, int phone) {
+        super(id, email, password, Role.DOCTOR);
         this.name = name;
         this.surname = surname;
-        this.email = email;
         this.phone=phone;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -50,15 +41,6 @@ public class Doctor extends User {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 
     public int getPhone() {
         return phone;
@@ -77,14 +59,28 @@ public class Doctor extends User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Doctor doctor = (Doctor) o;
+        return phone == doctor.phone && Objects.equals(name, doctor.name) && Objects.equals(surname, doctor.surname) && Objects.equals(patients, doctor.patients);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, phone, patients);
+    }
+
+    @Override
     public String toString() {
         return "Doctor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
                 ", phone=" + phone +
                 ", patients=" + patients +
+                ", id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

@@ -32,8 +32,7 @@ public class Patient extends User{
         this.doctor = doctor;
     }
 
-
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
+   public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -43,17 +42,6 @@ public class Patient extends User{
         this.phone = phone;
         this.medicalhistory = medicalhistory;
     }
-
-    public Patient(Integer patientId, String name, String surname, Sex sex, Date dob, String email, Integer phone) {
-        this.patient_id = patientId;
-        this.name = name;
-        this.surname = surname;
-        this.sex=sex;
-        this.dob=dob;
-        this.email = email;
-        this.phone = phone;
-    }
-
 
     public void setPatient_id(int patient_id) {
         this.patient_id = patient_id;
