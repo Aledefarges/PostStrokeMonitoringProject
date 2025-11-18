@@ -30,7 +30,7 @@ public class JDBCUserManager implements UserManager {
 
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
-            ps.setString(1, user.getRole().name());
+            ps.setString(3, user.getRole().name());
 
             ps.executeUpdate();
             ps.close();

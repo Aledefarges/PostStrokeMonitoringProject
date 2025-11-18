@@ -3,6 +3,7 @@ package org.example.Server.JDBC;
 
 import org.example.Server.IFaces.PatientManager;
 import org.example.Server.POJOS.Patient;
+import org.example.Server.POJOS.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,18 +18,26 @@ public class JDBCPatientManager implements PatientManager {
 
     @Override
     public void addPatient(Patient patient) {
-        String sql = "INSERT INTO Patients (name, surname, dob, phone, medicalhistory, sex) VALUES (?, ?, ?, ?, ?, ?)";
+        JDBCUserManager userManager = new JDBCUserManager(manager);
+        userManager.addUser(patient);
+
+        User u = userManager.getUserByEmail(patient.getEmail());
+        int user_id= u.getId();
+
+        String sql = "INSERT INTO Patients (patient_id, name, surname, dob, phone, medicalhistory, sex, doctor_id) VALUES (?,?, ?, ?, ?, ?, ?,?)";
 
         try{
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
             //ahora me da error pq tiene que estar creado getConnection en JDBCManager
 
-            ps.setString(1, patient.getName());
-            ps.setString(2, patient.getSurname());
-            ps.setDate(3, patient.getDob()); //Da error pq lo tenemos puesto como LocalDate y no Data en POJO, pero no hay en JDBC local date creo
-            ps.setInt(4, patient.getPhone());
-            ps.setString(5, patient.getMedicalhistory());
-            ps.setString(6, patient.getSex().name()); //Da error pq ns como ponerlo con un enumerado y no string pq no existe la funcion de enumerado en SQL
+            ps.setInt(1,user_id);
+            ps.setString(2, patient.getName());
+            ps.setString(3, patient.getSurname());
+            ps.setDate(4, patient.getDob()); //Da error pq lo tenemos puesto como LocalDate y no Data en POJO, pero no hay en JDBC local date creo
+            ps.setInt(5, patient.getPhone());
+            ps.setString(6, patient.getMedicalhistory());
+            ps.setString(7, patient.getSex().name()); //Da error pq ns como ponerlo con un enumerado y no string pq no existe la funcion de enumerado en SQL
+            ps.setInt(8, patient.getDoctor().getId());
 
             ps.executeUpdate();
             ps.close();
@@ -39,56 +48,44 @@ public class JDBCPatientManager implements PatientManager {
 
     @Override
     public void deletePatient (Integer patient_id){
-        String sql = "DELETE FROM Patients WHERE patient_id = ?";
-        try{
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-            //da error pq tiene que estar creada en clase JDBCManager la funcion getConnection
-            ps.setInt(1, patient_id);
-
-            ps.executeUpdate();
-            ps.close();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+        JDBCUserManager userManager = new JDBCUserManager(manager);
+        userManager.deleteUser(patient_id);
     }
 
     @Override
     public void deletePatientByEmail(String email) {
-        String sql = "DELETE FROM Patients WHERE email = ?";
+        JDBCUserManager userManager = new JDBCUserManager(manager);
+        User user = userManager.getUserByEmail(email);
 
-        try {
-
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-            ps.setString(1, email);
-            ps.executeUpdate();
-            ps.close();
-            System.out.println("Patient record deleted.");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Failed to delete patient.");
+        if(user !=null && user instanceof Patient){
+            userManager.deleteUser(user.getId());
         }
     }
 
     @Override
     public List<Patient> getListOfPatients(){
         List<Patient> patients = new ArrayList<Patient>();
-        JDBCRecordingManager jdbcRecordingManager = new JDBCRecordingManager(manager);
+        JDBCUserManager userManager = new JDBCUserManager(manager);
 
         try {
+            String sql = "SELECT u.user_id, u.email, u.password, p.name, p.surname, p.dob, p.phone, p.medicalHistory, p.sex " +
+                    "FROM Users u " +
+                    "JOIN Patients p ON u.user_id = p.patient_id " +
+                    "WHERE u.role = 'PATIENT'";
+
             Statement stmt = manager.getConnection().createStatement();
-            String sql = "Select * FROM Patients";
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next())
             {
-                Integer patient_id = rs.getInt("patient_id");
-                String name= rs.getString("name");
+                Integer patient_id = rs.getInt("user_id");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String name = rs.getString("name");
                 String surname = rs.getString("surname");
                 Date dob = rs.getDate("dob");
-                String email = rs.getString("email");
                 Integer phone = rs.getInt("phone");
-                String medicalhistory = rs.getString("medicalhistory");
+                String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
 
 
