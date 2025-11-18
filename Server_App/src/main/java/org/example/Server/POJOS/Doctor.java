@@ -1,5 +1,4 @@
 package org.example.Server.POJOS;
-// Hola
 import java.util.List;
 
 public class Doctor extends User {
@@ -7,17 +6,15 @@ public class Doctor extends User {
     private String name;
     private String surname;
     private String email;
-    private String password;
     private int phone;
     private List<Patient> patients;
 
-    public Doctor(int id, String name, String surname, String email, int phone, String password, List<Patient> patients) {
+    public Doctor(int id, String name, String surname, String email, int phone, List<Patient> patients) {
         //¿Hay que meter super()
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.password = password;
         this.phone = phone;
         this.patients = patients;
     }
@@ -62,13 +59,6 @@ public class Doctor extends User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public int getPhone() {
         return phone;
@@ -93,7 +83,6 @@ public class Doctor extends User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", phone=" + phone +
                 ", patients=" + patients +
                 '}';
