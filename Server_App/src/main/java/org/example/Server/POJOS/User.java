@@ -6,9 +6,6 @@ public abstract class User {
     protected String password;
     protected Role role;
 
-    public User(){
-
-    }
 
     public User(int id, String email, String password, Role role) {
         this.id = id;

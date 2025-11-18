@@ -1,6 +1,7 @@
 package org.example.Server.JDBC;
 
 import org.example.Server.IFaces.UserManager;
+import org.example.Server.POJOS.Doctor;
 import org.example.Server.POJOS.Patient;
 import org.example.Server.POJOS.User;
 
@@ -113,6 +114,54 @@ public class JDBCUserManager implements UserManager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void changeEmail(int user_id, String email) {
+        String sql = "UPDATE Patients SET email = ? WHERE user_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setInt(2, user_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User user = null;
+        String sql = "SELECT * FROM Users WHERE email = ?";
+
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Integer user_id = rs.getInt("user_id");
+                String password = rs.getString("password");
+                User.Role role = User.Role.valueOf(rs.getString("role"));
+
+                switch (role){
+                    case PATIENT: {
+                        user = new Patient(user_id, email, password);
+                        break;
+                    }
+                    case DOCTOR:{
+                        user = new Doctor(user_id, email, password);
+                        break;
+                    }
+                    default: {
+                        throw new IllegalArgumentException("Role not recognized");
+                    }
+                }
+
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
 }
