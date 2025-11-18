@@ -62,6 +62,8 @@ public class TestConnection_With_Server {
 
             } catch (Exception e) {
                 System.out.println("ERROR: " + e.getMessage());
+
+
             }
         }
 }
