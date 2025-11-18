@@ -14,13 +14,15 @@ public class Patient extends User{
     private String email;
     private int phone;
     private List<Recording> recordings;
-    //private String password;
+    private String password;
     private String medicalhistory;
     private Doctor doctor;
 
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
+    public Patient(int patient_id, String password, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
+        super(patient_id, email, password, Role.PATIENT);
         this.patient_id = patient_id;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -32,8 +34,18 @@ public class Patient extends User{
         this.doctor = doctor;
     }
 
-   public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
-        this.patient_id = patient_id;
+   public Patient(int patient_id,  String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
+       this.patient_id = patient_id;
+        this.name = name;
+        this.surname = surname;
+        this.sex = sex;
+        this.dob = dob;
+        this.email = email;
+        this.phone = phone;
+        this.medicalhistory = medicalhistory;
+    }
+
+    public Patient(String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;

@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.Date;
 import java.util.Scanner;
 
 public class TestConnection_With_Server {
@@ -35,7 +36,7 @@ public class TestConnection_With_Server {
                 String surname = sc.nextLine();
 
                 System.out.print("Date of Birth (yyyy-mm-dd): ");
-                String dob =sc.nextLine();
+                Date dob = Date.valueOf(sc.nextLine());
 
                 System.out.print("Email: ");
                 String email = sc.nextLine();
@@ -63,6 +64,6 @@ public class TestConnection_With_Server {
                 System.out.println("ERROR: " + e.getMessage());
             }
         }
-    }
-
 }
+
+

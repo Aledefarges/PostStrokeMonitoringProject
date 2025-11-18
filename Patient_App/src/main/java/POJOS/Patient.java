@@ -12,13 +12,13 @@ public class Patient extends User{
     private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
     private String email;
     private int phone;
-    private List<Recording> recordings;
+    //private List<Recording> recordings;
     //private String password;
     private String medicalhistory;
-    private Doctor doctor;
+    // private Doctor doctor;
 
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
+   /* public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -29,7 +29,7 @@ public class Patient extends User{
         this.recordings = recordings;
         this.medicalhistory = medicalhistory;
         this.doctor = doctor;
-    }
+    }*/
 
     public Patient(String name, String surname, Date dob, String email,
                    int phone, String medicalhistory, Sex sex) {
@@ -82,9 +82,9 @@ public class Patient extends User{
         this.phone = phone;
     }
 
-    public void setRecordings(List<Recording> recordings) {
-        this.recordings = recordings;
-    }
+    //public void setRecordings(List<Recording> recordings) {
+     //   this.recordings = recordings;
+    //}
 
     public int getPatient_id() {
         return patient_id;
@@ -114,9 +114,9 @@ public class Patient extends User{
         return phone;
     }
 
-    public List<Recording> getRecordings() {
-        return recordings;
-    }
+    //public List<Recording> getRecordings() {
+     //   return recordings;
+    //}
 
     //public String getPassword() {
         //return password;
@@ -133,15 +133,15 @@ public class Patient extends User{
     public void setMedicalhistory(String medicalhistory) {
         this.medicalhistory = medicalhistory;
     }
-    public Doctor getDoctor() {
-        return doctor;
-    }
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
+   // public Doctor getDoctor() {
+     //   return doctor;
+    //}
+    //public void setDoctor(Doctor doctor) {
+     //   this.doctor = doctor;
+    //}
 
     @Override
-    public boolean equals(Object o) {
+    /*public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Patient patient = (Patient) o;
         return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name)
@@ -156,7 +156,7 @@ public class Patient extends User{
         return Objects.hash(patient_id, name, surname, sex, dob, email, phone, recordings, medicalhistory, doctor);
     }
 
-
+*/
     @Override
     public String toString() {
         return "Patient{" +
@@ -167,7 +167,7 @@ public class Patient extends User{
                 ", dob=" + dob +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
-                ", recordings=" + recordings +
+                //", recordings=" + recordings +
                 '}';
     }
 
