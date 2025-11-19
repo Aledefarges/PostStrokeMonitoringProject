@@ -34,8 +34,10 @@ public class Patient extends User{
         this.doctor = doctor;
     }
 
-   public Patient(int patient_id,  String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
-       this.patient_id = patient_id;
+   public Patient(int patient_id,  String password, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
+       super(patient_id, email, password, Role.PATIENT);
+        this.patient_id = patient_id;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -46,7 +48,9 @@ public class Patient extends User{
     }
 
     public Patient(String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
+        super();
         this.name = name;
+        this.password = password;
         this.surname = surname;
         this.sex = sex;
         this.dob = dob;
