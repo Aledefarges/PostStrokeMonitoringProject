@@ -3,28 +3,36 @@ import java.util.List;
 import java.util.Objects;
 
 public class Doctor extends User {
-
+    private int doctor_id;
     private String name;
     private String surname;
     private int phone;
     private List<Patient> patients;
 
-    public Doctor(int id, String password, String name, String surname, String email, int phone, List<Patient> patients) {
-        super(id, email, password, Role.DOCTOR);
-
+    public Doctor(int doctor_id, String password, String name, String surname, String email, int phone, List<Patient> patients) {
+        super(email, password, Role.DOCTOR);
+        this.doctor_id = doctor_id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.patients = patients;
     }
 
-    public Doctor(int id, String password ,String name, String surname, String email, int phone) {
-        super(id, email, password, Role.DOCTOR);
+    public Doctor(int doctor_id, String password ,String name, String surname, String email, int phone) {
+        super(email, password, Role.DOCTOR);
+        this.doctor_id = doctor_id;
         this.name = name;
         this.surname = surname;
         this.phone=phone;
     }
 
+    public int getDoctor_id() {
+        return doctor_id;
+    }
+
+    public void setDoctor_id(int doctor_id) {
+        this.doctor_id = doctor_id;
+    }
 
     public String getName() {
         return name;
@@ -77,7 +85,7 @@ public class Doctor extends User {
                 ", surname='" + surname + '\'' +
                 ", phone=" + phone +
                 ", patients=" + patients +
-                ", id=" + id +
+                ", id=" + doctor_id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +

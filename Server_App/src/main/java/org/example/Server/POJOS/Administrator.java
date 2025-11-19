@@ -1,29 +1,26 @@
 package org.example.Server.POJOS;
 
 public class Administrator extends User{
-    private int id;
+    private int admin_id;
     private String name;
     private String surname;
-    private String email;
     private int phone;
 
-    public Administrator(int id, String username, String password, Role role, int id1, String name, String surname, String email, int phone) {
-        super(id, username, password, role);
-        this.id = id1;
+    public Administrator(int admin_id, String email, String password, Role role, String name, String surname, String email, int phone) {
+        super(email, password, role);
+        this.admin_id = admin_id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phone = phone;
     }
 
-    @Override
-    public int getId() {
-        return id;
+    public int getAdmin_id() {
+        return admin_id;
     }
 
-    @Override
-    public void setId(int id) {
-        this.id = id;
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
     }
 
     public String getName() {
@@ -61,7 +58,7 @@ public class Administrator extends User{
     @Override
     public String toString() {
         return "Administrator{" +
-                "id=" + id +
+                "id=" + admin_id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +

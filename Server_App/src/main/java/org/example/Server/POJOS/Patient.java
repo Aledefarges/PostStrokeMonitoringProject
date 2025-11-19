@@ -11,7 +11,6 @@ public class Patient extends User{
     private String surname;
     private Sex sex; //he cambiado el enumerado de sex a string para que sea compatible con sql
     private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
-    private String email;
     private int phone;
     private List<Recording> recordings;
     private String password;
@@ -20,7 +19,7 @@ public class Patient extends User{
 
 
     public Patient(int patient_id, String password, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
-        super(patient_id, email, password, Role.PATIENT);
+        super(email, password, Role.PATIENT);
         this.patient_id = patient_id;
         this.password = password;
         this.name = name;
@@ -35,7 +34,7 @@ public class Patient extends User{
     }
 
    public Patient(int patient_id,  String password, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
-       super(patient_id, email, password, Role.PATIENT);
+       super(email, password, Role.PATIENT);
         this.patient_id = patient_id;
         this.password = password;
         this.name = name;

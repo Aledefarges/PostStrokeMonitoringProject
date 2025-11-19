@@ -26,7 +26,7 @@ public class JDBCManager {
                     + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "email TEXT UNIQUE NOT NULL,"
                     + "password TEXT NOT NULL,"
-                    + "role TEXT CHECK (role IN ('DOCTOR', 'PATIENT', 'ADMINISTRATOR')"
+                    + "role TEXT CHECK (role IN ('DOCTOR', 'PATIENT', 'ADMINISTRATOR'))"
                     + ")";
             stmt.executeUpdate(sql_user);
             //Table doctor
