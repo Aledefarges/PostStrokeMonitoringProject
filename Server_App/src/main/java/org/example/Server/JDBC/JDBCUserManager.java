@@ -39,11 +39,24 @@ public class JDBCUserManager implements UserManager {
         }
     }
     @Override
-    public void deleteUser(String email){
+    public void deleteUserByEmail(String email){
         String sql = "DELETE FROM Users WHERE email = ?";
         try{
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
             ps.setString(1, email);
+
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void deleteUserById(int user_id){
+        String sql = "DELETE FROM Users WHERE user_id = ?";
+        try{
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+            ps.setInt(1, user_id);
 
             ps.executeUpdate();
             ps.close();

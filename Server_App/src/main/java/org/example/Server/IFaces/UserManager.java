@@ -4,7 +4,8 @@ import org.example.Server.POJOS.User;
 
 public interface UserManager {
     public void addUser(User user);
-    public void deleteUser(String email);
+    public void deleteUserByEmail(String email);
+    public void deleteUserById(int user_id);
     public void changePassword(User user, String new_password);
     public boolean checkPassword(String username, String password);
     public void changeEmail(int user_id, String email);
