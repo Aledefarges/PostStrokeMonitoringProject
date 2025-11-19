@@ -5,6 +5,7 @@ import org.example.Server.IFaces.DoctorManager;
 import org.example.Server.POJOS.Doctor;
 import org.example.Server.POJOS.Patient;
 
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,34 +23,65 @@ public class JDBCDoctorManager implements DoctorManager {
 
  @Override
  public void addDoctor(Doctor doctor){
-     String sql = "INSERT INTO Doctors (name,surname,email,phone) VALUES (?,?,?,?)";
+     String insertUserSQL = "INSERT INTO Users (email, password, role) VALUES (?,?,?)";
 
      try{
-         PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+         PreparedStatement psUser = manager.getConnection().prepareStatement(insertUserSQL, Statement.RETURN_GENERATED_KEYS);
+         psUser.setString(1, doctor.getEmail());
+         psUser.setString(2, doctor.getPassword());
+         psUser.setString(3, doctor.getRole().name());
 
-         ps.setString(1,doctor.getName());
-         ps.setString(2,doctor.getSurname());
-         ps.setString(3, doctor.getEmail());
-         ps.setInt(4, doctor.getPhone());
-         //AÑADIR LISTA PACIENTES NO Sé COMO HACERLO EN JDBC
-         ps.executeUpdate();
-         ps.close();
+         psUser.executeUpdate();
+
+         //Obter el user_id autogenerado
+         ResultSet rs = psUser.getGeneratedKeys();
+         if (rs.next()) {
+             int user_id = rs.getInt(1);
+             doctor.setUser_id(user_id); //Asignar el user_id al doctor
+         }
+         rs.close();
+         psUser.close();
+
 
      } catch (SQLException e) {
          e.printStackTrace();
      }
+
+     String insertDoctorSQL = "INSERT INTO Doctors (doctor_id, name,surname,phone) VALUES (?,?,?,?)";
+     try{
+         PreparedStatement psDoctor = manager.getConnection().prepareStatement(insertDoctorSQL);
+
+         psDoctor.setInt(1, doctor.getUser_id());
+         psDoctor.setString(2, doctor.getName());
+         psDoctor.setString(3, doctor.getSurname());
+         psDoctor.setInt(4, doctor.getPhone());
+
+         psDoctor.executeUpdate();
+         psDoctor.close();
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+
  }
 
  @Override
  public void deleteDoctor(String email) {
-     String sql = "DELETE FROM Doctors WHERE email = ?";
+
+     //borro de administrators usando el user_id
+    String sqlDoctor = "DELETE FROM Doctors WHERE doctor_id = (SELECT user_id FROM Users WHERE email = ? AND role = 'DOCTOR')";
+    //luego borro de users
+    String sqlUser = "DELETE FROM Users WHERE email = ? AND role = 'DOCTOR'";
+
      try{
-         PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+         PreparedStatement psDoctor = manager.getConnection().prepareStatement(sqlDoctor);
+         psDoctor.setString(1,email);
+         psDoctor.executeUpdate();
+         psDoctor.close();
 
-         ps.setString(1,email);
-
-         ps.executeUpdate();
-         ps.close();
+         PreparedStatement psUser = manager.getConnection().prepareStatement(sqlUser);
+         psUser.setString(1, email);
+         psUser.executeUpdate();
+         psUser.close();
      }catch(SQLException e){
          e.printStackTrace();
      }
