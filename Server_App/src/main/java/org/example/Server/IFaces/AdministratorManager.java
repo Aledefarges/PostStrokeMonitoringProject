@@ -5,5 +5,5 @@ import org.example.Server.POJOS.Administrator;
 public interface AdministratorManager {
    public void addAdministrator(Administrator administrator);
    public void deleteAdministrator(String email);
-   public Administrator searchAdminById(Integer id);
+   public Administrator searchAdministratorByEmail(String email);
 }
