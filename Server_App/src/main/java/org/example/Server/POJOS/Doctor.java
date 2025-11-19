@@ -8,6 +8,10 @@ public class Doctor extends User {
     private int phone;
     private List<Patient> patients;
 
+    public Doctor(){
+        super();
+    }
+
     public Doctor(int id, String password, String name, String surname, String email, int phone, List<Patient> patients) {
         super(id, email, password, Role.DOCTOR);
         this.name = name;

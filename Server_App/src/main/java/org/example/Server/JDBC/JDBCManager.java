@@ -5,7 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCManager {
-    private Connection c = null;
+    //changed from private to rpotected to be able to access for tests
+    protected Connection c = null;
 
     public JDBCManager() {
         try{
