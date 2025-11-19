@@ -39,11 +39,11 @@ public class JDBCUserManager implements UserManager {
         }
     }
     @Override
-    public void deleteUser(Integer user_id){
-        String sql = "DELETE FROM Users WHERE user_id = ?";
+    public void deleteUser(String email){
+        String sql = "DELETE FROM Users WHERE email = ?";
         try{
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-            ps.setInt(1, user_id);
+            ps.setString(1, email);
 
             ps.executeUpdate();
             ps.close();
@@ -54,10 +54,10 @@ public class JDBCUserManager implements UserManager {
 
     @Override
     //método temporal (luego lo pondremos encrypted password
-    public void changePassword(User u, String new_passwd) {
+    public void changePassword(User u, String new_password) {
         String sql = "UPDATE Users SET password = ? WHERE user_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
-            ps.setString(3, new_passwd);
+            ps.setString(3, new_password);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,6 +126,16 @@ public class JDBCUserManager implements UserManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void changeEmail(User u, String new_email) {
+        String sql = "UPDATE Users SET password = ? WHERE user_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(2, new_email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
