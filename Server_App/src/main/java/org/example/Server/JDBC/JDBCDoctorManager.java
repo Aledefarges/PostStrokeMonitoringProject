@@ -3,10 +3,14 @@ package org.example.Server.JDBC;
 
 import org.example.Server.IFaces.DoctorManager;
 import org.example.Server.POJOS.Doctor;
+import org.example.Server.POJOS.Patient;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class JDBCDoctorManager implements DoctorManager {
@@ -67,20 +71,34 @@ public void assingDoctorToPatient(Integer patient_id, Integer doctor_id){
 }
 
 @Override
-public Doctor searchDoctorById(Integer id){
+public Doctor searchDoctorByEmail(String email){
      Doctor doctor=null;
-     String sql="SELECT * FROM Doctors WHERE id=?";
-     try{
-         Statement stmt=manager.getConnection().createStatement();
-         ResultSet rs = stmt.executeQuery(sql);
+    JDBCPatientManager jdbcPatientManager=new JDBCPatientManager(manager);
 
-         Integer doctor_id=rs.getInt("id");
-         String name=rs.getString("name");
-         String surname=rs.getString("surname");
-         String email=rs.getString("email");
-         Integer phone=rs.getInt("phone");
+    String sql  = "SELECT d.id AS doctor_id, d.name, d.surname, d.phone" +
+            "u.password, u.email " +
+            "FROM Doctors d " +
+            "JOIN Users u ON d.id = u.id"+
+            "WHERE u.email = ?";
+    //String sql="SELECT * FROM Doctors WHERE email =?";
 
-         doctor = new Doctor(doctor_id,name,surname,email,phone);
+    try{
+         PreparedStatement stmt=manager.getConnection().prepareStatement(sql);
+         stmt.setString(1, email);
+
+         ResultSet rs=stmt.executeQuery();
+
+         if(rs.next()){
+             int doctor_id = rs.getInt("doctor_id");
+             String password = rs.getString("password");
+             String name = rs.getString("name");
+             String surname = rs.getString("surname");
+             int phone = rs.getInt("phone");
+             List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
+
+             doctor = new Doctor(doctor_id, password, name, surname, email, phone, patients);
+         }
+
 
          rs.close();
          stmt.close();
