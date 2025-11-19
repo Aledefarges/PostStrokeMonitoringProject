@@ -13,50 +13,43 @@ public class Patient extends User{
     private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
     private int phone;
     private List<Recording> recordings;
-    private String password;
     private String medicalhistory;
     private Doctor doctor;
 
-
-    public Patient(int patient_id, String password, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex, List<Recording> recordings, Doctor doctor) {
-        super(email, password, Role.PATIENT);
+    public Patient(int patient_id, String password, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex) {
+        super(patient_id, email, password, Role.PATIENT);
         this.patient_id = patient_id;
-        this.password = password;
         this.name = name;
         this.surname = surname;
-        this.sex = sex;
         this.dob = dob;
-        this.email = email;
         this.phone = phone;
-        this.recordings = recordings;
-        this.medicalhistory = medicalhistory;
-        this.doctor = doctor;
+        this.medicalhistory = medicalHistory;
+        this.sex = sex;
     }
 
-   public Patient(int patient_id,  String password, String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
-       super(email, password, Role.PATIENT);
+    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex) {
+        super(patient_id, email, null, Role.PATIENT); // para los métodos sin password
         this.patient_id = patient_id;
-        this.password = password;
         this.name = name;
         this.surname = surname;
-        this.sex = sex;
         this.dob = dob;
-        this.email = email;
         this.phone = phone;
-        this.medicalhistory = medicalhistory;
+        this.medicalhistory = medicalHistory;
+        this.sex = sex;
     }
 
-    public Patient(String name, String surname, Date dob, String email, Integer phone, String medicalhistory, Sex sex) {
-        super();
+    public Patient(int patientId, String password, String name, String surname, Date dob, Integer phone, String medicalHistory, Sex sex, int doctorId) {
+        super(patient_id,email,password,Role.PATIENT);
+        this.patient_id = patientId;
         this.name = name;
-        this.password = password;
         this.surname = surname;
-        this.sex = sex;
-        this.dob = dob;
-        this.email = email;
+        this.dob=dob;           //DA ERROR POR LOS CONSTRUCTORES QUE FALTAN DE LO DE CONNECTION DE NEREA
         this.phone = phone;
-        this.medicalhistory = medicalhistory;
+        this.medicalhistory = medicalHistory;
+        this.sex=sex;
+        this.doctor.getUser_id()=doctorId;
     }
+
 
     public void setPatient_id(int patient_id) {
         this.patient_id = patient_id;
