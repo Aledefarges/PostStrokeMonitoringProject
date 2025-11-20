@@ -1,14 +1,5 @@
 package org.example.Server.Utilities;
 
-import org.example.POJOS.Administrator;
-import org.example.POJOS.Doctor;
-import org.example.POJOS.Patient;
-import org.example.Server.IFaces.UserManager;
-import org.example.Server.JDBC.JDBCManager;
-
-import javax.management.Query;
-import java.sql.*;
-
 public class Utilities {
 //package org.example.Server.JDBC;
 //
