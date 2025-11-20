@@ -43,6 +43,8 @@ public class JDBCManager {
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "dob TEXT,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "password TEXT NOT NULL,"
                     + "phone INTEGER,"
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
@@ -51,16 +53,16 @@ public class JDBCManager {
                     +")";
             stmt.executeUpdate(sql_patient);
 
-            //Table recordings //CAMBIARLO LUEGO
+            //Table recordings
             String sql_recordings = "CREATE TABLE Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     + "type TEXT,"
                     + "recordingDate TEXT,"
-                    + "patient_id TEXT NOT NULL,"
+                    + "patient_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
                     + ")";
             stmt.executeUpdate(sql_recordings);
-//
+
             String sql_frames = "CREATE TABLE RecordingFrames ("
                     + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "recording_id INTEGER NOT NULL,"
@@ -82,14 +84,13 @@ public class JDBCManager {
             stmt.executeUpdate(sql_frames);
 
 
-
             //Table Administrators
             String sql_administrator = "CREATE TABLE Administrators ("
                     + "admin_id INTEGER PRIMARY KEY,"
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "phone INTEGER,"
-                    + "email TEXT NOT NULL,"
+                    + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL,"
                     + ")";
             stmt.executeUpdate(sql_administrator);
