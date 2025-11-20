@@ -10,10 +10,7 @@ import org.example.Server.JDBC.JDBCDoctorManager;
 import javax.management.Query;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class JDBCUserManager implements UserManager {
@@ -78,10 +75,12 @@ public class JDBCUserManager implements UserManager {
 
     @Override
     //método temporal (luego lo pondremos encrypted password
-    public void changePassword(User u, String new_password) {
+    public void changePassword(int user_id, String new_password) {
         String sql = "UPDATE Users SET password = ? WHERE user_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
-            ps.setString(3, new_password);
+            ps.setString(1, new_password);
+            ps.setInt(2,user_id);
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,11 +139,12 @@ public class JDBCUserManager implements UserManager {
         return false;
     }
 
+    //Tambien podriamos hacer el changeEMail pasandolo un objeto User
     @Override
-    public void changeEmail(int user_id, String email) {
+    public void changeEmail(int user_id, String new_email) {
         String sql = "UPDATE Users SET email = ? WHERE user_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
-            ps.setString(1, email);
+            ps.setString(1, new_email);
             ps.setInt(2, user_id);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -163,17 +163,69 @@ public class JDBCUserManager implements UserManager {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                Integer user_id = rs.getInt("user_id");
+                int user_id = rs.getInt("user_id");
                 String password = rs.getString("password");
                 User.Role role = User.Role.valueOf(rs.getString("role"));
 
                 switch (role){
-                    case PATIENT: {
-                        user = new Patient(user_id, email, password);
+                    case ADMINISTRATOR: {
+                        String sql2 = "SELECT name, surname, phone FROM Administrators WHERE admin_id = ?";
+                        PreparedStatement ps2 = manager.getConnection().prepareStatement(sql2);
+                        ps2.setInt(1, user_id);
+
+                        ResultSet  rs2 = ps2.executeQuery();
+                        if(rs2.next()){
+
+                            String name = rs2.getString("name");
+                            String surname = rs2.getString("surname");
+                            int phone = rs2.getInt("phone");
+                            user = new Administrator(user_id, email, password, name, surname, phone);
+
+                        }
+                        rs2.close();
+                        ps2.close();
                         break;
                     }
                     case DOCTOR:{
-                        user = new Doctor(user_id, email, password);
+                        String sql3 = "SELECT name, surname, phone FROM Doctors WHERE doctor_id = ?";
+                        PreparedStatement ps3 = manager.getConnection().prepareStatement(sql3);
+                        ps3.setInt(1, user_id);
+
+                        ResultSet  rs3 = ps3.executeQuery();
+                        if(rs3.next()){
+
+                            String name = rs3.getString("name");
+                            String surname = rs3.getString("surname");
+                            int phone = rs3.getInt("phone");
+                            user = new Doctor(user_id, email, password, name, surname, phone);
+
+                        }
+                        rs3.close();
+                        ps3.close();
+
+
+                        break;
+                    } case PATIENT:{
+                        String sql4 = "SELECT name, surname, dob, phone, medicalHistory, sex, doctor_id FROM Patients WHERE patient_id = ?"; //FATLARIA METER LOS RECORDINGS
+                        PreparedStatement ps4 = manager.getConnection().prepareStatement(sql4);
+                        ps4.setInt(1, user_id);
+
+                        ResultSet  rs4 = ps4.executeQuery();
+                        if(rs4.next()){
+
+                            String name = rs4.getString("name");
+                            String surname = rs4.getString("surname");
+                            int phone = rs4.getInt("phone");
+                            Date dob = rs4.getDate("dob");
+                            String medicalHistory = rs4.getString("medicalHistory");
+                            Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+                            int doctor_id = rs4.getInt("doctor_id");
+
+                            user = new Patient(user_id, password, name, surname, dob, phone, medicalHistory, sex, doctor_id); //FATLARIA METER LOS RECORDINGS y el MAIL EN CONSTRUCTOR
+
+                        }
+                        rs4.close();
+                        ps4.close();
                         break;
                     }
                     default: {
