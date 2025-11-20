@@ -8,7 +8,7 @@ import java.net.Socket;
 public class Connection_With_Server {
     public static void main(String [] args) throws IOException {
 
-        String ip_host = "172.10.20.2";
+        String ip_host = "172.20.10.2";
         try{
             Socket socket = new Socket(ip_host, 9000);
             BufferedReader read_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
