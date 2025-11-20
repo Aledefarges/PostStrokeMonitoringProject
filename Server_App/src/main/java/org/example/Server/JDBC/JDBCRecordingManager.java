@@ -62,6 +62,7 @@ public class JDBCRecordingManager implements RecordingManager {
                 LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                 Integer patient_id = rs.getInt("patient_id");
+                List<int[]> frameList = null;
                 recording = new Recording(recording_id, dateRecording, type, patient_id, frameList);
 
             }
@@ -89,6 +90,7 @@ public class JDBCRecordingManager implements RecordingManager {
                 Integer recording_id = rs.getInt("id");
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                 Integer patient_id = rs.getInt("patient_id");
+                List<int[]> frameList = null;
                 Recording recording = new Recording(recording_id, dateRecording, type, patient_id, frameList);
                 recordings.add(recording);
             }
