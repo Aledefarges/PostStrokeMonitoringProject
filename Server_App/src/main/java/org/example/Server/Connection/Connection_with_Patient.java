@@ -18,15 +18,20 @@ public class Connection_with_Patient {
     public static void main(String [] args) throws IOException {
         try{
             ServerSocket serverSocket = new ServerSocket(9000);
-            Socket socket = serverSocket.accept();   // Waiting for one patient to connect
+            Socket socket = serverSocket.accept();
             System.out.println("Patient connected");
 
             BufferedReader read_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer_out = new PrintWriter(socket.getOutputStream(), true);
 
+            // *** IMPORTANTÍSIMO ***
+            writer_out.println("SERVER: Connected");  // EL PACIENTE YA PUEDE LEERLO
+
             JDBCManager db = new JDBCManager();
             patientManager = new JDBCPatientManager(db);
+
             String message = read_in.readLine();
+
 
 
             if (message.startsWith("PATIENT|")) {
