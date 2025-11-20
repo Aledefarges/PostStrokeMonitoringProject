@@ -27,7 +27,6 @@ public class Patient  {
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex = sex;
-        this.password = password;
         this.email = email;
         this.password = password;
     }
