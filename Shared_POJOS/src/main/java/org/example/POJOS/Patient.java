@@ -6,10 +6,12 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Patient extends User {
+public class Patient  {
     private int patient_id;
     private String name;
     private String surname;
+    private String email;
+    private String password;
     private Sex sex; //he cambiado el enumerado de sex a string para que sea compatible con sql
     private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
     private int phone;
@@ -18,7 +20,6 @@ public class Patient extends User {
     private Doctor doctor;
 
     public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex, String password) {
-        super(patient_id, email, password, Role.PATIENT);
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -27,10 +28,12 @@ public class Patient extends User {
         this.medicalhistory = medicalHistory;
         this.sex = sex;
         this.password = password;
+        this.email = email;
+        this.password = password;
     }
 
     public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex) {
-        super(patient_id, email, null, Role.PATIENT); // para los métodos sin password
+         // para los métodos sin password
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -38,10 +41,11 @@ public class Patient extends User {
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex = sex;
+        this.email = email;
+        this.password = null;
     }
 
     public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  Integer phone, String medicalHistory, Sex sex) {
-        super(patient_id,email,password,Role.PATIENT);
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -50,81 +54,50 @@ public class Patient extends User {
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex=sex;
-        //this.doctor.getUser_id()=doctorId;
-    }
-
-
-    public void setPatient_id(int patient_id) {
-        this.patient_id = patient_id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public void setRecordings(List<Recording> recordings) {
-        this.recordings = recordings;
+        this.password = password;
+        //this.doctor.getUser_id()=doctorId;
     }
 
     public int getPatient_id() {
         return patient_id;
     }
 
+    public void setPatient_id(int patient_id) {
+        this.patient_id = patient_id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public Sex getSex() {
-        return sex;
-    }
-
-    public Date getDob() {
-        return dob;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public int getPhone() {
-        return phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public List<Recording> getRecordings() {
-        return recordings;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    //public String getPassword() {
-        //return password;
-    //}
-
-    //public void setPassword(String password) {
-        //this.password = password;
-    //}
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 
     public String getMedicalhistory() {
         return medicalhistory;
@@ -133,41 +106,73 @@ public class Patient extends User {
     public void setMedicalhistory(String medicalhistory) {
         this.medicalhistory = medicalhistory;
     }
-    public Doctor getDoctor() {
-        return doctor;
+
+    public List<Recording> getRecordings() {
+        return recordings;
     }
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+
+    public void setRecordings(List<Recording> recordings) {
+        this.recordings = recordings;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Patient patient = (Patient) o;
-        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name)
-                && Objects.equals(surname, patient.surname) && Objects.equals(sex, patient.sex)
-                && Objects.equals(dob, patient.dob) && Objects.equals(email, patient.email)
-                && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory)
-                && Objects.equals(doctor, patient.doctor);
+        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name) && Objects.equals(surname, patient.surname) && Objects.equals(email, patient.email) && Objects.equals(password, patient.password) && sex == patient.sex && Objects.equals(dob, patient.dob) && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory) && Objects.equals(doctor, patient.doctor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(patient_id, name, surname, sex, dob, email, phone, recordings, medicalhistory, doctor);
+        return Objects.hash(patient_id, name, surname, email, password, sex, dob, phone, recordings, medicalhistory, doctor);
     }
-
 
     @Override
     public String toString() {
         return "Patient{" +
-                "id=" + patient_id +
+                "patient_id=" + patient_id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", sex=" + sex +
                 ", dob=" + dob +
-                ", email='" + email + '\'' +
                 ", phone=" + phone +
                 ", recordings=" + recordings +
+                ", medicalhistory='" + medicalhistory + '\'' +
+                ", doctor=" + doctor +
                 '}';
     }
 

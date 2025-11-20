@@ -1,7 +1,6 @@
 package org.example.Server.JDBC;
 
 import org.example.POJOS.Doctor;
-import org.example.POJOS.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
