@@ -10,7 +10,7 @@ public class JDBCManager {
 
     public JDBCManager() {
         try{
-            //Revisar esto kkj
+            //Revisar esto kkjk
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:.Database/PostStrokeDatabase.db");//
             c.createStatement().execute("PRAGMA foreign_keys = ON");
