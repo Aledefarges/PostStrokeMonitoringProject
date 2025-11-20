@@ -15,7 +15,7 @@ public class TestConnection_With_Server {
 
     public static void main(String[] args) {
 
-        String ip = "172.10.20.2";
+        String ip = "172.20.10.2";
 
 
         try {
