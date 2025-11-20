@@ -177,5 +177,5 @@ public class Patient  {
 
     public enum Sex {
         M,F;
-    }
+    } //
 }
