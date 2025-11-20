@@ -44,7 +44,7 @@ public class Patient extends User{
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
-        this.dob=dob;           //DA ERROR POR LOS CONSTRUCTORES QUE FALTAN DE LO DE CONNECTION DE NEREA
+        this.dob=dob;
         this.email = email;
         this.phone = phone;
         this.medicalhistory = medicalHistory;
