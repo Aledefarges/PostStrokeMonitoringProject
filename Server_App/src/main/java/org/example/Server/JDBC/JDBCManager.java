@@ -60,7 +60,7 @@ public class JDBCManager {
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
                     + ")";
             stmt.executeUpdate(sql_recordings);
-
+//
             String sql_frames = "CREATE TABLE RecordingFrames ("
                     + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "recording_id INTEGER NOT NULL,"
