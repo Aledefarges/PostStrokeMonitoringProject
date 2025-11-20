@@ -3,14 +3,8 @@ package org.example.Server.JDBC;
 import org.example.POJOS.Administrator;
 import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
-import org.example.POJOS.User;
 import org.example.Server.IFaces.UserManager;
 
-import org.example.Server.JDBC.JDBCDoctorManager;
-
-import javax.management.Query;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.sql.*;
 
 

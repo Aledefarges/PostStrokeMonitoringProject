@@ -1,7 +1,5 @@
 package org.example.Server.IFaces;
 
-import org.example.POJOS.User;
-
 public interface UserManager {
     public void addUser(User user);
     public void deleteUserByEmail(String email);
