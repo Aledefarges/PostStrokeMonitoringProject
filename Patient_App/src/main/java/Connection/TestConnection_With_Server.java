@@ -54,7 +54,7 @@ public class TestConnection_With_Server {
                 System.out.print("Medical History: ");
                 String history = sc.nextLine();
 
-                System.out.print("Sex (MALE/FEMALE): ");
+                System.out.print("Sex (M/F): ");
                 String sex = sc.nextLine().toUpperCase();
                 Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
 
