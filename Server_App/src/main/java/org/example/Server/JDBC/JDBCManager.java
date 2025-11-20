@@ -25,57 +25,72 @@ public class JDBCManager {
     public void createTables(){
         try{
             Statement stmt = c.createStatement();
-            //Table Users //IF NOT EXIST queremos?
-            String sql_user = "CREATE TABLE Users ("
-                    + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "email TEXT UNIQUE NOT NULL,"
-                    + "password TEXT NOT NULL,"
-                    + "role TEXT CHECK (role IN ('DOCTOR', 'PATIENT', 'ADMINISTRATOR')) NOT NULL"
-                    + ")";
-            stmt.executeUpdate(sql_user);
+
             //Table doctor
             String sql_doctor = "CREATE TABLE Doctors ("
                     + "doctor_id INTEGER PRIMARY KEY, "
                     + "name TEXT,"
                     + "surname TEXT,"
                     + "phone INTEGER,"
-                    + "FOREIGN KEY (doctor_id) REFERENCES Users(user_id) ON DELETE CASCADE"+
-                    ")";
+                    + "email TEXT NOT NULL,"
+                    + "password TEXT NOT NULL"
+                    + ")";
             stmt.executeUpdate(sql_doctor);
 
             //Table patient
             String sql_patient = "CREATE TABLE Patients ("
-                    + "patient_id INTEGER PRIMARY KEY, "
-                    + "name TEXT,"
-                    + "surname TEXT,"
+                    + "patient_id INTEGER PRIMARY KEY NOT NULL, "
+                    + "name TEXT NOT NULL,"
+                    + "surname TEXT NOT NULL,"
                     + "dob TEXT,"
                     + "phone INTEGER,"
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
                     + "doctor_id INTEGER,"
-                    + "FOREIGN KEY (patient_id) REFERENCES Users(user_id) ON DELETE CASCADE,"
                     + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL" //si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
             stmt.executeUpdate(sql_patient);
 
             //Table recordings //CAMBIARLO LUEGO
             String sql_recordings = "CREATE TABLE Recordings ("
-                    + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     + "type TEXT,"
                     + "recordingDate TEXT,"
-                    + "patient_id INTEGER REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
+                    + "patient_id TEXT NOT NULL,"
+                    + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
                     + ")";
             stmt.executeUpdate(sql_recordings);
+
+            String sql_frames = "CREATE TABLE RecordingFrames ("
+                    + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "recording_id INTEGER NOT NULL,"
+                    + "frame_index INTEGER NOT NULL,"
+                    + "crc INTEGER,"
+                    + "seq INTEGER,"
+                    + "a0 INTEGER,"
+                    + "a1 INTEGER,"
+                    + "a2 INTEGER,"
+                    + "a3 INTEGER,"
+                    + "a4 INTEGER,"
+                    + "a5 INTEGER,"
+                    + "d0 INTEGER,"
+                    + "d1 INTEGER,"
+                    + "d2 INTEGER,"
+                    + "d3 INTEGER,"
+                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id)"
+                    + ")";
+            stmt.executeUpdate(sql_frames);
 
 
 
             //Table Administrators
             String sql_administrator = "CREATE TABLE Administrators ("
                     + "admin_id INTEGER PRIMARY KEY,"
-                    + "name TEXT,"
-                    + "surname TEXT,"
+                    + "name TEXT NOT NULL,"
+                    + "surname TEXT NOT NULL,"
                     + "phone INTEGER,"
-                    + "FOREIGN KEY (admin_id) REFERENCES Users(user_id) ON DELETE CASCADE"
+                    + "email TEXT NOT NULL,"
+                    + "password TEXT NOT NULL,"
                     + ")";
             stmt.executeUpdate(sql_administrator);
         }
