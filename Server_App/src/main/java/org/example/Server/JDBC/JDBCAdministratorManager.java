@@ -1,9 +1,9 @@
 package org.example.Server.JDBC;
 
 import org.example.Server.IFaces.AdministratorManager;
-import org.example.Server.POJOS.Administrator;
-import org.example.Server.POJOS.Doctor;
-import org.example.Server.POJOS.Patient;
+import org.example.POJOS.Administrator;
+import org.example.POJOS.Doctor;
+import org.example.POJOS.Patient;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

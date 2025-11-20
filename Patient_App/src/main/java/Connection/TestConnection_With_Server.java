@@ -2,6 +2,8 @@ package Connection;
 
 
 
+import org.example.POJOS.Patient;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -58,7 +60,7 @@ public class TestConnection_With_Server {
 
                 System.out.println("Create a password: ");
                 String password = sc.nextLine();
-                Patient p = new Patient(patient_id, password, name, surname, dob, email, phone, history, sexEnum);
+                Patient p = new Patient(patient_id, name, surname, dob, email, phone, history, sexEnum, password);
 
                 // 3. Send patient to server
                 boolean ok = Connection_With_Server.sendPatientToServer(p, writer_out, read_in);

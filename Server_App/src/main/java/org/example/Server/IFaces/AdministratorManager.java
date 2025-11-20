@@ -1,6 +1,6 @@
 package org.example.Server.IFaces;
 
-import org.example.Server.POJOS.Administrator;
+import org.example.POJOS.Administrator;
 
 public interface AdministratorManager {
    public void addAdministrator(Administrator administrator);

@@ -1,6 +1,6 @@
 package org.example.Server.IFaces;
 
-import org.example.Server.POJOS.User;
+import org.example.POJOS.User;
 
 public interface UserManager {
     public void addUser(User user);

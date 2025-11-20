@@ -2,8 +2,8 @@ package org.example.Server.JDBC;
 
 
 import org.example.Server.IFaces.DoctorManager;
-import org.example.Server.POJOS.Doctor;
-import org.example.Server.POJOS.Patient;
+import org.example.POJOS.Doctor;
+import org.example.POJOS.Patient;
 
 import javax.xml.transform.Result;
 import java.sql.PreparedStatement;

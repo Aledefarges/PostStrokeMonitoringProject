@@ -2,7 +2,7 @@ package org.example.Server.IFaces;
 
 
 
-import org.example.Server.POJOS.Patient;
+import org.example.POJOS.Patient;
 
 import java.sql.Date;
 import java.util.List;

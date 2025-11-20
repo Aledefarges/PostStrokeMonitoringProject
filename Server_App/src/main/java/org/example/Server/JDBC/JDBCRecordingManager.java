@@ -3,7 +3,7 @@ package org.example.Server.JDBC;
 
 
 import org.example.Server.IFaces.RecordingManager;
-import org.example.Server.POJOS.Recording;
+import org.example.POJOS.Recording;
 
 import java.lang.reflect.Type;
 import java.sql.*;

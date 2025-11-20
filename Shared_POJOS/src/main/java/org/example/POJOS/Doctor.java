@@ -1,4 +1,4 @@
-package org.example.Server.POJOS;
+package org.example.POJOS;
 import java.util.List;
 import java.util.Objects;
 

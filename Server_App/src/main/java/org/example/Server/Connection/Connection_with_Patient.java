@@ -2,7 +2,7 @@ package org.example.Server.Connection;
 
 import org.example.Server.JDBC.JDBCManager;
 import org.example.Server.JDBC.JDBCPatientManager;
-import org.example.Server.POJOS.Patient;
+import org.example.POJOS.Patient;
 
 import java.io.BufferedReader;
 import java.io.IOException;

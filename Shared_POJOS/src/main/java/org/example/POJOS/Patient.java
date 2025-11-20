@@ -1,11 +1,12 @@
-package org.example.Server.POJOS;
+package org.example.POJOS;
+
+
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Patient extends User{
+public class Patient extends User {
     private int patient_id;
     private String name;
     private String surname;
@@ -39,7 +40,7 @@ public class Patient extends User{
         this.sex = sex;
     }
 
-    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  Integer phone, String medicalHistory, Sex sex, int doctorId) {
+    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  Integer phone, String medicalHistory, Sex sex) {
         super(patient_id,email,password,Role.PATIENT);
         this.patient_id = patient_id;
         this.name = name;
@@ -49,7 +50,7 @@ public class Patient extends User{
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex=sex;
-        this.doctor.getUser_id()=doctorId;
+        //this.doctor.getUser_id()=doctorId;
     }
 
 

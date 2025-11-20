@@ -1,10 +1,11 @@
 package org.example.Server.JDBC;
 
+import org.example.POJOS.Administrator;
+import org.example.POJOS.Doctor;
+import org.example.POJOS.Patient;
+import org.example.POJOS.User;
 import org.example.Server.IFaces.UserManager;
-import org.example.Server.POJOS.Administrator;
-import org.example.Server.POJOS.Doctor;
-import org.example.Server.POJOS.Patient;
-import org.example.Server.POJOS.User;
+
 import org.example.Server.JDBC.JDBCDoctorManager;
 
 import javax.management.Query;
@@ -221,7 +222,7 @@ public class JDBCUserManager implements UserManager {
                             Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                             int doctor_id = rs4.getInt("doctor_id");
 
-                            user = new Patient(user_id, password, name, surname, dob, phone, medicalHistory, sex, doctor_id); //FATLARIA METER LOS RECORDINGS y el MAIL EN CONSTRUCTOR
+                            user = new Patient(user_id, name, surname, dob, email, phone, medicalHistory, sex, password); //FATLARIA METER LOS RECORDINGS y el MAIL EN CONSTRUCTOR
 
                         }
                         rs4.close();

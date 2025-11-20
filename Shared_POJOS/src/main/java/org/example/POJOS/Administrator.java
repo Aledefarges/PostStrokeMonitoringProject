@@ -1,6 +1,7 @@
-package org.example.Server.POJOS;
+package org.example.POJOS;
 
-public class Administrator extends User{
+
+public class Administrator extends User {
     private String name;
     private String surname;
     private int phone;

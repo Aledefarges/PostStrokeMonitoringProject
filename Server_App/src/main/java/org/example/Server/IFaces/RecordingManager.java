@@ -1,7 +1,7 @@
 package org.example.Server.IFaces;
 
 
-import org.example.Server.POJOS.Recording;
+import org.example.POJOS.Recording;
 
 import java.util.List;
 

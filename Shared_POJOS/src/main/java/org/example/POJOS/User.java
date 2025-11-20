@@ -1,4 +1,4 @@
-package org.example.Server.POJOS;
+package org.example.POJOS;
 
 public abstract class User {
     protected int user_id;

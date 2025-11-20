@@ -2,8 +2,8 @@ package org.example.Server.JDBC;
 
 
 import org.example.Server.IFaces.PatientManager;
-import org.example.Server.POJOS.Patient;
-import org.example.Server.POJOS.User;
+import org.example.POJOS.Patient;
+import org.example.POJOS.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -169,7 +169,7 @@ public class JDBCPatientManager implements PatientManager {
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                 int doctor_id = rs.getInt("doctor_id");
 
-                patient = new Patient(patient_id,password,name,surname,dob,phone,medicalHistory,sex,doctor_id);
+                patient = new Patient(patient_id,name,surname,dob,phone,medicalHistory,sex,password);
             }
 
             rs.close();

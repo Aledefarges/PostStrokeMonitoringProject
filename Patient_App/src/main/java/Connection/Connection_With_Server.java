@@ -1,5 +1,7 @@
 package Connection;
 
+import org.example.POJOS.Patient;
+
 import java.io.*;
 import java.net.Socket;
 
