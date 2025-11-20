@@ -3,6 +3,8 @@ package org.example.Server.POJOS;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+
 //bA.KNZ
 public class Recording implements Serializable {
 
@@ -13,6 +15,7 @@ public class Recording implements Serializable {
     private final int max_duration = 60;
     private Type type;
     private int patient_id;
+    private List<int[]> frames;
 
     public Recording(int id, LocalDate dateRecording, Type type, int patient_id) {
         this.id = id;
@@ -36,6 +39,9 @@ public class Recording implements Serializable {
     public Type getType() {
         return type;
     }
+    public List<int[]> getFrames(){
+        return frames;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -48,6 +54,11 @@ public class Recording implements Serializable {
     public void setType(Type type) {
         this.type = type;
     }
+
+    public void setFrames(List<int[]> frames){
+        this.frames = frames;
+    }
+
 
     public int getPatient_id() {return patient_id;}
 
