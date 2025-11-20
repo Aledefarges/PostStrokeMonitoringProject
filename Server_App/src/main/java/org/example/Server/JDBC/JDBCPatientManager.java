@@ -10,27 +10,35 @@ import java.util.List;
 
 public class JDBCPatientManager implements PatientManager {
     private JDBCManager manager;
-    private JDBCUserManager userManager;
+
 
     public JDBCPatientManager(JDBCManager manager){
         this.manager = manager;
-        this.userManager = new JDBCUserManager(manager);
     }
 
 
     @Override
     public void addPatient(Patient patient) {
 
-        String sqlUser = "INSERT INTO Users (email, password, role) VALUES (?, ?, ?)";
+        String sqlUser = "INSERT INTO Patients (patient_id,name,surname,dob,email, sex,phone,medicalHistory,doctor, password) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try (
-                PreparedStatement psUser = manager.getConnection().prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS)
+                PreparedStatement ps = manager.getConnection().prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS)
         ) {
-            psUser.setString(1, patient.getEmail());
-            psUser.setString(2, patient.getPassword());
-            psUser.setString(3, patient.getRole().name());
+            ps.setInt(1, patient.getPatient_id());
+            ps.setString(2, patient.getName());
+            ps.setString(3, patient.getSurname());
+            ps.setString(4, String.valueOf(patient.getDob()));
+            ps.setString(5, patient.getSurname());
+            ps.setInt(6, patient.getSex().ordinal());
+            ps.setInt(7, patient.getPhone());
+            ps.setString(8, patient.getMedicalhistory());
+            ps.setInt(9, patient.getDoctor().getDoctor_id());
+            ps.setString(10, patient.getPassword());
 
-            psUser.executeUpdate();
+            ps.executeUpdate();
+
+            ps.executeUpdate();
 
             ResultSet rs = psUser.getGeneratedKeys();
             if (rs.next()) {
