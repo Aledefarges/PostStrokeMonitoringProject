@@ -41,7 +41,6 @@ public class Connection_With_Server {
                     patient.getSex().name() + ";" +
                     patient.getPassword(); 
 
-
                 out.println(message);
                 // Receive server confirmation
                 String response = in.readLine();

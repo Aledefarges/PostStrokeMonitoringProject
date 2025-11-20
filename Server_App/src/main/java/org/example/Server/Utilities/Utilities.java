@@ -1,7 +1,7 @@
 package org.example.Server.Utilities;
 
-import org.example.Server.POJOS.Patient;
-import org.example.Server.POJOS.User;
+import org.example.POJOS.Patient;
+import org.example.POJOS.User;
 
 import javax.management.Query;
 import java.sql.Date;

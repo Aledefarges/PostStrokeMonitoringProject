@@ -169,7 +169,7 @@ public class JDBCPatientManager implements PatientManager {
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                 int doctor_id = rs.getInt("doctor_id");
 
-                patient = new Patient(patient_id,name,surname,dob,phone,medicalHistory,sex,password);
+                patient = new Patient(patient_id,name,surname,dob,email, phone,medicalHistory,sex,password);
             }
 
             rs.close();
