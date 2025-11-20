@@ -20,11 +20,12 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public void addPatient(Patient patient) {
 
-        String sqlUser = "INSERT INTO Patients (patient_id,name,surname,dob,email, sex,phone,medicalHistory,doctor, password) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Patients (patient_id,name,surname,dob,email, sex,phone,medicalHistory,doctor, password) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
-        try (
-                PreparedStatement ps = manager.getConnection().prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS)
-        ) {
+        try {
+
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+
             ps.setInt(1, patient.getPatient_id());
             ps.setString(2, patient.getName());
             ps.setString(3, patient.getSurname());
@@ -37,78 +38,47 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(10, patient.getPassword());
 
             ps.executeUpdate();
-
-            ps.executeUpdate();
-
-            ResultSet rs = psUser.getGeneratedKeys();
-            if (rs.next()) {
-                int user_id = rs.getInt(1);
-                patient.setUser_id(user_id);
-            }
-            rs.close();
+            ps.close() ;
+            //FALTA AÑADIR RECORDINGS
         }catch(SQLException e){
             e.printStackTrace();
         }
 
-        String sqlPatient = "INSERT INTO Patients (user_id,name,surname,dob,sex,phone,medicalHistory,doctor) VALUES (?,?,?,?,?,?,?,?)";
-        //AÑADIR LIST OF RECORDINGS
-        try (PreparedStatement psPatient = manager.getConnection().prepareStatement(sqlPatient)) {
-            psPatient.setInt(1, patient.getUser_id());
-            psPatient.setString(2, patient.getName());
-            psPatient.setString(3, patient.getSurname());
-            psPatient.setString(4, String.valueOf(patient.getDob()));
-            psPatient.setString(5, patient.getSurname());
-            psPatient.setInt(6, patient.getSex().ordinal());
-            psPatient.setInt(7, patient.getPhone());
-            psPatient.setString(8, patient.getMedicalhistory());
-            psPatient.setInt(9, patient.getDoctor().getUser_id());
-            psPatient.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-       }
     }
 
     @Override
     public void deletePatient (String email){
-        String sqlPatient =
-                "DELETE FROM Patient WHERE user_id = (SELECT user_id FROM Users WHERE email = ? AND role = 'PATIENT')";
-
-        String sqlUser =
-                "DELETE FROM Users WHERE email = ? AND role = 'PATIENT'";
+        String sql = "DELETE FROM Patient WHERE patient_id =  ? ";
 
         try{
-            PreparedStatement psPatient = manager.getConnection().prepareStatement(sqlPatient);
-            psPatient.setString(1, email);
-            psPatient.executeUpdate();
-            psPatient.close();
-
-            PreparedStatement psUser = manager.getConnection().prepareStatement(sqlUser);
-            psUser.setString(1, email);
-            psUser.executeUpdate();
-            psUser.close();
-
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deletePatientByEmail(String email) {
-        try{
-            String sql = "DELETE FROM Patients WHERE email = ?";
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-
-            ps.setString(1,email);
+            ps.setString(1, email);
             ps.executeUpdate();
             ps.close();
 
-           userManager.deleteUserByEmail(email);
-
         }catch(SQLException e){
             e.printStackTrace();
         }
     }
+
+    //Esto es exactamente lo mismo que lo de arriba
+//    @Override
+//    public void deletePatientByEmail(String email) {
+//        try{
+//            String sql = "DELETE FROM Patients WHERE email = ?";
+//            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+//
+//            ps.setString(1,email);
+//            ps.executeUpdate();
+//            ps.close();
+//
+//           userManager.deleteUserByEmail(email);
+//
+//        }catch(SQLException e){
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public List<Patient> getListOfPatients(){
@@ -151,22 +121,16 @@ public class JDBCPatientManager implements PatientManager {
     }
 
     @Override
-    public Patient getPatientById(String email) {
+    public Patient getPatientById(int patient_id) {
         Patient patient = null;
 
-        String sql  = "SELECT p.id AS patient_id, p.name, p.surname, p.dob, p.phone, p.medicalHistory, p.sex, p.doctor_id" +
-                "u.password, u.email " +
-                "FROM Patients p " +
-                "JOIN Users u ON p.id = u.id"+
-                "WHERE u.email = ?";
         try{
-            PreparedStatement stmt=manager.getConnection().prepareStatement(sql);
-            stmt.setString(1, email);
+            Statement stmt=manager.getConnection().createStatement();
+            String sql = "SELECT * FROM Patients WHERE patient_id = ?";
 
-            ResultSet rs=stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery(sql);
 
             if(rs.next()){
-                int patient_id = rs.getInt("patient_id");
                 String password = rs.getString("password");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
@@ -175,6 +139,7 @@ public class JDBCPatientManager implements PatientManager {
                 String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                 int doctor_id = rs.getInt("doctor_id");
+                String email = rs.getString("email");
 
                 patient = new Patient(patient_id,name,surname,dob,email, phone,medicalHistory,sex,password);
             }
