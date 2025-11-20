@@ -12,7 +12,7 @@ public class JDBCManager {
         try{
             //Revisar esto
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:C: .db\\PostStrokeMonitoringProject\\Server_App\\Database\\PostStrokeDatabase.db");
+            c = DriverManager.getConnection("jdbc:sqlite:./Database/PostStrokeDatabase.db");
             c.createStatement().execute("PRAGMA foreign_keys = ON");
         }
         catch(SQLException e){
