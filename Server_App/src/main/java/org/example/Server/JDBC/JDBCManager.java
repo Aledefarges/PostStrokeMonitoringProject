@@ -11,11 +11,14 @@ public class JDBCManager {
     public JDBCManager() {
         try{
             //Revisar esto
-            c = DriverManager.getConnection("jdbc:sqlite:C:\\PostStrokeMonitoringProject\\Server_App\\src\\main\\java\\org\\example\\Server\\DataBase\\PostStrokeDatabase.db");
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:C: .db\\PostStrokeMonitoringProject\\Server_App\\Database\\PostStrokeDatabase.db");
             c.createStatement().execute("PRAGMA foreign_keys = ON");
         }
         catch(SQLException e){
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
