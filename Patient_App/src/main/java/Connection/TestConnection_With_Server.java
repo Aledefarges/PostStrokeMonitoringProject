@@ -1,6 +1,6 @@
 package Connection;
 
-import POJOS.Patient;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,6 +15,7 @@ public class TestConnection_With_Server {
 
         String ip = "172.10.20.2";
 
+
         try {
                 // 1. Connect
                 Socket socket = new Socket(ip, 9000);
@@ -28,6 +29,10 @@ public class TestConnection_With_Server {
 
                 // 2. Ask patient data
                 Scanner sc = new Scanner(System.in);
+
+
+                System.out.print("Patient ID: ");
+                int patient_id = Integer.parseInt(sc.nextLine());
 
                 System.out.print("Name: ");
                 String name = sc.nextLine();
@@ -50,7 +55,10 @@ public class TestConnection_With_Server {
                 System.out.print("Sex (MALE/FEMALE): ");
                 String sex = sc.nextLine().toUpperCase();
                 Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
-                Patient p = new Patient(name, surname, dob, email, phone, history, sex);
+
+                System.out.println("Create a password: ");
+                String password = sc.nextLine();
+                Patient p = new Patient(patient_id, password, name, surname, dob, email, phone, history, sexEnum);
 
                 // 3. Send patient to server
                 boolean ok = Connection_With_Server.sendPatientToServer(p, writer_out, read_in);

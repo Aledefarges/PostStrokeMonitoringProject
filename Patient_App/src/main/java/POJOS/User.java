@@ -1,36 +1,43 @@
 package POJOS;
 
 public abstract class User {
-    protected int id;
-    protected String username;
+    protected int user_id;
+    protected String email;
     protected String password;
     protected Role role;
 
-    public User(){
 
-    }
-
-    public User(int id, String username, String password, Role role) {
-        this.id = id;
-        this.username = username;
+    public User(int user_id, String email, String password, Role role) {
+        this.user_id = user_id;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public int getId() {
-        return id;
+    public User(int user_id, String email, String password) {
+        this.user_id = user_id;
+        this.email = email;
+        this.password = password;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public User() {
+
     }
 
-    public String getUsername() {
-        return username;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

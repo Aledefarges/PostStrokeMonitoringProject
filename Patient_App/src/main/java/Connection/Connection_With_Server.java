@@ -1,7 +1,5 @@
 package Connection;
 
-import POJOS.Patient;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -31,13 +29,16 @@ public class Connection_With_Server {
         try {
             // Build message in ONE line
             String message = "PATIENT|" +
+                    patient.getPatient_id() + ";" +
                     patient.getName() + ";" +
                     patient.getSurname() + ";" +
                     patient.getDob().toString() + ";" +
                     patient.getEmail() + ";" +
                     patient.getPhone() + ";" +
                     patient.getMedicalhistory() + ";" +
-                    patient.getSex().name();
+                    patient.getSex().name() + ";" +
+                    patient.getPassword(); 
+
 
                 out.println(message);
                 // Receive server confirmation

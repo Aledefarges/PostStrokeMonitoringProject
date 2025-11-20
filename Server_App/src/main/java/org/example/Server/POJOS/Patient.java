@@ -16,7 +16,7 @@ public class Patient extends User{
     private String medicalhistory;
     private Doctor doctor;
 
-    public Patient(int patient_id, String password, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex) {
+    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex, String password) {
         super(patient_id, email, password, Role.PATIENT);
         this.patient_id = patient_id;
         this.name = name;
@@ -25,6 +25,7 @@ public class Patient extends User{
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex = sex;
+        this.password = password;
     }
 
     public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex) {
@@ -38,12 +39,13 @@ public class Patient extends User{
         this.sex = sex;
     }
 
-    public Patient(int patientId, String password, String name, String surname, Date dob, Integer phone, String medicalHistory, Sex sex, int doctorId) {
+    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  Integer phone, String medicalHistory, Sex sex, int doctorId) {
         super(patient_id,email,password,Role.PATIENT);
-        this.patient_id = patientId;
+        this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
         this.dob=dob;           //DA ERROR POR LOS CONSTRUCTORES QUE FALTAN DE LO DE CONNECTION DE NEREA
+        this.email = email;
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex=sex;

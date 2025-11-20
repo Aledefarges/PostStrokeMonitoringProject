@@ -44,15 +44,17 @@ public class Connection_with_Patient {
 
         try{
             String [] parts = p.split(";");
-           String name = parts[0];
-           String surname = parts[1];
-           Date dob = Date.valueOf(parts[2]);
-           String email = parts[3];
-           int phone = Integer.parseInt(parts[4]);
-           String medicalHistory = parts[5];
-            Patient.Sex sex = Patient.Sex.valueOf(parts[6].toUpperCase());
+            int patient_id = Integer.parseInt(parts[0]);
+           String name = parts[1];
+           String surname = parts[2];
+           Date dob = Date.valueOf(parts[3]);
+           String email = parts[4];
+           int phone = Integer.parseInt(parts[5]);
+           String medicalHistory = parts[6];
+           Patient.Sex sex = Patient.Sex.valueOf(parts[7].toUpperCase());
+           String password = parts[8];
 
-            Patient patient = new Patient(name, surname, dob, email, phone, medicalHistory, sex);
+            Patient patient = new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex, password);
 
             patientManager.addPatient(patient);
 
