@@ -11,7 +11,7 @@ public class JDBCManager {
     public JDBCManager() {
         try{
             //Revisar esto
-            c = DriverManager.getConnection("jdbc:sqlite:C:\\PostStrokeMonitoringProject\\src\\main\\java\\org\\example\\DataBase\\PostStrokeDatabase.db");
+            c = DriverManager.getConnection("jdbc:sqlite:C:\\PostStrokeMonitoringProject\\Server_App\\src\\main\\java\\org\\example\\Server\\DataBase\\PostStrokeDatabase.db");
             c.createStatement().execute("PRAGMA foreign_keys = ON");
         }
         catch(SQLException e){
@@ -22,20 +22,20 @@ public class JDBCManager {
     public void createTables(){
         try{
             Statement stmt = c.createStatement();
-            //Table Users
+            //Table Users //IF NOT EXIST queremos?
             String sql_user = "CREATE TABLE Users ("
                     + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "email TEXT UNIQUE NOT NULL,"
                     + "password TEXT NOT NULL,"
-                    + "role TEXT CHECK (role IN ('DOCTOR', 'PATIENT', 'ADMINISTRATOR'))"
+                    + "role TEXT CHECK (role IN ('DOCTOR', 'PATIENT', 'ADMINISTRATOR')) NOT NULL"
                     + ")";
             stmt.executeUpdate(sql_user);
             //Table doctor
             String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER PRIMARY, "
+                    + "doctor_id INTEGER PRIMARY KEY, "
                     + "name TEXT,"
                     + "surname TEXT,"
-                    + "phone INTEGER)"
+                    + "phone INTEGER,"
                     + "FOREIGN KEY (doctor_id) REFERENCES Users(user_id) ON DELETE CASCADE"+
                     ")";
             stmt.executeUpdate(sql_doctor);
@@ -49,12 +49,13 @@ public class JDBCManager {
                     + "phone INTEGER,"
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
-                    + "doctor_id INTEGER REFERENCES Doctors(doctor_id) ON DELETE CASCADE,)"
-                    + "FOREIGN KEY (patient_id) REFERENCES Users(user_id) ON DELETE CASCADE"
+                    + "doctor_id INTEGER,"
+                    + "FOREIGN KEY (patient_id) REFERENCES Users(user_id) ON DELETE CASCADE,"
+                    + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL" //si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
             stmt.executeUpdate(sql_patient);
 
-            //Table recordings
+            //Table recordings //CAMBIARLO LUEGO
             String sql_recordings = "CREATE TABLE Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
@@ -70,7 +71,7 @@ public class JDBCManager {
                     + "admin_id INTEGER PRIMARY KEY,"
                     + "name TEXT,"
                     + "surname TEXT,"
-                    + "phone INTEGER)"
+                    + "phone INTEGER,"
                     + "FOREIGN KEY (admin_id) REFERENCES Users(user_id) ON DELETE CASCADE"
                     + ")";
             stmt.executeUpdate(sql_administrator);
