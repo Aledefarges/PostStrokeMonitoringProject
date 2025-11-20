@@ -16,11 +16,12 @@ public class Recording implements Serializable {
     private int patient_id;
     private List<int[]> frames;
 
-    public Recording(int id, LocalDate dateRecording, Type type, int patient_id) {
+    public Recording(int id, LocalDate dateRecording, Type type, int patient_id, List<int[]> frameList) {
         this.id = id;
         this.dateRecording = dateRecording;
         this.type = type;
         this.patient_id = patient_id;
+        this.frames = null;
     }
 
     public int getId() {
