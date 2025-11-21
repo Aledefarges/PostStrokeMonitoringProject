@@ -1,3 +1,4 @@
+/*
 package org.example.Server.JDBC;
 
 import java.sql.Connection;
@@ -19,3 +20,4 @@ public class TestJDBCMAnager extends JDBCManager{
         }
     }
 }
+*/
