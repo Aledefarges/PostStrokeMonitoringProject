@@ -29,11 +29,11 @@ public class JDBCManager {
 
             //Table doctor
             String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER PRIMARY KEY, "
+                    + "doctor_id INTEGER PRIMARY KEY NOT NULL, "
                     + "name TEXT,"
                     + "surname TEXT,"
                     + "phone INTEGER,"
-                    + "email TEXT NOT NULL,"
+                    + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL"
                     + ")";
             stmt.executeUpdate(sql_doctor);
@@ -43,7 +43,7 @@ public class JDBCManager {
                     + "patient_id INTEGER PRIMARY KEY NOT NULL, "
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
-                    + "dob TEXT,"
+                    + "dob DATE,"
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL,"
                     + "phone INTEGER,"
@@ -58,14 +58,14 @@ public class JDBCManager {
             String sql_recordings = "CREATE TABLE Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     + "type TEXT,"
-                    + "recordingDate TEXT,"
+                    + "recordingDate DATE,"
                     + "patient_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
                     + ")";
             stmt.executeUpdate(sql_recordings);
 
             String sql_frames = "CREATE TABLE RecordingFrames ("
-                    + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     + "recording_id INTEGER NOT NULL,"
                     + "frame_index INTEGER NOT NULL,"
                     + "crc INTEGER,"
@@ -87,7 +87,7 @@ public class JDBCManager {
 
             //Table Administrators
             String sql_administrator = "CREATE TABLE Administrators ("
-                    + "admin_id INTEGER PRIMARY KEY,"
+                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "phone INTEGER,"
