@@ -15,8 +15,8 @@ public class TestConnection_With_Server {
 
     public static void main(String[] args) {
 
-        String ip = "172.20.10.3";
-
+        //String ip = "172.20.10.3";
+            String ip = "10.60.103.7";
 
         try {
                 // 1. Connect
