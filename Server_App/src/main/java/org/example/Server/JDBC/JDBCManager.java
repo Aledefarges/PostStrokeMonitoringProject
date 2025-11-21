@@ -1,4 +1,9 @@
 package org.example.Server.JDBC;
+import org.example.Server.IFaces.AdministratorManager;
+import org.example.Server.IFaces.DoctorManager;
+import org.example.Server.IFaces.PatientManager;
+import org.example.Server.IFaces.RecordingManager;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -6,29 +11,53 @@ import java.sql.Statement;
 
 public class JDBCManager {
     //changed from private to rpotected to be able to access for tests
-    protected Connection c = null;
+    protected Connection c;
+    private DoctorManager dMan;
+    private PatientManager pMan;
+    private AdministratorManager aMan;
+    private RecordingManager rMan;
 
-    public JDBCManager() {
-        try{
-
-            //Revisar esto kkjk
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection( "jdbc:sqlite:.PostStrokeMonitoring/Server_App/Database/PostStrokeDatabase.db");//
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+    public Connection getConnection(){
+        return c;
     }
+
+    public JDBCManager(){
+        this.connect();
+        this.dMan = new JDBCDoctorManager(this);
+        this.pMan = new JDBCPatientManager(this);
+
+        this.createTables();
+    }
+
+    private void connect() {
+        try{
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection( "jdbc:sqlite:./Server_App/db/PostStrokedb.db");//
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
+
+        } catch (ClassNotFoundException cnfE) {
+            System.out.println("Databases ELA not loaded");
+            cnfE.printStackTrace();
+        } catch (SQLException sqlE) {
+            System.out.println("Error with database");
+            sqlE.printStackTrace();
+        }
+    }
+
+    public void close(){
+        try{
+            c.close();
+        }catch (SQLException e) {
+            System.out.println("Error closing the database");
+            e.printStackTrace();
+        }
+    }
+
     public void createTables(){
         try{
-            Statement stmt = c.createStatement();
-            //Table patient
+            Statement createPatient = c.createStatement();
             String sql_patient = "CREATE TABLE Patients ("
-                    + "patient_id INTEGER NOT NULL, "
+                    + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "dob DATE,"
@@ -38,47 +67,52 @@ public class JDBCManager {
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
                     + "doctor_id INTEGER,"
-                    + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL"
-                    + "PRIMARY KEY (patient_id AUTOINCREMENT)"//si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
+                    + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL"//si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
-            stmt.executeUpdate(sql_patient);
+            createPatient.executeUpdate(sql_patient);
+            createPatient.close();
 
             //Table doctor
+            Statement createDoctor = c.createStatement();
             String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER NOT NULL, "
+                    + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT,"
                     + "surname TEXT,"
                     + "phone INTEGER,"
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL"
-                    + "PRIMARY KEY (doctor_id AUTOINCREMENT)"
                     + ")";
-            stmt.executeUpdate(sql_doctor);
+            createDoctor.executeUpdate(sql_doctor);
+            createDoctor.close();
 
             //Table Administrators
+            Statement createAdmin = c.createStatement();
             String sql_administrator = "CREATE TABLE Administrators ("
-                    + "admin_id INTEGER NOT NULL,"
+                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "phone INTEGER,"
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL,"
-                    + "PRIMARY KEY (admin_id AUTOINCREMENT)"
-                    + ")";
-            stmt.executeUpdate(sql_administrator);
+                    +")";
+            createAdmin.executeUpdate(sql_administrator);
+            createAdmin.close();
+
             //Table recordings
+            Statement createRecord = c.createStatement();
             String sql_recordings = "CREATE TABLE Recordings ("
-                    + "recording_id INTEGER NOT NULL,"
+                    + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
                     + "recordingDate DATE,"
                     + "patient_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE"
-                    + "PRIMARY KEY (recording_id AUTOINCREMENT)"
                     + ")";
-            stmt.executeUpdate(sql_recordings);
+            createRecord.executeUpdate(sql_recordings);
+            createRecord.close();
 
+            Statement createFrames = c.createStatement();
             String sql_frames = "CREATE TABLE RecordingFrames ("
-                    + "frame_id INTEGER NOT NULL,"
+                    + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "recording_id INTEGER NOT NULL,"
                     + "frame_index INTEGER NOT NULL,"
                     + "crc INTEGER,"
@@ -94,22 +128,21 @@ public class JDBCManager {
                     + "d2 INTEGER,"
                     + "d3 INTEGER,"
                     + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id)"
-                    + "PRIMARY KEY (frame_id AUTOINCREMENT)"
                     + ")";
-            stmt.executeUpdate(sql_frames);
-
-
+            createFrames.executeUpdate(sql_frames);
+            createFrames.close();
         }
-        catch(SQLException e){
-            if(!e.getMessage().contains("already exists"))
-            {
-                e.printStackTrace();
+        catch (SQLException sqlE) {
+            if (sqlE.getMessage().contains("already exist")){
+                System.out.println("No need to create the tables; already there");
+            }
+            else {
+                System.out.println("Error in query");
+                sqlE.printStackTrace();
             }
         }
     }
-    public Connection getConnection(){
-        return c;
-    }
+
     public void disconnect(){
         try {
             c.close();
