@@ -26,21 +26,9 @@ public class JDBCManager {
     public void createTables(){
         try{
             Statement stmt = c.createStatement();
-
-            //Table doctor
-            String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER PRIMARY KEY NOT NULL, "
-                    + "name TEXT,"
-                    + "surname TEXT,"
-                    + "phone INTEGER,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL"
-                    + ")";
-            stmt.executeUpdate(sql_doctor);
-
             //Table patient
             String sql_patient = "CREATE TABLE Patients ("
-                    + "patient_id INTEGER PRIMARY KEY NOT NULL, "
+                    + "patient_id INTEGER NOT NULL, "
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "dob DATE,"
@@ -50,22 +38,47 @@ public class JDBCManager {
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
                     + "doctor_id INTEGER,"
-                    + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL" //si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
+                    + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL"
+                    + "PRIMARY KEY (patient_id AUTOINCREMENT)"//si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
             stmt.executeUpdate(sql_patient);
 
+            //Table doctor
+            String sql_doctor = "CREATE TABLE Doctors ("
+                    + "doctor_id INTEGER NOT NULL, "
+                    + "name TEXT,"
+                    + "surname TEXT,"
+                    + "phone INTEGER,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "password TEXT NOT NULL"
+                    + "PRIMARY KEY (doctor_id AUTOINCREMENT)"
+                    + ")";
+            stmt.executeUpdate(sql_doctor);
+
+            //Table Administrators
+            String sql_administrator = "CREATE TABLE Administrators ("
+                    + "admin_id INTEGER NOT NULL,"
+                    + "name TEXT NOT NULL,"
+                    + "surname TEXT NOT NULL,"
+                    + "phone INTEGER,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "password TEXT NOT NULL,"
+                    + "PRIMARY KEY (admin_id AUTOINCREMENT)"
+                    + ")";
+            stmt.executeUpdate(sql_administrator);
             //Table recordings
             String sql_recordings = "CREATE TABLE Recordings ("
-                    + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                    + "recording_id INTEGER NOT NULL,"
                     + "type TEXT,"
                     + "recordingDate DATE,"
                     + "patient_id INTEGER NOT NULL,"
-                    + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE,)"
+                    + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE"
+                    + "PRIMARY KEY (recording_id AUTOINCREMENT)"
                     + ")";
             stmt.executeUpdate(sql_recordings);
 
             String sql_frames = "CREATE TABLE RecordingFrames ("
-                    + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                    + "frame_id INTEGER NOT NULL,"
                     + "recording_id INTEGER NOT NULL,"
                     + "frame_index INTEGER NOT NULL,"
                     + "crc INTEGER,"
@@ -81,20 +94,11 @@ public class JDBCManager {
                     + "d2 INTEGER,"
                     + "d3 INTEGER,"
                     + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id)"
+                    + "PRIMARY KEY (frame_id AUTOINCREMENT)"
                     + ")";
             stmt.executeUpdate(sql_frames);
 
 
-            //Table Administrators
-            String sql_administrator = "CREATE TABLE Administrators ("
-                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                    + "name TEXT NOT NULL,"
-                    + "surname TEXT NOT NULL,"
-                    + "phone INTEGER,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL,"
-                    + ")";
-            stmt.executeUpdate(sql_administrator);
         }
         catch(SQLException e){
             if(!e.getMessage().contains("already exists"))
