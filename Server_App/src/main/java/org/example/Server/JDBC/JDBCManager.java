@@ -32,7 +32,7 @@ public class JDBCManager {
     private void connect() {
         try{
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection( "jdbc:sqlite:./Server_App/db/PostStrokedb.db");//
+            c = DriverManager.getConnection( "jdbc:sqlite:C:/PostStrokeMonitoringProject/Server_App/db/PostStrokedb.db");//
             c.createStatement().execute("PRAGMA foreign_keys = ON");
 
         } catch (ClassNotFoundException cnfE) {
@@ -87,13 +87,13 @@ public class JDBCManager {
 
             //Table Administrators
             Statement createAdmin = c.createStatement();
-            String sql_administrator = "CREATE TABLE Administrators ("
+            String sql_administrator = "CREATE TABLE Administrator ("
                     + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
                     + "phone INTEGER,"
                     + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL,"
+                    + "password TEXT NOT NULL"
                     +")";
             createAdmin.executeUpdate(sql_administrator);
             createAdmin.close();
@@ -133,7 +133,7 @@ public class JDBCManager {
             createFrames.close();
         }
         catch (SQLException sqlE) {
-            if (sqlE.getMessage().contains("already exist")){
+            if (sqlE.getMessage().contains("already exists")){
                 System.out.println("No need to create the tables; already there");
             }
             else {
