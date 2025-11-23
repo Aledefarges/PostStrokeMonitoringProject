@@ -52,4 +52,18 @@ public class Connection_With_Server {
 
     }
 
+    public static boolean deletePatientFromServer(String email, PrintWriter out, BufferedReader in){
+        try{
+            String message = "DELETE_PATIENT|" + email;
+            out.println(message);
+
+            String response = in.readLine();
+            return "PATIENT_DELETED".equals(response);
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+
+        }
+    }
+
 }

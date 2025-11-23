@@ -64,6 +64,14 @@ public class TestConnection_With_Server {
                 if (ok) System.out.println("✔ Patient saved in server!");
                 else System.out.println("✘ Error saving patient.");
 
+                //DELETE PATIENT TEST
+                System.out.println("Enter email to delete: ");
+                String email_to_delete = sc.nextLine();
+
+                boolean deleted = Connection.Connection_With_Server.deletePatientFromServer(email_to_delete, writer_out, read_in);
+                if(deleted) System.out.println("Patient deleted successfully!");
+                else System.out.println("Could not delete patient.");
+
                 socket.close();
 
             } catch (Exception e) {

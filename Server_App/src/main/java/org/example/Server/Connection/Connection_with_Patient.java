@@ -36,6 +36,9 @@ public class Connection_with_Patient {
 
             if (message.startsWith("PATIENT|")) {
                 savePatientRegistration(message.substring(8), writer_out);
+            }  else if (message.startsWith("DELETE_PATIENT|")){
+                String email = message.substring("DELETE PATIENT|".length());
+                deletePatient(email, writer_out);
             } else {
                 writer_out.println("UNKNOWN_COMMAND");
             }
@@ -67,6 +70,21 @@ public class Connection_with_Patient {
 
         }catch(Exception e){
             System.out.println("ERROR " + e.getMessage());
+        }
+    }
+
+    private static void deletePatient(String email, PrintWriter out){
+        try {
+            boolean deleted = patientManager.deletePatient(email);
+            if (deleted) {
+                out.println("PATIENT_DELETED");
+                System.out.println("Patient deleted correctly");
+            } else {
+                out.println("PATIENT_NOT_FOUND");
+            }
+        }catch (Exception e){
+            out.println("ERROR");
+            System.out.println("ERROR deleteing patient: " + e.getMessage());
         }
     }
 
