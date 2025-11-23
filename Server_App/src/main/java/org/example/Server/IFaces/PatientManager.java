@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PatientManager {
     public void addPatient(Patient patient);
-    public void deletePatient (String email);
+    public boolean deletePatient (String email);
     //public void deletePatientByEmail(String email);
     public List<Patient> getListOfPatients();
     public Patient getPatientById(int patient_id);

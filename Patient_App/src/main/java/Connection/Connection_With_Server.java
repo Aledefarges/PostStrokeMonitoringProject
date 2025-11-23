@@ -31,7 +31,6 @@ public class Connection_With_Server {
         try {
             // Build message in ONE line
             String message = "PATIENT|" +
-                    patient.getPatient_id() + ";" +
                     patient.getName() + ";" +
                     patient.getSurname() + ";" +
                     patient.getDob().toString() + ";" +
@@ -51,6 +50,20 @@ public class Connection_With_Server {
                 return false;
             }
 
+    }
+
+    public static boolean deletePatientFromServer(String email, PrintWriter out, BufferedReader in){
+        try{
+            String message = "DELETE_PATIENT|" + email;
+            out.println(message);
+
+            String response = in.readLine();
+            return "PATIENT_DELETED".equals(response);
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+
+        }
     }
 
 }

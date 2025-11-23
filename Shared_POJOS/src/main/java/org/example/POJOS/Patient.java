@@ -19,8 +19,7 @@ public class Patient  {
     private String medicalhistory;
 //private Doctor doctor;
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex, String password) {
-        this.patient_id = patient_id;
+    public Patient(String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex, String password) {
         this.name = name;
         this.surname = surname;
         this.dob = dob;
