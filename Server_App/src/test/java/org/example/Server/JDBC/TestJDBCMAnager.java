@@ -1,9 +1,13 @@
+/*
 package org.example.Server.JDBC;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class TestJDBCMAnager extends JDBCManager{
+
+    private Connection c;
 
     public TestJDBCMAnager(){
         try{
@@ -16,3 +20,4 @@ public class TestJDBCMAnager extends JDBCManager{
         }
     }
 }
+*/

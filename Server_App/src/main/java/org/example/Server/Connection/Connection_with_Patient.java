@@ -56,7 +56,7 @@ public class Connection_with_Patient {
            String email = parts[4];
            int phone = Integer.parseInt(parts[5]);
            String medicalHistory = parts[6];
-           Patient.Sex sex = Patient.Sex.valueOf(parts[7].toUpperCase());
+           Patient.Sex sex = Patient.Sex.valueOf(parts[7].trim().toUpperCase());
            String password = parts[8];
 
             Patient patient = new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex, password);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PostStrokeDatabase.db" uuid="404242ba-f56d-4ea4-8654-d402932cbb0a">
+    <data-source source="LOCAL" name="PostStrokedb.db" uuid="9ac63b28-9a49-416b-9d82-07495fdf88ee">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Server_App/Database/PostStrokeDatabase.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Server_App/db/PostStrokedb.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

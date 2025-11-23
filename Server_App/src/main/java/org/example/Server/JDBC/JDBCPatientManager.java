@@ -30,8 +30,8 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(2, patient.getName());
             ps.setString(3, patient.getSurname());
             ps.setString(4, String.valueOf(patient.getDob()));
-            ps.setString(5, patient.getSurname());
-            ps.setInt(6, patient.getSex().ordinal());
+            ps.setString(5, patient.getEmail());
+            ps.setString(6, patient.getSex().toString().trim());
             ps.setInt(7, patient.getPhone());
             ps.setString(8, patient.getMedicalhistory());
             //ps.setInt(9, patient.getDoctor().getDoctor_id());
