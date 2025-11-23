@@ -32,10 +32,6 @@ public class TestConnection_With_Server {
                 // 2. Ask patient data
                 Scanner sc = new Scanner(System.in);
 
-
-                System.out.print("Patient ID: ");
-                int patient_id = Integer.parseInt(sc.nextLine());
-
                 System.out.print("Name: ");
                 String name = sc.nextLine();
 
@@ -60,7 +56,7 @@ public class TestConnection_With_Server {
 
                 System.out.println("Create a password: ");
                 String password = sc.nextLine();
-                Patient p = new Patient(patient_id, name, surname, dob, email, phone, history, sexEnum, password);
+                Patient p = new Patient(name, surname, dob, email, phone, history, sexEnum, password);
 
                 // 3. Send patient to server
                 boolean ok = Connection_With_Server.sendPatientToServer(p, writer_out, read_in);

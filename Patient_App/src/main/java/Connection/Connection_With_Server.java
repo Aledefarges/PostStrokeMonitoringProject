@@ -31,7 +31,6 @@ public class Connection_With_Server {
         try {
             // Build message in ONE line
             String message = "PATIENT|" +
-                    patient.getPatient_id() + ";" +
                     patient.getName() + ";" +
                     patient.getSurname() + ";" +
                     patient.getDob().toString() + ";" +
