@@ -72,6 +72,36 @@ public class TestConnection_With_Server {
                 if(deleted) System.out.println("Patient deleted successfully!");
                 else System.out.println("Could not delete patient.");
 
+                //LOGIN TEST
+                System.out.println("Enter email to log in: ");
+                String emailLogin = sc.nextLine();
+
+                System.out.print("Enter password to log in: ");
+                String pwLogin = sc.nextLine();
+
+                boolean loginOK = Connection_With_Server.sendLogIn(emailLogin, pwLogin, writer_out, read_in);
+                System.out.println(loginOK ? "✔ Login successful!" : "✘ Login failed.");
+
+                //CHANGE PASSWORD TEST:
+                System.out.print("Email: ");
+                String cpEmail = sc.nextLine();
+
+                System.out.print("New password: ");
+                String newPw = sc.nextLine();
+
+                boolean pwChanged = Connection_With_Server.sendChangePassword(cpEmail, newPw, writer_out, read_in);
+                System.out.println(pwChanged ? "✔ Password changed!" : "✘ Error changing password.");
+
+                //CHANGE EMAIL TEST:
+                System.out.print("Current email: ");
+                String oldEmail = sc.nextLine();
+
+                System.out.print("New email: ");
+                String newEmail = sc.nextLine();
+
+                boolean emailChanged = Connection_With_Server.sendChangeEmail(oldEmail, newEmail, writer_out, read_in);
+                System.out.println(emailChanged ? "✔ Email updated!" : "✘ Error updating email.");
+
                 socket.close();
 
             } catch (Exception e) {

@@ -38,7 +38,7 @@ public class Connection_With_Server {
                     patient.getPhone() + ";" +
                     patient.getMedicalhistory() + ";" +
                     patient.getSex().name() + ";" +
-                    patient.getPassword(); 
+                    patient.getPassword();
 
                 out.println(message);
                 // Receive server confirmation
@@ -66,4 +66,45 @@ public class Connection_With_Server {
         }
     }
 
+    //Funciones que teníamos en Utilities:
+
+    public static boolean sendLogIn(String email, String password, PrintWriter out, BufferedReader in) throws IOException {
+        try{
+            // Enviar comando
+            out.println("LOGIN|" + email + ";" + password);
+
+            // Leer respuesta
+            String response = in.readLine();
+            return response.equals("OK|LOGIN_SUCCESS");
+        }catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean sendChangePassword(String email, String newPassword, PrintWriter out, BufferedReader in){
+        try{
+            out.println("CHANGE_PASSWORD|" + email + ";" + newPassword);
+            String response = in.readLine();
+            return response.equals("OK|PASSWORD_CHANGED");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean sendChangeEmail(String email, String newEmail, PrintWriter out, BufferedReader in) {
+        try {
+            out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
+
+            String response = in.readLine();
+            return response.equals("OK|EMAIL_CHANGED");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+
+

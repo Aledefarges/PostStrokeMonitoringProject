@@ -298,6 +298,18 @@ public class JDBCPatientManager implements PatientManager {
         return patients;
    }
 
+   @Override
+    public void updatePassword(int patient_id, String newPassword){
+        String sql = "UPDATE Patients SET password = ? WHERE patient_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+            ps.setString(1, newPassword);
+            ps.setInt(2, patient_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 

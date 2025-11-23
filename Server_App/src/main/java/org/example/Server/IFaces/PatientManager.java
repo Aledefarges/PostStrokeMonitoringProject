@@ -22,5 +22,6 @@ public interface PatientManager {
     public void updatePhone(int patient_id, int phone);
     public void updateMedicalHistory(int patient_id, String medicalHistory);
     public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id);
+    public void updatePassword(int patient_id, String newPassword);
 }
 
