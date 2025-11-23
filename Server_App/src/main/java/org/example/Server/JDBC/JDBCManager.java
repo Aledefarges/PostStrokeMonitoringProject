@@ -36,7 +36,7 @@ public class JDBCManager {
             c.createStatement().execute("PRAGMA foreign_keys = ON");
 
         } catch (ClassNotFoundException cnfE) {
-            System.out.println("Databases ELA not loaded");
+            System.out.println("Databases not loaded");
             cnfE.printStackTrace();
         } catch (SQLException sqlE) {
             System.out.println("Error with database");
