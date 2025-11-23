@@ -152,8 +152,7 @@ public class Connection_with_Patient {
                 return;
             }
 
-            //HAY QUE HACER LA FUNCION UDPATE PASSWORD EN PatientManager!!
-            //patientManager.updatePassword(patient.getPatient_id(), newPassword);
+            patientManager.updatePassword(patient.getPatient_id(), newPassword);
             out.println("OK|PASSWORD_CHANGED");
 
         }catch(Exception e){
