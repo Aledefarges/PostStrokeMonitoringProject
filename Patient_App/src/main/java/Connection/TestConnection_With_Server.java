@@ -4,6 +4,8 @@ package Connection;
 
 import org.example.POJOS.Patient;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.Scanner;
 
@@ -92,6 +94,71 @@ public class TestConnection_With_Server {
                 System.out.println("ERROR: " + e.getMessage());
 
             }
+        }
+        private void updatePatient(Connection_With_Server connect, String email, PrintWriter out, BufferedReader in) throws Exception {
+                Scanner sc = new Scanner(System.in);
+                boolean ok = true;
+
+                while (ok) {
+                        System.out.print("Choose the field you want to update:");
+                        System.out.println("1. Name:");
+                        System.out.println("2. Surname:");
+                        System.out.println("3. Phone:");
+                        System.out.println("4. Medical History:");
+                        System.out.println("5. Date of Birth:");
+                        System.out.println("6. Sex:");
+                        System.out.println("0. Exit:");
+
+                        int field = Integer.parseInt(sc.nextLine());
+                        String value;
+
+                        switch (field) {
+                                case 1:
+                                        System.out.print("Enter new name:");
+                                        value = sc.nextLine();
+                                        connect.sendUpdateToServer(email, "name", value, in, out);
+                                        break;
+
+                                case 2:
+                                        System.out.print("Enter new surname:");
+                                        value = sc.nextLine();
+                                        connect.sendUpdateToServer(email, "surname", value, in, out);
+                                        break;
+
+                                case 3:
+                                        System.out.print("Enter new phone:");
+                                        value = sc.nextLine();
+                                        connect.sendUpdateToServer(email, "phone", value, in, out);
+                                        break;
+
+                                case 4:
+                                        System.out.print("Enter new medical history:");
+                                        value = sc.nextLine();
+                                        connect.sendUpdateToServer(email, "medical history", value, in, out);
+                                        break;
+
+                                case 5:
+                                        System.out.print("Enter new date of birth:");
+                                        value = sc.nextLine();
+                                        connect.sendUpdateToServer(email, "dob", value, in, out);
+                                        break;
+
+                                case 6:
+                                        System.out.println("Enter new sex (M/F):");
+                                        value = sc.nextLine();
+                                        connect.sendUpdateToServer(email, "sex", value, in, out);
+                                        break;
+
+                                case 0:
+                                        ok = false;
+                                        break;
+
+                                default:
+                                        System.out.println("Invalid choice");
+
+                        }
+                }
+
         }
 }
 
