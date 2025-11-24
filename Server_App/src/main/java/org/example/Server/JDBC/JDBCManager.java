@@ -63,6 +63,20 @@ public class JDBCManager {
 
     public void createTables(){
         try{
+            //Table doctor
+            Statement createDoctor = c.createStatement();
+            String sql_doctor = "CREATE TABLE Doctors ("
+                    + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "name TEXT,"
+                    + "surname TEXT,"
+                    + "phone INTEGER,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "password TEXT NOT NULL"
+                    + ")";
+            createDoctor.executeUpdate(sql_doctor);
+            createDoctor.close();
+
+            //Table patient
             Statement createPatient = c.createStatement();
             String sql_patient = "CREATE TABLE Patients ("
                     + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -79,19 +93,6 @@ public class JDBCManager {
                     +")";
             createPatient.executeUpdate(sql_patient);
             createPatient.close();
-
-            //Table doctor
-            Statement createDoctor = c.createStatement();
-            String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "name TEXT,"
-                    + "surname TEXT,"
-                    + "phone INTEGER,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL"
-                    + ")";
-            createDoctor.executeUpdate(sql_doctor);
-            createDoctor.close();
 
             //Table Administrators
             Statement createAdmin = c.createStatement();
