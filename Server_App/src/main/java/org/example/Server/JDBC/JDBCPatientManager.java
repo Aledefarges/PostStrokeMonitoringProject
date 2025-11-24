@@ -145,7 +145,7 @@ public class JDBCPatientManager implements PatientManager {
                 int doctor_id = rs.getInt("doctor_id");
                 String email = rs.getString("email");
 
-                patient = new Patient(patient_id,name,surname,dob,email, phone,medicalHistory,sex,password);
+                patient = new Patient(name,surname,dob,email, phone,medicalHistory,sex,password);
             }
 
             rs.close();
