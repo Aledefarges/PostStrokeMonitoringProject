@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PostStrokedb.db" uuid="26e8850d-9b68-4532-9cfb-1f54ebab4f2f">
+    <data-source source="LOCAL" name="PostStrokedb.db" uuid="14f8d301-15c1-4a93-a68a-37c910aa39be">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Server_App/db/PostStrokedb.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/OneDrive/Escritorio/PostStrokedb.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
