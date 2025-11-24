@@ -1,8 +1,5 @@
 package org.example.Server.JDBC;
-import org.example.Server.IFaces.AdministratorManager;
-import org.example.Server.IFaces.DoctorManager;
-import org.example.Server.IFaces.PatientManager;
-import org.example.Server.IFaces.RecordingManager;
+import org.example.Server.IFaces.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +13,7 @@ public class JDBCManager {
     private PatientManager pMan;
     private AdministratorManager aMan;
     private RecordingManager rMan;
+    private RecordingFramesManager rfrMan;
 
     public Connection getConnection(){
         return c;
@@ -25,10 +23,20 @@ public class JDBCManager {
         this.connect();
         this.dMan = new JDBCDoctorManager(this);
         this.pMan = new JDBCPatientManager(this);
-
+         //¿Habría que llamar tmb al resto de JDBC Managers?
+        //Cuando se crean dos constructores salen errores en los dos, igual solo puede haber uno
         this.createTables();
     }
-
+   /* public JDBCManager(){
+        this.connect();
+        this.dMan = new JDBCDoctorManager(this);
+        this.pMan = new JDBCPatientManager(this);
+        this.aMan = new JDBCAdministratorManager(this);
+        this.rMan = new JDBCRecordingManager(this);
+        this.rfrMan = new JDBCRecordingFramesManager(this);
+        this.createTables();
+    }
+*/
     private void connect() {
         try{
             Class.forName("org.sqlite.JDBC");
