@@ -31,9 +31,9 @@ public class Connection_With_Server {
     }
     public void close() {
         try {
-            if (out != null) out.close();
-            if (in != null) in.close();
-            if (socket != null && !socket.isClosed()) socket.close();
+            if (out != null) out.close();  // Stop sending data to server
+            if (in != null) in.close();   // Stop receiving data to server
+            if (socket != null) socket.close(); // close connection
             System.out.println("Connection closed.");
         } catch (IOException e) {
             System.out.println("Error closing connection: " + e.getMessage());
@@ -45,7 +45,7 @@ public class Connection_With_Server {
     public boolean sendPatientToServer(Patient patient) {
 
         try {
-            String message = "PATIENT|" +
+            String message = "ADD_PATIENT|" +
                     patient.getName() + ";" +
                     patient.getSurname() + ";" +
                     patient.getDob().toString() + ";" +

@@ -34,7 +34,7 @@ public class RecordingBuilder {
         bitalino.close();
 
         //4. Build and return the Recording object
-        return new Recording(recordingID,LocalDate.now(),type, patientId, frameList);
+        return new Recording(LocalDate.now(),type, patientId);
     }
 
     private int[] convertToIntArray(Frame f){

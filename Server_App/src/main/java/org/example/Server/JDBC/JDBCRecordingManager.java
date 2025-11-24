@@ -91,7 +91,7 @@ public class JDBCRecordingManager implements RecordingManager {
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                 Integer patient_id = rs.getInt("patient_id");
                 List<int[]> frameList = null;
-                Recording recording = new Recording(recording_id, dateRecording, type, patient_id, frameList);
+                Recording recording = new Recording(dateRecording, type, patient_id, frameList);
                 recordings.add(recording);
             }
 

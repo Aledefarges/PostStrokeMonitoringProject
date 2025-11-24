@@ -14,15 +14,15 @@ public class Recording implements Serializable {
     private final int max_duration = 60;
     private Type type;
     private int patient_id;
-    private List<int[]> frames;
+    //private List<int[]> frames;
 
-    public Recording(int id, LocalDate dateRecording, Type type, int patient_id, List<int[]> frameList) {
-        this.id = id;
+    public Recording(LocalDate dateRecording, Type type, int patient_id) {
         this.dateRecording = dateRecording;
         this.type = type;
         this.patient_id = patient_id;
-        this.frames = null;
+        //this.frames = null;
     }
+
 
     public int getId() {
         return id;
@@ -39,9 +39,9 @@ public class Recording implements Serializable {
     public Type getType() {
         return type;
     }
-    public List<int[]> getFrames(){
-        return frames;
-    }
+    //public List<int[]> getFrames(){
+    //    return frames;
+    //}
 
     public void setId(int id) {
         this.id = id;
@@ -55,9 +55,9 @@ public class Recording implements Serializable {
         this.type = type;
     }
 
-    public void setFrames(List<int[]> frames){
-        this.frames = frames;
-    }
+    //public void setFrames(List<int[]> frames){
+    //this.frames = frames;
+    //}
 
 
     public int getPatient_id() {return patient_id;}

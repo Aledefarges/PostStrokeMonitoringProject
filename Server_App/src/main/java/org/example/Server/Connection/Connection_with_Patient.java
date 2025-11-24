@@ -1,8 +1,11 @@
 package org.example.Server.Connection;
 
+import org.example.POJOS.Recording;
 import org.example.Server.JDBC.JDBCManager;
 import org.example.Server.JDBC.JDBCPatientManager;
 import org.example.POJOS.Patient;
+import org.example.Server.JDBC.JDBCRecordingFramesManager;
+import org.example.Server.JDBC.JDBCRecordingManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,68 +14,97 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Date;
-import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Connection_with_Patient {
-    private static JDBCPatientManager patientManager;
-    public static void main(String [] args) throws IOException {
-        try{
-            ServerSocket serverSocket = new ServerSocket(9000);
-            Socket socket = serverSocket.accept();
-            System.out.println("Patient connected");
 
-            BufferedReader read_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer_out = new PrintWriter(socket.getOutputStream(), true);
+    private JDBCManager db;
+    private JDBCPatientManager patientManager;
+    private JDBCRecordingManager recordingManager;
+    private JDBCRecordingFramesManager framesManager;
+    private BufferedReader in;
+    private PrintWriter out;
+    private boolean recordingActive = false; // Indicates if the server is receiving a recording
+    private int currentRecording_id = -1; // The id will change depending on the recording
+    private int frameCounter = 0; // Number of frames received by each recording
 
-            // *** IMPORTANTÍSIMO ***
-            writer_out.println("SERVER: Connected");  // EL PACIENTE YA PUEDE LEERLO
+    public Connection_with_Patient(JDBCManager db) {
+        this.db = db;
+    }
 
-            JDBCManager db = new JDBCManager();
-            patientManager = new JDBCPatientManager(db);
+    public static void main(String[] args) {
+        JDBCManager db = new JDBCManager();
+        Connection_with_Patient server = new Connection_with_Patient(db);
+        server.start();
+    }
 
-            String message = read_in.readLine();
+        public void start(){
+            try{
+                ServerSocket serverSocket = new ServerSocket(9000);
+                Socket socket = serverSocket.accept();
+                System.out.println("Patient connected");
 
-            //Chat me ha dicho que añadamos esto para tenerlo ordenado y añadir lo de Utilities:
-            while(message!=null) {
-                System.out.println("Received: " + message);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
 
-                String[] parts = message.split("\\|");
-                String command = parts[0];
+                out.println("SERVER: Connected");  // EL PACIENTE YA PUEDE LEERLO
 
-                switch (command) {
-                    case "ADD_PATIENT":
-                        savePatientRegistration(parts[1], writer_out); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
-                        break;
-                    case "LOGIN":
-                        handleLogIn(parts[1], writer_out);
-                    case "CHANGE_PASSWORD":
-                        handleChangePassword(parts[1], writer_out);
-                    case "CHANGE_EMAIL":
-                        handleChangeEmail(parts[1], writer_out);
-                    default:
-                        writer_out.println("ERROR|Unknown command");
-                        break;
+
+                patientManager = new JDBCPatientManager(db);
+                recordingManager = new JDBCRecordingManager(db);
+                framesManager = new JDBCRecordingFramesManager(db);
+
+                String message;
+                // esto para tenerlo ordenado y añadir lo de Utilities:
+                while((message = in.readLine()) != null) {
+                    System.out.println("Received: " + message);
+
+                    String[] parts = message.split("\\|");
+                    String command = parts[0];
+
+                    switch (command) {
+                        case "ADD_PATIENT":
+                            savePatientRegistration(parts[1]); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
+                            break;
+                        case "LOGIN":
+                            handleLogIn(parts[1]);
+                            break;
+                        case "CHANGE_PASSWORD":
+                            handleChangePassword(parts[1]);
+                            break;
+                        case "CHANGE_EMAIL":
+                            handleChangeEmail(parts[1]);
+                            break;
+                        case "DELETE_PATIENT":
+                            deletePatient(parts[1]);
+                            break;
+                        case "START_RECORDING":
+                            handleStartRecording(parts[1]);
+                            break;
+                        case "FRAME":
+                            handleFrame(parts[1]);
+                            break;
+                        case "END_RECORDING":
+                            handleEndRecording();
+                            break;
+                        default:
+                            out.println("ERROR|Unknown command");
+                            break;
+                    }
                 }
+            } catch(IOException e){
+                System.out.println("ERROR Connecting" + e.getMessage());
+            } finally {
+                try {
+                if (in != null) in.close();
+                if (out != null) out.close();
+            } catch (IOException e) {}
+                System.out.println("Connection closed.");
             }
-
-            /*
-            if (message.startsWith("PATIENT|")) {
-                savePatientRegistration(message.substring(8), writer_out);
-            }  else if (message.startsWith("DELETE_PATIENT|")){
-                String email = message.substring("DELETE PATIENT|".length());
-                deletePatient(email, writer_out);
-            } else {
-                writer_out.println("UNKNOWN_COMMAND");
-            }*/
-
-        } catch (IOException e){
-            System.out.println("ERROR " + e.getMessage());
         }
 
 
-    }
-
-    private static void savePatientRegistration(String p, PrintWriter out){
+private void savePatientRegistration(String p){
 
         try{
             String [] parts = p.split(";");
@@ -93,53 +125,34 @@ public class Connection_with_Patient {
             System.out.println(" Patient saved correctly");
 
         }catch(Exception e){
-            System.out.println("ERROR " + e.getMessage());
+            System.out.println("ERROR saving patient" + e.getMessage());
         }
     }
 
-    private static void deletePatient(String email, PrintWriter out){
-        try {
-            boolean deleted = patientManager.deletePatient(email);
-            if (deleted) {
-                out.println("PATIENT_DELETED");
-                System.out.println("Patient deleted correctly");
-            } else {
-                out.println("PATIENT_NOT_FOUND");
-            }
-        }catch (Exception e){
-            out.println("ERROR");
-            System.out.println("ERROR deleteing patient: " + e.getMessage());
-        }
-    }
-
-    //Funciones que teníamos en Utilities:
-
-    private static void handleLogIn(String data, PrintWriter out){
+    private void handleLogIn(String data){
         try {
             String[] parts = data.split(";");
             String email = parts[0];
             String password = parts[1];
-
             Patient patient = patientManager.getPatientByEmail(email);
 
             if (patient == null) {
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
             }
-
             if (patient.getPassword().equals(password)) {
                 out.println("OK|LOGIN_SUCCESS");
-
             } else {
                 out.println("ERROR|WRONG_PASSWORD");
             }
         }catch(Exception e){
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
+            System.out.println("Exception in LOGIN: " + e.getMessage());
         }
     }
 
-    private static void handleChangePassword(String data, PrintWriter out){
+    private void handleChangePassword(String data){
         try {
             String[] parts = data.split(";");
             String email = parts[0];
@@ -158,10 +171,11 @@ public class Connection_with_Patient {
         }catch(Exception e){
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
+            System.out.println("Exception in CHANGE_PASSWORD: " + e.getMessage());
         }
     }
 
-    private static void handleChangeEmail(String data, PrintWriter out){
+    private void handleChangeEmail(String data){
         try {
             String[] parts = data.split(";");
             String email = parts[0];
@@ -177,8 +191,70 @@ public class Connection_with_Patient {
         }catch (Exception e) {
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
+            System.out.println("Exception in CHANGE_EMAIL: " + e.getMessage());
         }
     }
+
+    private void deletePatient(String email){
+            try {
+                boolean deleted = patientManager.deletePatient(email);
+                if (deleted) {
+                    out.println("OK|PATIENT_DELETED");
+                    System.out.println("Patient deleted correctly");
+                } else {
+                    out.println("ERROR|PATIENT_NOT_FOUND");
+                }
+            }catch (Exception e){
+                out.println("ERROR|EXCEPTION");
+                System.out.println("ERROR deleting patient: " + e.getMessage());
+            }
+    }
+
+
+    private void handleStartRecording(String data){
+        String[] parts = data.split(";");
+        int patient_id = Integer.parseInt(parts[0]);
+        Recording.Type type = Recording.Type.valueOf(parts[1].toUpperCase());
+        Recording recording = new Recording(LocalDate.now(), type, patient_id);
+        recordingManager.addRecording(recording);
+        currentRecording_id = recording.getId();
+        frameCounter = 0;
+        recordingActive = true;
+        out.println("OK|RECORDING_STARTED");
+        System.out.println("Recording started with ID: " + currentRecording_id);
+    }
+
+    private void handleFrame(String data) {
+
+        if (!recordingActive) return;
+        String[] p = data.split(";");
+        int seq = Integer.parseInt(p[0]);
+        int[] analog = new int[]{
+                Integer.parseInt(p[1]),
+                Integer.parseInt(p[2]),
+                Integer.parseInt(p[3]),
+                Integer.parseInt(p[4]),
+                Integer.parseInt(p[5]),
+                Integer.parseInt(p[6])
+        };
+        int[] digital = new int[]{
+                Integer.parseInt(p[7]),
+                Integer.parseInt(p[8]),
+                Integer.parseInt(p[9]),
+                Integer.parseInt(p[10])
+        };
+
+        framesManager.addFrame(currentRecording_id, frameCounter++, 0, seq, analog, digital);
+    }
+
+
+    private void handleEndRecording() {
+        recordingActive = false;
+        out.println("OK|RECORDING_SAVED");
+        System.out.println("Recording finished. Total frames: " + frameCounter);
+    }
+
+
 
 }
 
