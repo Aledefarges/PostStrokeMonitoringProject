@@ -23,6 +23,7 @@ public class TestConnection_With_Server {
            String ip = "10.60.109.214";
         //String ip = "172.16.205.116";
         try {
+
                 // 1. Connect
                 Connection_With_Server connect = new Connection_With_Server();
                 if (!connect.connection(ip,9000)){
@@ -51,7 +52,7 @@ public class TestConnection_With_Server {
                 System.out.println("Create a password: ");
                 String password = sc.nextLine();
                 Patient p = new Patient(name, surname, dob, email,sexEnum, history, phone, password);
-
+/*
                 // 3. Send patient to server
                 boolean send_patient = connect.sendPatientToServer(p);
                 if (send_patient) System.out.println("Patient saved in server!");
@@ -99,7 +100,7 @@ public class TestConnection_With_Server {
 
                 System.out.print("Email: ");
                 String upemail = sc.nextLine();
-                updatePatient(connect, upemail);
+                updatePatient(connect, upemail); */
 
 
                 //9. BITALINO RECORDING TEST
