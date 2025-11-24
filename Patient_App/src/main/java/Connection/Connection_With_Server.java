@@ -1,35 +1,50 @@
 package Connection;
 
+import Bitalino.Frame;
 import org.example.POJOS.Patient;
 
 import java.io.*;
 import java.net.Socket;
 
 public class Connection_With_Server {
-    public static void main(String [] args) throws IOException {
 
-        String ip_host = "172.20.10.3";
+
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    public boolean connection(String ip_host, int port){
+        // The function is boolean because it indicates whether the connection has succeeded or not
         try{
-            Socket socket = new Socket(ip_host, 9000);
-            BufferedReader read_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer_out = new PrintWriter(socket.getOutputStream(), true);
-            System.out.println("Connected to the Server");
-            writer_out.println("Hello");
-            String response = read_in.readLine();  // Response of the server
+            socket = new Socket(ip_host, port);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
 
-            socket.close();
-            System.out.println("Connection closed");
+            String response = in.readLine();  // Response of the server
+            System.out.println("Server: " +response);
+            return true;
 
         } catch (IOException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("Connection ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+    public void close() {
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (socket != null && !socket.isClosed()) socket.close();
+            System.out.println("Connection closed.");
+        } catch (IOException e) {
+            System.out.println("Error closing connection: " + e.getMessage());
         }
     }
 
 
-    public static boolean sendPatientToServer(Patient patient, PrintWriter out, BufferedReader in) {
+
+    public boolean sendPatientToServer(Patient patient) {
 
         try {
-            // Build message in ONE line
             String message = "PATIENT|" +
                     patient.getName() + ";" +
                     patient.getSurname() + ";" +
@@ -41,9 +56,9 @@ public class Connection_With_Server {
                     patient.getPassword();
 
                 out.println(message);
-                // Receive server confirmation
+
                 String response = in.readLine();
-                return "PATIENT_SAVED".equals(response);
+                return "PATIENT_SAVED".equals(response); // It confirms the connection with server
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,7 +67,7 @@ public class Connection_With_Server {
 
     }
 
-    public static boolean deletePatientFromServer(String email, PrintWriter out, BufferedReader in){
+    public boolean deletePatientFromServer(String email){
         try{
             String message = "DELETE_PATIENT|" + email;
             out.println(message);
@@ -66,9 +81,53 @@ public class Connection_With_Server {
         }
     }
 
+    // Indicates that a new Recording needs to be created as a new row in the Database
+    // Then it send to the server which channels are being used by BITalino
+    public int[] startRecording(int patient_id, String type){
+        int [] channel;
+        if (type.equals("ECG")){
+            channel = new int[]{0};
+        } else if (type.equals("EMG")){
+            channel = new int[]{5};
+        } else if (type.equals("BOTH")){
+            channel = new int[]{0,5};
+        } else{
+            throw new IllegalArgumentException("Invalid type");
+        }
+
+        out.println("START_RECORDING|" +
+                patient_id + "|" +
+                type);
+        return channel;
+    }
+
+    // It sends each BITalino frame as a text to the server
+    public void sendFrames(Frame[] frames){
+        for (Frame f : frames){
+            String message = "FRAME|" +
+                    f.seq + ";" +
+                    f.analog[0] + ";" +
+                    f.analog[1] + ";" +
+                    f.analog[2] + ";" +
+                    f.analog[3] + ";" +
+                    f.analog[4] + ";" +
+                    f.analog[5] + ";" +
+                    f.digital[0] + ";" +
+                    f.digital[1] + ";" +
+                    f.digital[2] + ";" +
+                    f.digital[3];
+
+            out.println(message);
+        }
+    }
+
+    public void endRecording(){
+        out.println("END_RECORDING");
+    }
+
     //Funciones que teníamos en Utilities:
 
-    public static boolean sendLogIn(String email, String password, PrintWriter out, BufferedReader in) throws IOException {
+    public boolean sendLogIn(String email, String password) throws IOException {
         try{
             // Enviar comando
             out.println("LOGIN|" + email + ";" + password);
@@ -82,7 +141,7 @@ public class Connection_With_Server {
         }
     }
 
-    public static boolean sendChangePassword(String email, String newPassword, PrintWriter out, BufferedReader in){
+    public boolean sendChangePassword(String email, String newPassword){
         try{
             out.println("CHANGE_PASSWORD|" + email + ";" + newPassword);
             String response = in.readLine();
@@ -93,7 +152,7 @@ public class Connection_With_Server {
         }
     }
 
-    public static boolean sendChangeEmail(String email, String newEmail, PrintWriter out, BufferedReader in) {
+    public boolean sendChangeEmail(String email, String newEmail) {
         try {
             out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
 
