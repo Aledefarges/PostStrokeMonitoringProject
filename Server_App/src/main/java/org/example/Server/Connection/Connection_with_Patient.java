@@ -157,7 +157,7 @@ private void savePatientRegistration(String p){
 
     private void handleChangePassword(String data){
         try {
-            String[] parts = data.split(";");
+            String[] parts = data.split("\\|");
             String email = parts[0];
             String newPassword = parts[1];
 
@@ -180,7 +180,7 @@ private void savePatientRegistration(String p){
 
     private void handleChangeEmail(String data){
         try {
-            String[] parts = data.split(";");
+            String[] parts = data.split("\\|");
             String email = parts[0];
             String newEmail = parts[1];
 
@@ -217,7 +217,7 @@ private void savePatientRegistration(String p){
 
 
     private void handleStartRecording(String data){
-        String[] parts = data.split(";");
+        String[] parts = data.split("\\|");
         int patient_id = Integer.parseInt(parts[0]);
         Recording.Type type = Recording.Type.valueOf(parts[1].toUpperCase());
         Recording recording = new Recording(LocalDate.now(), type, patient_id);
