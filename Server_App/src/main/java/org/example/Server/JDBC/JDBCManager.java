@@ -95,7 +95,7 @@ public class JDBCManager {
 
             //Table Administrators
             Statement createAdmin = c.createStatement();
-            String sql_administrator = "CREATE TABLE Administrator ("
+            String sql_administrator = "CREATE TABLE Administrators ("
                     + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
@@ -135,7 +135,7 @@ public class JDBCManager {
                     + "d1 INTEGER,"
                     + "d2 INTEGER,"
                     + "d3 INTEGER,"
-                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id)"
+                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id) DELETE ON CASCADE"
                     + ")";
             createFrames.executeUpdate(sql_frames);
             createFrames.close();
