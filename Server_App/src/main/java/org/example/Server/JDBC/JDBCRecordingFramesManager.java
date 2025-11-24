@@ -1,12 +1,14 @@
 package org.example.Server.JDBC;
 
+import org.example.Server.IFaces.RecordingFramesManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JDBCRecordingFramesManager {
+public class JDBCRecordingFramesManager implements RecordingFramesManager {
 
     private JDBCManager manager;
     public JDBCRecordingFramesManager(JDBCManager manager) {
