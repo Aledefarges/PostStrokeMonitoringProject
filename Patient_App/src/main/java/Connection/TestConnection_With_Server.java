@@ -94,7 +94,7 @@ public class TestConnection_With_Server {
                 System.out.println("ERROR: " + e.getMessage());
 
             }
-        }
+        }//
         private void updatePatient(Connection_With_Server connect, String email, PrintWriter out, BufferedReader in) throws Exception {
                 Scanner sc = new Scanner(System.in);
                 boolean ok = true;
