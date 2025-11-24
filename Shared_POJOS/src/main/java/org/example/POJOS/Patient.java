@@ -48,7 +48,6 @@ public class Patient  {
         this.name = name;
         this.surname = surname;
         this.dob=dob;
-        this.email = email;
         this.phone = phone;
         this.medicalhistory = medicalHistory;
         this.sex=sex;
