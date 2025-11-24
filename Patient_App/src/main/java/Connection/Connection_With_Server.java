@@ -69,7 +69,7 @@ public class Connection_With_Server {
 
     public boolean deletePatientFromServer(String email){
         try{
-            String message = "DELETE_PATIENT|" + email;
+            String message = "DELETE_PATIENT" + email;
             out.println(message);
 
             String response = in.readLine();
