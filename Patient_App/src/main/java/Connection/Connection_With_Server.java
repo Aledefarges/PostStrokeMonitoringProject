@@ -101,23 +101,26 @@ public class Connection_With_Server {
         return channel;
     }
 
-    // It sends each BITalino frame as a text to the server
-    public void sendFrames(Frame[] frames){
-        for (Frame f : frames){
-            String message = "FRAME|" +
-                    f.seq + ";" +
-                    f.analog[0] + ";" +
-                    f.analog[1] + ";" +
-                    f.analog[2] + ";" +
-                    f.analog[3] + ";" +
-                    f.analog[4] + ";" +
-                    f.analog[5] + ";" +
-                    f.digital[0] + ";" +
-                    f.digital[1] + ";" +
-                    f.digital[2] + ";" +
-                    f.digital[3];
 
-            out.println(message);
+
+    // It sends each BITalino frame as a text to the server
+    public void sendFrames(Frame[] frames, int[] channel){
+        for (Frame f : frames) {
+            StringBuilder msg = new StringBuilder("FRAME|");
+            msg.append(f.seq);
+
+            //solo envía los canales activados
+            for (int ch : channel) {
+                msg.append(";").append(f.analog[ch]);
+            }
+
+            //digitales siempre igual
+            for (int d = 0; d < 4; d++) {
+                msg.append(";").append(f.analog[d]);
+            }
+
+            out.println(msg.toString());
+            out.flush();
         }
     }
 

@@ -221,6 +221,11 @@ private void savePatientRegistration(String p){
     private void handleStartRecording(String data){
         String[] parts = data.split(";");
         int patient_id = Integer.parseInt(parts[0]);
+        String type = parts[1];
+        switch (type){
+            case "EMG":
+                activeChannels = new int[]{0};
+        }
         Recording.Type type = Recording.Type.valueOf(parts[1].toUpperCase());
         Recording recording = new Recording(LocalDate.now(), type, patient_id);
         recordingManager.addRecording(recording);
