@@ -121,7 +121,7 @@ private void savePatientRegistration(String p){
            Patient.Sex sex = Patient.Sex.valueOf(parts[6].trim().toUpperCase());
            String password = parts[7];
 
-            Patient patient = new Patient(name, surname, dob, email, phone, medicalHistory, sex, password);
+            Patient patient = new Patient(name, surname, dob, email, sex, medicalHistory,phone,password);
 
             patientManager.addPatient(patient);
 
@@ -144,7 +144,7 @@ private void savePatientRegistration(String p){
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
             }*/
-            if (patient.getPassword().equals(password)) {
+            if (patientManager.checkPassword(email, password)) {
                 out.println("OK|LOGIN_SUCCESS");
             } else {
                 out.println("ERROR|WRONG_PASSWORD");
@@ -158,16 +158,11 @@ private void savePatientRegistration(String p){
 
     private void handleChangePassword(String data){
         try {
-            String[] parts = data.split("\\|");
+            String[] parts = data.split(";");
             String email = parts[0];
             String newPassword = parts[1];
 
             Patient patient = patientManager.getPatientByEmail(email);
-
-            /*if (patient == null) {
-                out.println("ERROR|NO_SUCH_EMAIL");
-                return;
-            }*/
 
             patientManager.updatePassword(patient.getPatient_id(), newPassword);
             out.println("OK|PASSWORD_CHANGED");
@@ -181,17 +176,16 @@ private void savePatientRegistration(String p){
 
     private void handleChangeEmail(String data){
         try {
-            String[] parts = data.split("\\|");
+            String[] parts = data.split(";");
             String email = parts[0];
             String newEmail = parts[1];
 
             Patient patient = patientManager.getPatientByEmail(email);
 
-            /*if (patient == null) {
+            if (patient == null) {
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
-            }*/
-
+            }
             patientManager.updateEmail(patient.getPatient_id(), newEmail);
             out.println("OK|EMAIL_CHANGED");
         }catch (Exception e) {
@@ -218,7 +212,7 @@ private void savePatientRegistration(String p){
 
 
     private void handleStartRecording(String data){
-        String[] parts = data.split("\\|");
+        String[] parts = data.split(";");
         int patient_id = Integer.parseInt(parts[0]);
         Recording.Type type = Recording.Type.valueOf(parts[1].toUpperCase());
         Recording recording = new Recording(LocalDate.now(), type, patient_id);

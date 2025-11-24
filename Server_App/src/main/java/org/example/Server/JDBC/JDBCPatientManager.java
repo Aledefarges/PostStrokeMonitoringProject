@@ -148,10 +148,14 @@ public class JDBCPatientManager implements PatientManager {
         Patient patient = null;
 
         try{
-            Statement stmt=manager.getConnection().createStatement();
             String sql = "SELECT * FROM Patients WHERE patient_id = ?";
-
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            // The SQL query uses a placeholder (?) for the patient_id value, it is needed to replace that
+            // placeholder before executing the query.
+            // 'setInt(1, patient_id)' inserts the value into the first '?' in the SQL.
+            // If we don't set it, the query remains incomplete and will fail.
+            ResultSet rs = ps.executeQuery(sql);
 
             if(rs.next()){
                 String password = rs.getString("password");
@@ -164,7 +168,7 @@ public class JDBCPatientManager implements PatientManager {
                 int doctor_id = rs.getInt("doctor_id");
                 String email = rs.getString("email");
 
-                patient = new Patient(name,surname,dob,email, phone,medicalHistory,sex,password);
+                patient = new Patient(name,surname,dob,email,sex,medicalHistory,phone,password);
             }
 
             rs.close();

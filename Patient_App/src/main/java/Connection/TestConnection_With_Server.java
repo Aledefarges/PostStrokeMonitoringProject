@@ -42,7 +42,7 @@ public class TestConnection_With_Server {
                 Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
                 System.out.println("Create a password: ");
                 String password = sc.nextLine();
-                Patient p = new Patient(name, surname, dob, email, phone, history, sexEnum, password);
+                Patient p = new Patient(name, surname, dob, email,sexEnum, history, phone, password);
 
                 // 3. Send patient to server
                 boolean send_patient = connect.sendPatientToServer(p);

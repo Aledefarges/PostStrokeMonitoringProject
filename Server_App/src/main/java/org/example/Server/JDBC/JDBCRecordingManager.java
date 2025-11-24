@@ -22,14 +22,18 @@ public class JDBCRecordingManager implements RecordingManager {
         String sql = "INSERT INTO Recordings (type, recordingDate, patient_id) VALUES (?, ?, ?)";
 
         try{
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-            //ahora me da error pq tiene que estar creado getConnection en JDBCManager
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, recording.getType().name());
             ps.setDate(2, java.sql.Date.valueOf(recording.getDateRecording()));
             ps.setInt(3, recording.getPatient_id());
 
             ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                recording.setId(id);  // The new id is stored
+            }
             ps.close();
         }catch(SQLException e){
             e.printStackTrace();
@@ -82,12 +86,12 @@ public class JDBCRecordingManager implements RecordingManager {
 
         try {
             Statement stmt = manager.getConnection().createStatement();
-            String sql = "SELECT * FROM recording";
+            String sql = "SELECT * FROM Recordings";
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next()){
                 LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
-                Integer recording_id = rs.getInt("id");
+                Integer recording_id = rs.getInt("recording_id");
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                 Integer patient_id = rs.getInt("patient_id");
                 List<int[]> frameList = null;

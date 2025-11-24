@@ -135,7 +135,7 @@ public class JDBCManager {
                     + "d1 INTEGER,"
                     + "d2 INTEGER,"
                     + "d3 INTEGER,"
-                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id) DELETE ON CASCADE"
+                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id) ON DELETE CASCADE"
                     + ")";
             createFrames.executeUpdate(sql_frames);
             createFrames.close();
