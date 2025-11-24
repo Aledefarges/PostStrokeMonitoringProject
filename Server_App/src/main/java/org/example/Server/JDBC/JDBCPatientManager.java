@@ -22,27 +22,44 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public void addPatient(Patient patient) {
 
-        String sql = "INSERT INTO Patients (patient_id,name,surname,dob,email, sex,phone,medicalHistory,password) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try {
 
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
 
-            ps.setInt(1, patient.getPatient_id());
-            ps.setString(2, patient.getName());
-            ps.setString(3, patient.getSurname());
-            ps.setString(4, String.valueOf(patient.getDob()));
-            ps.setString(5, patient.getEmail());
-            ps.setString(6, patient.getSex().toString().trim());
-            ps.setInt(7, patient.getPhone());
-            ps.setString(8, patient.getMedicalhistory());
+            ps.setString(1, patient.getName());
+            ps.setString(2, patient.getSurname());
+            ps.setString(3, String.valueOf(patient.getDob()));
+            ps.setString(4, patient.getEmail());
+            ps.setString(5, patient.getSex().toString().trim());
+            ps.setInt(6, patient.getPhone());
+            ps.setString(7, patient.getMedicalhistory());
             //ps.setInt(9, patient.getDoctor().getDoctor_id());
-            ps.setString(9, patient.getPassword());
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(patient.getPassword().getBytes());
+            byte[] encryptedPassword = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b: encryptedPassword){
+                sb.append(String.format("%02x",b)); //2 digit hexadecimal
+            }
+            String encryptedStringPassword = sb.toString();
+            ps.setString(8, encryptedStringPassword);
 
             ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int generatedId = rs.getInt(1);
+                patient.setPatient_id(generatedId);
+            }
             ps.close() ;
-            //FALTA AÑADIR RECORDINGS
+            //FALTA AÑADIR RECORDINGS y Doctor
         }catch(SQLException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
 
