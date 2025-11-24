@@ -172,7 +172,7 @@ public class JDBCPatientManager implements PatientManager {
             }
 
             rs.close();
-            stmt.close();
+            ps.close();
         }catch(SQLException e){
             e.printStackTrace();;
         }
