@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PostStrokedb.db" uuid="14f8d301-15c1-4a93-a68a-37c910aa39be">
+    <data-source source="LOCAL" name="PostStrokedb.db" uuid="1a27eeca-ce29-4b28-9b31-2d0beac2adbb">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
