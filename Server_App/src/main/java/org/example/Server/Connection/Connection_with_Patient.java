@@ -160,9 +160,16 @@ private void savePatientRegistration(String p){
         try {
             String[] parts = data.split(";");
             String email = parts[0];
-            String newPassword = parts[1];
+            String oldPassword = parts[1];
+            String newPassword = parts[2];
 
             Patient patient = patientManager.getPatientByEmail(email);
+
+            //Comprobar contraseña antigua:
+            if (!patient.getPassword().equals(oldPassword)) {
+                out.println("ERROR|WRONG_OLD_PASSWORD");
+                return;
+            }
 
             patientManager.updatePassword(patient.getPatient_id(), newPassword);
             out.println("OK|PASSWORD_CHANGED");

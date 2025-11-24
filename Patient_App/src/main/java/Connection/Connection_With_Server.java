@@ -141,9 +141,9 @@ public class Connection_With_Server {
         }
     }
 
-    public boolean sendChangePassword(String email, String newPassword){
+    public boolean sendChangePassword(String email, String oldPassword, String newPassword){
         try{
-            out.println("CHANGE_PASSWORD|" + email + ";" + newPassword);
+            out.println("CHANGE_PASSWORD|" + email + ";" + oldPassword + ";" + newPassword);
             String response = in.readLine();
             return response.equals("OK|PASSWORD_CHANGED");
         } catch (IOException e) {
@@ -164,7 +164,7 @@ public class Connection_With_Server {
             return false;
         }
     }
-    public static boolean sendUpdateToServer(String email, String value, String p, BufferedReader in, PrintWriter out){
+    public boolean sendUpdateToServer(String email, String value, String p){
         try{
             String message = "UPDATE_PATIENT|" + email + ";" + p + ";" + value;
             out.println(message);
