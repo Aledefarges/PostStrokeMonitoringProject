@@ -164,7 +164,7 @@ public class Connection_With_Server {
             return false;
         }
     }
-    public boolean sendUpdateToServer(String email, String value, String p, BufferedReader in, PrintWriter out){
+    public static boolean sendUpdateToServer(String email, String value, String p, BufferedReader in, PrintWriter out){
         try{
             String message = "UPDATE_PATIENT|" + email + ";" + p + ";" + value;
             out.println(message);
