@@ -87,6 +87,11 @@ public class TestConnection_With_Server {
                 else System.out.println("Error changing email.");
 
 
+                //8. Update patient information
+
+                System.out.print("Email: ");
+                String upemail = sc.nextLine();
+                updatePatient(connect, upemail);
 
                 connect.close();
 
@@ -95,7 +100,7 @@ public class TestConnection_With_Server {
 
             }
         }//
-        private void updatePatient(Connection_With_Server connect, String email, PrintWriter out, BufferedReader in) throws Exception {
+        private static void updatePatient(Connection_With_Server connect, String email) throws Exception {
                 Scanner sc = new Scanner(System.in);
                 boolean ok = true;
 
@@ -116,37 +121,37 @@ public class TestConnection_With_Server {
                                 case 1:
                                         System.out.print("Enter new name:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "name", value, in, out);
+                                        connect.sendUpdateToServer(email, "name", value);
                                         break;
 
                                 case 2:
                                         System.out.print("Enter new surname:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "surname", value, in, out);
+                                        connect.sendUpdateToServer(email, "surname", value);
                                         break;
 
                                 case 3:
                                         System.out.print("Enter new phone:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "phone", value, in, out);
+                                        connect.sendUpdateToServer(email, "phone", value);
                                         break;
 
                                 case 4:
                                         System.out.print("Enter new medical history:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "medical history", value, in, out);
+                                        connect.sendUpdateToServer(email, "medical history", value);
                                         break;
 
                                 case 5:
                                         System.out.print("Enter new date of birth:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "dob", value, in, out);
+                                        connect.sendUpdateToServer(email, "dob", value);
                                         break;
 
                                 case 6:
                                         System.out.println("Enter new sex (M/F):");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "sex", value, in, out);
+                                        connect.sendUpdateToServer(email, "sex", value);
                                         break;
 
                                 case 0:
