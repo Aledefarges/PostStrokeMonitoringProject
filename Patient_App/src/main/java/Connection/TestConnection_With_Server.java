@@ -48,7 +48,7 @@ public class TestConnection_With_Server {
                 boolean send_patient = connect.sendPatientToServer(p);
                 if (send_patient) System.out.println("Patient saved in server!");
                 else System.out.println("Error saving patient.");
-/*
+
 
                 // 4. Delete patient from server
                 System.out.println("Enter email to delete: ");
@@ -83,7 +83,7 @@ public class TestConnection_With_Server {
                 boolean emailChanged = connect.sendChangeEmail(oldEmail, newEmail);
                 if(emailChanged) System.out.println("Email changed successfully!");
                 else System.out.println("Error changing email.");
-*/
+
 
 
                 connect.close();
