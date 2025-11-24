@@ -5,6 +5,7 @@ import org.example.POJOS.Administrator;
 import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
 
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -89,5 +90,31 @@ public class JDBCAdministratorManager implements AdministratorManager {
             e.printStackTrace();;
         }
         return admin;
+    }
+
+    @Override
+    public void updatePassword(int admin_id, String newPassword){
+        String sql = "UPDATE Administrators SET password = ? WHERE admin_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(newPassword.getBytes());
+            byte[] encryptedPassword = md.digest();
+
+            //Converting byte[] to hexadecimal String so it can be stored in TEXT
+            StringBuilder sb = new StringBuilder();
+            for (byte b: encryptedPassword){
+                sb.append(String.format("%02x",b)); //2 digit hexadecimal
+            }
+            String encryptedStringPassword = sb.toString();
+
+            ps.setString(1, encryptedStringPassword);
+            ps.setInt(2, admin_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e2){
+            e2.printStackTrace();
+        }
     }
 }

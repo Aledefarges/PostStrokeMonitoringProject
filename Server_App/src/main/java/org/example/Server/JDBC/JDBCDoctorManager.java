@@ -6,6 +6,7 @@ import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
 
 import javax.xml.transform.Result;
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,6 +107,32 @@ public Doctor searchDoctorByEmail(String email){
      }
      return doctor;
 }
+
+    @Override
+    public void updatePassword(int doctor_id, String newPassword){
+        String sql = "UPDATE Doctors SET password = ? WHERE doctor_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(newPassword.getBytes());
+            byte[] encryptedPassword = md.digest();
+
+            //Converting byte[] to hexadecimal String so it can be stored in TEXT
+            StringBuilder sb = new StringBuilder();
+            for (byte b: encryptedPassword){
+                sb.append(String.format("%02x",b)); //2 digit hexadecimal
+            }
+            String encryptedStringPassword = sb.toString();
+
+            ps.setString(1, encryptedStringPassword);
+            ps.setInt(2, doctor_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e2){
+            e2.printStackTrace();
+        }
+    }
 
 
 }
