@@ -73,7 +73,7 @@ public class Connection_With_Server {
             out.println(message);
 
             String response = in.readLine();
-            return "PATIENT_DELETED".equals(response);
+            return "PATIENT_DELETED|".equals(response);
         }catch (IOException e){
             e.printStackTrace();
             return false;
