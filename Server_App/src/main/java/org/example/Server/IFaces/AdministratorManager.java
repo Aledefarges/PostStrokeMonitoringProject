@@ -7,4 +7,5 @@ public interface AdministratorManager {
    public void deleteAdministrator(String email);
    public Administrator searchAdministratorByEmail(String email);
     public void updatePassword(int admin_id, String newPassword);
+    public boolean checkPassword(String email, String password);
 }

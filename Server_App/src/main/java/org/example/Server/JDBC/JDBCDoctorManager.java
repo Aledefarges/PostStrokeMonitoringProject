@@ -134,5 +134,40 @@ public Doctor searchDoctorByEmail(String email){
         }
     }
 
+    @Override
+    public boolean checkPassword(String email, String password) {
+        String sql = "SELECT password FROM Doctors WHERE email = ?";
+        try{
+            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                String pass = rs.getString("password");
+
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes());
+                byte[] digest = md.digest();
+
+                //Converting byte[] to hexadecimal String so it can be compared with the stored password
+                StringBuilder sb = new StringBuilder();
+                for (byte b: digest){
+                    sb.append(String.format("%02x",b));
+                }
+                String encryptedPass = sb.toString();
+
+                return pass.equalsIgnoreCase(encryptedPass);
+
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }catch (Exception e2){
+            e2.printStackTrace();
+        }
+        return false;
+    }
+
 
 }

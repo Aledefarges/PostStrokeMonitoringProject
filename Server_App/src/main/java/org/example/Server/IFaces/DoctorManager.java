@@ -9,4 +9,5 @@ public interface DoctorManager {
    public void assingDoctorToPatient(Integer patient_id, Integer doctor_id);
    public Doctor searchDoctorByEmail(String email);
    public void updatePassword(int doctor_id, String newPassword);
+   public boolean checkPassword(String email, String password);
 }
