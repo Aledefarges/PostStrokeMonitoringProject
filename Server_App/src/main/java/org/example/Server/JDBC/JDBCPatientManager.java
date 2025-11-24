@@ -4,6 +4,8 @@ package org.example.Server.JDBC;
 import org.example.Server.IFaces.PatientManager;
 import org.example.POJOS.Patient;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -302,11 +304,25 @@ public class JDBCPatientManager implements PatientManager {
     public void updatePassword(int patient_id, String newPassword){
         String sql = "UPDATE Patients SET password = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
-            ps.setString(1, newPassword);
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(newPassword.getBytes());
+            byte[] encryptedPassword = md.digest();
+
+            //Converting byte[] to hexadecimal String so it can be stored in TEXT
+            StringBuilder sb = new StringBuilder();
+            for (byte b: encryptedPassword){
+                sb.append(String.format("%02x",b)); //2 digit hexadecimal
+            }
+            String encryptedStringPassword = sb.toString();
+
+            ps.setString(1, encryptedStringPassword);
             ps.setInt(2, patient_id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e2){
+            e2.printStackTrace();
         }
     }
 
