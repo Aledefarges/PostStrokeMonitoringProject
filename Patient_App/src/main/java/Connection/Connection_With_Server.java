@@ -164,12 +164,12 @@ public class Connection_With_Server {
             return false;
         }
     }
-    public boolean sendUpdateToServer(String email, String value, String p){
+    public boolean sendUpdateToServer(String email, String p, String value){
         try{
             String message = "UPDATE_PATIENT|" + email + ";" + p + ";" + value;
             out.println(message);
             String response = in.readLine();
-            return "PATIENT_UPDATED".equals(response);
+            return "OK|PATIENT_UPDATED".equals(response);
         }
         catch(IOException e){
             e.printStackTrace();

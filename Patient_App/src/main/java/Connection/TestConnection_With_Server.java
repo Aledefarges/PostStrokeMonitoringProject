@@ -216,7 +216,7 @@ public class TestConnection_With_Server {
                                 case 4:
                                         System.out.print("Enter new medical history:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "medical history", value);
+                                        connect.sendUpdateToServer(email, "medical_history", value);
                                         break;
 
                                 case 5:

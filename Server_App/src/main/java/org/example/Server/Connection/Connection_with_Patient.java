@@ -272,7 +272,7 @@ private void savePatientRegistration(String p){
 
             //Check if the patient exists in the database
             if(patient == null){
-                out.println("ERROR: Patient not found");
+                out.println("ERROR|PATIENT_NOT_FOUND");
                 return;
             }
             //If the patient exists, we search for its id
@@ -289,7 +289,7 @@ private void savePatientRegistration(String p){
                 case "phone":
                     patientManager.updatePhone(patient_id, Integer.parseInt(value));
                     break;
-                case "medical history":
+                case "medical_history":
                     patientManager.updateMedicalHistory(patient_id, value);
                     break;
                 case "dob":
@@ -300,14 +300,14 @@ private void savePatientRegistration(String p){
                     break;
 
                 default:
-                    out.println("UNKNOWN COMMAND");
+                    out.println("ERROR|UNKNOWN_FIELD");
                     return;
             }
-            out.println("PATIENT UPDATED");
+            out.println("OK|PATIENT_UPDATED");
 
         }
         catch(Exception e){
-            System.out.println("ERROR " + e.getMessage());
+            System.out.println("ERROR|EXCEPTION " + e.getMessage());
 
         }
     }
