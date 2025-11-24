@@ -24,7 +24,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
     //SearchById
     @Override
     public void addAdministrator(Administrator administrator){
-
+       //H
         String sql = "INSERT INTO Administrators (admin_id,name,email,phone, password) VALUES (?,?,?,?,?)";
 
         try {
