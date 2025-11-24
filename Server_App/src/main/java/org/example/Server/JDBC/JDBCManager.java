@@ -40,7 +40,7 @@ public class JDBCManager {
     private void connect() {
         try{
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection( "jdbc:sqlite:./PostStrokedb.db");//
+            c = DriverManager.getConnection( "jdbc:sqlite:./Server_App/db/PostStrokedb.db");//
             c.createStatement().execute("PRAGMA foreign_keys = ON");
 
         } catch (ClassNotFoundException cnfE) {
