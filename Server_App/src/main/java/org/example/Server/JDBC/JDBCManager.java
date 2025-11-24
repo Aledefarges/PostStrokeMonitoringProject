@@ -63,12 +63,25 @@ public class JDBCManager {
 
     public void createTables(){
         try{
+            //Table Administrators
+            Statement createAdmin = c.createStatement();
+            String sql_administrator = "CREATE TABLE Administrators ("
+                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "name TEXT NOT NULL,"
+                    + "surname TEXT NOT NULL,"
+                    + "phone INTEGER,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "password TEXT NOT NULL"
+                    +")";
+            createAdmin.executeUpdate(sql_administrator);
+            createAdmin.close();
+
             //Table doctor
             Statement createDoctor = c.createStatement();
             String sql_doctor = "CREATE TABLE Doctors ("
                     + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "name TEXT,"
-                    + "surname TEXT,"
+                    + "name TEXT NOT NULL,"
+                    + "surname TEXT NOT NULL,"
                     + "phone INTEGER,"
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL"
@@ -93,19 +106,6 @@ public class JDBCManager {
                     +")";
             createPatient.executeUpdate(sql_patient);
             createPatient.close();
-
-            //Table Administrators
-            Statement createAdmin = c.createStatement();
-            String sql_administrator = "CREATE TABLE Administrators ("
-                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "name TEXT NOT NULL,"
-                    + "surname TEXT NOT NULL,"
-                    + "phone INTEGER,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL"
-                    +")";
-            createAdmin.executeUpdate(sql_administrator);
-            createAdmin.close();
 
             //Table recordings
             Statement createRecord = c.createStatement();
@@ -136,7 +136,7 @@ public class JDBCManager {
                     + "d1 INTEGER,"
                     + "d2 INTEGER,"
                     + "d3 INTEGER,"
-                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id) DELETE ON CASCADE"
+                    + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id) ON DELETE CASCADE"
                     + ")";
             createFrames.executeUpdate(sql_frames);
             createFrames.close();
