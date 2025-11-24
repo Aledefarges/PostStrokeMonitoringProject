@@ -87,6 +87,9 @@ public class Connection_with_Patient {
                         case "END_RECORDING":
                             handleEndRecording();
                             break;
+                        case "UPDATE_PATIENT":
+                            handleUpdatePatient(parts[1]);
+                            break;
                         default:
                             out.println("ERROR|Unknown command");
                             break;
@@ -252,6 +255,57 @@ private void savePatientRegistration(String p){
         recordingActive = false;
         out.println("OK|RECORDING_SAVED");
         System.out.println("Recording finished. Total frames: " + frameCounter);
+    }
+    private void handleUpdatePatient(String p){
+        try{
+            String [] parts = p.split(";");
+            String email = parts[0];
+            String message = parts[1].toLowerCase();
+            String value = parts[2];
+
+            //Search the patient in the database given its email
+            Patient patient = patientManager.getPatientByEmail(email);
+
+            //Check if the patient exists in the database
+            if(patient == null){
+                out.println("ERROR: Patient not found");
+                return;
+            }
+            //If the patient exists, we search for its id
+            int patient_id = patient.getPatient_id();
+
+            //Now the patient decides which field it wants to change
+            switch(message){
+                case "name":
+                    patientManager.updateName(patient_id, value);
+                    break;
+                case "surname":
+                    patientManager.updateSurName(patient_id, value);
+                    break;
+                case "phone":
+                    patientManager.updatePhone(patient_id, Integer.parseInt(value));
+                    break;
+                case "medical history":
+                    patientManager.updateMedicalHistory(patient_id, value);
+                    break;
+                case "dob":
+                    patientManager.updateDob(patient_id, Date.valueOf(value));
+                    break;
+                case "sex":
+                    patientManager.updateSex(patient_id, Patient.Sex.valueOf(value.toUpperCase()));
+                    break;
+
+                default:
+                    out.println("UNKNOWN COMMAND");
+                    return;
+            }
+            out.println("PATIENT UPDATED");
+
+        }
+        catch(Exception e){
+            System.out.println("ERROR " + e.getMessage());
+
+        }
     }
 
 

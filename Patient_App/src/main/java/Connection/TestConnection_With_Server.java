@@ -83,6 +83,7 @@ public class TestConnection_With_Server {
                 if(emailChanged) System.out.println("Email changed successfully!");
                 else System.out.println("Error changing email.");
 
+
                 connect.close();
 
             } catch (Exception e) {

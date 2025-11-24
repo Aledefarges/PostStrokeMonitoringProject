@@ -164,6 +164,18 @@ public class Connection_With_Server {
             return false;
         }
     }
+    public static boolean sendUpdateToServer(String email, String value, String p, BufferedReader in, PrintWriter out){
+        try{
+            String message = "UPDATE;" + email + ";" + p + ";" + value;
+            out.println(message);
+            String response = in.readLine();
+            return "PATIENT_UPDATED".equals(response);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
 
 
