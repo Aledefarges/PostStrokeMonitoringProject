@@ -2,12 +2,18 @@ package Connection;
 
 
 
+import Bitalino.BITalino;
+import Bitalino.Frame;
 import org.example.POJOS.Patient;
+import org.example.Server.JDBC.JDBCManager;
+import org.example.Server.Visualization.PlotRecordings;
 
+import javax.bluetooth.RemoteDevice;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class TestConnection_With_Server {
 
@@ -95,13 +101,82 @@ public class TestConnection_With_Server {
                 String upemail = sc.nextLine();
                 updatePatient(connect, upemail);
 
-                connect.close();
 
-            } catch (Exception e) {
+                //9. BITALINO RECORDING TEST
+                    System.out.println("\n--- REAL BITALINO RECORDING ---");
+                    System.out.print("Enter patient_id: ");
+                    int p_id = Integer.parseInt(sc.nextLine());
+
+                    System.out.print("Type (ECG/EMG/BOTH): ");
+                    String type = sc.nextLine().toUpperCase();
+
+                    // Start recording on server
+                    int[] channels = connect.startRecording(p_id, type);
+                    System.out.println("Recording started in server.");
+
+                    // 1. Discover BITalino
+                    BITalino bita = new BITalino();
+                    Vector<RemoteDevice> devices = bita.findDevices();
+                    Thread.sleep(5000); // wait for scan
+
+                    if (devices.size() == 0) {
+                        System.out.println("No BITalino found!");
+                        return;
+                    }
+
+                    String mac = devices.firstElement().getBluetoothAddress();
+                    System.out.println("BITalino detected: " + mac);
+
+                    //2. Connect BITalino
+                    bita.open(mac,100); //100Hz
+                    bita.start(channels); //channels: {0} ECG, {5} EMG, {0,5} BOTH
+
+                    System.out.println("BITalino started recording...");
+
+                    //3. Acquire and send real frames
+                    int num_frames = 1000; // 10sec at 100Hz
+                    for(int i = 0; i < num_frames; i++) {
+                        Frame[] block = bita.read(1);   // 1 sample
+                        connect.sendFrames(block);
+                    }
+
+                    //4. End recording
+                    bita.stop();
+                    bita.close();
+                    connect.endRecording();
+
+                    System.out.println("Recording completed successfully!");
+                //10. VISUALIZE THE RECORDING AFTER SAVING IT
+                try {
+                    System.out.println("\n--- VISUALIZATION STEP ---");
+
+                    // Ask the user which recording to plot
+                    System.out.print("Enter recording_id to visualize: ");
+                    int recId = Integer.parseInt(sc.nextLine());
+
+                    System.out.print("Which channel to plot? (0-5): ");
+                    int ch = Integer.parseInt(sc.nextLine());
+
+                    JDBCManager db = new JDBCManager();
+                    var conn = db.getConnection();
+
+                    var series = PlotRecordings.loadRecordingSeries(conn, recId, ch);
+                    PlotRecordings.showChart(series);
+
+                    System.out.println("Plot displayed!");
+
+                } catch (Exception e) {
+                    System.out.println("Error visualizing recording: " + e.getMessage());
+                }
+
+            connect.close();
+        } catch (Exception e) {
                 System.out.println("ERROR: " + e.getMessage());
 
-            }
-        }//
+            } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }//
         private static void updatePatient(Connection_With_Server connect, String email) throws Exception {
                 Scanner sc = new Scanner(System.in);
                 boolean ok = true;

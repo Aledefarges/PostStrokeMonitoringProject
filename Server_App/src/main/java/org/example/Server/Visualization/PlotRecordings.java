@@ -15,8 +15,9 @@ public class PlotRecordings {
     public static XYSeries loadRecordingSeries(Connection c, int recordingId, int channel) throws Exception {
         XYSeries series = new XYSeries("Recording" + recordingId + "(a" + channel + ")");
 
-        String sql = "SELECT frame_index, a0,a1,a2,a3,a5" +
-                "FROM RecordingFrames WHERE recording_id = ? ORDER BY frame_index ASC";
+        String sql = "SELECT frame_index, a0, a1, a2, a3, a4, a5 " +
+                      "FROM RecordingFrames WHERE recording_id = ? ORDER BY frame_index ASC";
+
         PreparedStatement ps = c.prepareStatement(sql);
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
