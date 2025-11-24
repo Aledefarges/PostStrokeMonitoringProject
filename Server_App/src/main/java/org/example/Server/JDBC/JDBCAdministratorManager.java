@@ -25,7 +25,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
     @Override
     public void addAdministrator(Administrator administrator){
 
-        String sql = "INSERT INTO Administrator (admin_id,name,email,phone, password) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO Administrators (admin_id,name,email,phone, password) VALUES (?,?,?,?,?)";
 
         try {
 
@@ -66,7 +66,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
     public Administrator searchAdministratorByEmail(String email){
         Administrator admin = null;
 
-        String sql = "SELECT * FROM Administrator WHERE email = ?";
+        String sql = "SELECT * FROM Administrators WHERE email = ?";
 
         try{
             PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
