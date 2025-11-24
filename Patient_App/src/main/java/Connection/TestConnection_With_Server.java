@@ -20,7 +20,10 @@ public class TestConnection_With_Server {
     public static void main(String[] args) {
 
         //String ip = "172.20.10.3";
-           String ip = "10.60.109.214";
+        String ip = "127.0.0.1";
+
+        //String ip = "10.60.109.214";
+
         //String ip = "172.16.205.116";
         try {
 
@@ -34,7 +37,7 @@ public class TestConnection_With_Server {
                 // 2. Ask patient data
                 Scanner sc = new Scanner(System.in);
 
-                System.out.print("Name: ");
+                /*System.out.print("Name: ");
                 String name = sc.nextLine();
                 System.out.print("Surname: ");
                 String surname = sc.nextLine();
@@ -52,6 +55,8 @@ public class TestConnection_With_Server {
                 System.out.println("Create a password: ");
                 String password = sc.nextLine();
                 Patient p = new Patient(name, surname, dob, email,sexEnum, history, phone, password);
+
+                 */
 /*
                 // 3. Send patient to server
                 boolean send_patient = connect.sendPatientToServer(p);
@@ -103,7 +108,8 @@ public class TestConnection_With_Server {
                 updatePatient(connect, upemail); */
 
 
-                //9. BITALINO RECORDING TEST
+
+            //9. BITALINO RECORDING TEST
                     System.out.println("\n--- REAL BITALINO RECORDING ---");
                     System.out.print("Enter patient_id: ");
                     int p_id = Integer.parseInt(sc.nextLine());
@@ -114,9 +120,15 @@ public class TestConnection_With_Server {
                     // Start recording on server
                     int[] channels = connect.startRecording(p_id, type);
                     System.out.println("Recording started in server.");
-
+            // Read server confirmation with recording_id
+            String startResp = connect.in.readLine();
+            // Example: OK|RECORDING_STARTED|12
+            String[] respParts = startResp.split("\\|");
+            int recording_id = Integer.parseInt(respParts[2]);
                     // 1. Discover BITalino
                     BITalino bita = new BITalino();
+                    String mac = "20:17:11:20:50:77";  // tu MAC real
+                    /*
                     Vector<RemoteDevice> devices = bita.findDevices();
                     Thread.sleep(5000); // wait for scan
 
@@ -124,12 +136,13 @@ public class TestConnection_With_Server {
                         System.out.println("No BITalino found!");
                         return;
                     }
+                     */
 
-                    String mac = devices.firstElement().getBluetoothAddress();
-                    System.out.println("BITalino detected: " + mac);
+                    //String mac = devices.firstElement().getBluetoothAddress();
+                    //System.out.println("BITalino detected: " + mac);
 
                     //2. Connect BITalino
-                    bita.open(mac,100); //100Hz
+                    /*bita.open(mac,100); //100Hz
                     bita.start(channels); //channels: {0} ECG, {5} EMG, {0,5} BOTH
 
                     System.out.println("BITalino started recording...");
@@ -138,17 +151,33 @@ public class TestConnection_With_Server {
                     int num_frames = 1000; // 10sec at 100Hz
                     for(int i = 0; i < num_frames; i++) {
                         Frame[] block = bita.read(1);   // 1 sample
-                        connect.sendFrames(block);
+                        connect.sendFrames(block, channels);
                     }
 
-                    //4. End recording
+
+            System.out.println("Recording ID received from server: " + recording_id);
+
+            //4. End recording
                     bita.stop();
                     bita.close();
                     connect.endRecording();
 
                     System.out.println("Recording completed successfully!");
                 //10. VISUALIZE THE RECORDING AFTER SAVING IT
-                try {
+
+                JDBCManager db = new JDBCManager();
+                var conn = db.getConnection();
+
+                System.out.println("Opening plots...");
+                for (int ch : channels) {
+                var series = PlotRecordings.loadRecordingSeries(conn, recording_id, ch);
+                PlotRecordings.showChart(series);
+                }
+
+            System.out.println("Plots displayed!");
+                */
+
+                /*try {
                     System.out.println("\n--- VISUALIZATION STEP ---");
 
                     // Ask the user which recording to plot
@@ -169,6 +198,8 @@ public class TestConnection_With_Server {
                 } catch (Exception e) {
                     System.out.println("Error visualizing recording: " + e.getMessage());
                 }
+
+                 */
 
             connect.close();
         } catch (Exception e) {

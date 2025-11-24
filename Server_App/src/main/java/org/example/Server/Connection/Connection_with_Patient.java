@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
 //
@@ -28,6 +29,7 @@ public class Connection_with_Patient {
     private boolean recordingActive = false; // Indicates if the server is receiving a recording
     private int currentRecording_id = -1; // The id will change depending on the recording
     private int frameCounter = 0; // Number of frames received by each recording
+    private int [] activeChannels;
 
     public Connection_with_Patient(JDBCManager db) {
         this.db = db;
@@ -221,40 +223,51 @@ private void savePatientRegistration(String p){
     private void handleStartRecording(String data){
         String[] parts = data.split(";");
         int patient_id = Integer.parseInt(parts[0]);
-        String type = parts[1];
+        String type = parts[1].toUpperCase();
+        Recording.Type typeEnum = Recording.Type.valueOf(type);
+
         switch (type){
             case "EMG":
-                activeChannels = new int[]{0};
+                activeChannels = new int[]{1};
+                break;
+            case "ECG":
+                activeChannels = new int[]{2};
+                break;
+            case "BOTH":
+                activeChannels = new int[]{1,2};
+                break;
+            default:
+                out.println("ERROR|NO_SUCH_TYPE");
+                return;
         }
-        Recording.Type type = Recording.Type.valueOf(parts[1].toUpperCase());
-        Recording recording = new Recording(LocalDate.now(), type, patient_id);
+
+        Recording recording = new Recording(LocalDate.now(), typeEnum, patient_id);
         recordingManager.addRecording(recording);
         currentRecording_id = recording.getId();
         frameCounter = 0;
         recordingActive = true;
-        out.println("OK|RECORDING_STARTED");
-        System.out.println("Recording started with ID: " + currentRecording_id);
+        out.println("OK|RECORDING_STARTED|" +currentRecording_id);
+        System.out.println("Recording started with ID: " + currentRecording_id +
+                " | type=" + type);
     }
 
     private void handleFrame(String data) {
 
         if (!recordingActive) return;
+
         String[] p = data.split(";");
         int seq = Integer.parseInt(p[0]);
-        int[] analog = new int[]{
-                Integer.parseInt(p[1]),
-                Integer.parseInt(p[2]),
-                Integer.parseInt(p[3]),
-                Integer.parseInt(p[4]),
-                Integer.parseInt(p[5]),
-                Integer.parseInt(p[6])
-        };
-        int[] digital = new int[]{
-                Integer.parseInt(p[7]),
-                Integer.parseInt(p[8]),
-                Integer.parseInt(p[9]),
-                Integer.parseInt(p[10])
-        };
+        // Leer analógicos según el número de canales activos (1 o 2)
+        int[] analog = new int[activeChannels.length];
+        for (int i = 0; i < activeChannels.length; i++) {
+            analog[i] = Integer.parseInt(p[1 + i]);
+        }
+        int[] digital = new int[4];
+        // digitalStart indica el primer valor digital
+        int digitalStart = 1 + activeChannels.length; // Indica donde empiezan los digitales
+        for (int i = 0; i < 4; i++) {
+            digital[i] = Integer.parseInt(p[digitalStart + i]);
+        }
 
         framesManager.addFrame(currentRecording_id, frameCounter++, 0, seq, analog, digital);
     }

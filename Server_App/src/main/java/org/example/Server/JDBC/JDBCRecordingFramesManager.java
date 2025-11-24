@@ -29,10 +29,21 @@ public class JDBCRecordingFramesManager implements RecordingFramesManager {
             ps.setInt(2,frameIndex);
             ps.setInt(3,crc);
             ps.setInt(4,seq);
-            for (int i = 0; i < 6; i++)
-                ps.setInt(5 + i, analog[i]);
-            for (int i = 0; i < 4; i++)
-                ps.setInt(11 + i, digital[i]);
+            // Rellena las 6 columnas analógicas (a0–a5): pone los valores recibidos
+            // y completa las que faltan con 0 para evitar errores y mantener la tabla fija.
+            for (int i = 0; i < 6; i++){
+                if (i< analog.length){
+                    ps.setInt(5 + i, analog[i]);
+                }else
+                    ps.setInt(5 + i, 0);
+
+            }
+
+            for (int i = 0; i < 4; i++){
+                if (i < digital.length ){
+                    ps.setInt(11 + i, digital[i]);
+                }else ps.setInt(11 + i, 0);
+            }
             ps.executeUpdate();
             ps.close();
 

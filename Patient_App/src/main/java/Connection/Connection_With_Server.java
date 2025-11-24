@@ -85,12 +85,12 @@ public class Connection_With_Server {
     // Then it send to the server which channels are being used by BITalino
     public int[] startRecording(int patient_id, String type){
         int [] channel;
-        if (type.equals("ECG")){
-            channel = new int[]{0};
-        } else if (type.equals("EMG")){
-            channel = new int[]{5};
+        if (type.equals("EMG")){
+            channel = new int[]{1};
+        } else if (type.equals("ECG")){
+            channel = new int[]{2};
         } else if (type.equals("BOTH")){
-            channel = new int[]{0,5};
+            channel = new int[]{1,2};
         } else{
             throw new IllegalArgumentException("Invalid type");
         }
@@ -105,20 +105,19 @@ public class Connection_With_Server {
 
     // It sends each BITalino frame as a text to the server
     public void sendFrames(Frame[] frames, int[] channel){
+        int channelCount = channel.length;
         for (Frame f : frames) {
             StringBuilder msg = new StringBuilder("FRAME|");
             msg.append(f.seq);
 
             //solo envía los canales activados
-            for (int ch : channel) {
-                msg.append(";").append(f.analog[ch]);
+            for (int i = 0; i < channelCount; i++) {
+                msg.append(";").append(f.analog[channel[i]]);
             }
-
             //digitales siempre igual
             for (int d = 0; d < 4; d++) {
-                msg.append(";").append(f.analog[d]);
+                msg.append(";").append(f.digital[d]);
             }
-
             out.println(msg.toString());
             out.flush();
         }
