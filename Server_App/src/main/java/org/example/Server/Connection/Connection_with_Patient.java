@@ -139,10 +139,10 @@ private void savePatientRegistration(String p){
             String password = parts[1];
             Patient patient = patientManager.getPatientByEmail(email);
 
-            if (patient == null) {
+            /*if (patient == null) {
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
-            }
+            }*/
             if (patient.getPassword().equals(password)) {
                 out.println("OK|LOGIN_SUCCESS");
             } else {
@@ -163,10 +163,10 @@ private void savePatientRegistration(String p){
 
             Patient patient = patientManager.getPatientByEmail(email);
 
-            if (patient == null) {
+            /*if (patient == null) {
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
-            }
+            }*/
 
             patientManager.updatePassword(patient.getPatient_id(), newPassword);
             out.println("OK|PASSWORD_CHANGED");
@@ -185,10 +185,12 @@ private void savePatientRegistration(String p){
             String newEmail = parts[1];
 
             Patient patient = patientManager.getPatientByEmail(email);
-            if (patient == null) {
+
+            /*if (patient == null) {
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
-            }
+            }*/
+
             patientManager.updateEmail(patient.getPatient_id(), newEmail);
             out.println("OK|EMAIL_CHANGED");
         }catch (Exception e) {
