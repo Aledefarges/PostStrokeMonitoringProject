@@ -71,9 +71,11 @@ public class TestConnection_With_Server {
                 //6. Change password
                 System.out.print("Email: ");
                 String cpEmail = sc.nextLine();
+                System.out.print("Old password: ");
+                String oldPw = sc.nextLine();
                 System.out.print("New password: ");
                 String newPw = sc.nextLine();
-                boolean pwChanged = connect.sendChangePassword(cpEmail, newPw);
+                boolean pwChanged = connect.sendChangePassword(cpEmail, oldPw, newPw);
                 if(pwChanged) System.out.println("Password changed!");
                 else System.out.println("Error changing password.");
 
