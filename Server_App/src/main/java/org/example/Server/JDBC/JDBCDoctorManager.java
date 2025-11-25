@@ -155,7 +155,7 @@ public Doctor searchDoctorByEmail(String email){
     }
 
     @Override
-    public void updatePassword(int doctor_id, String newPassword){
+    public void updatePassword(String email, String newPassword){
         String sql = "UPDATE Doctors SET password = ? WHERE email = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
 
@@ -171,7 +171,7 @@ public Doctor searchDoctorByEmail(String email){
             String encryptedStringPassword = sb.toString();
 
             ps.setString(1, encryptedStringPassword);
-            ps.setInt(2, doctor_id);
+            ps.setString(2, email);
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -181,22 +181,22 @@ public Doctor searchDoctorByEmail(String email){
         }
     }
     @Override
-    public void updateEmail(int doctor_id, String email) {
-        String sql = "UPDATE Doctors SET email = ? WHERE doctor_id = ?";
+    public void updateEmail(String email, String newEmail) {
+        String sql = "UPDATE Doctors SET email = ? WHERE email = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
-            ps.setString(1, email);
-            ps.setInt(2, doctor_id);
+            ps.setString(1, newEmail);
+            ps.setString(2, email);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     @Override
-    public void updatePhone(int doctor_id, int phone) {
-        String sql = "UPDATE Doctors SET phone = ? WHERE doctor_id = ?";
+    public void updatePhone(String email, int phone) {
+        String sql = "UPDATE Doctors SET phone = ? WHERE email = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
             ps.setInt(1, phone);
-            ps.setInt(2, doctor_id);
+            ps.setString(2, email);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

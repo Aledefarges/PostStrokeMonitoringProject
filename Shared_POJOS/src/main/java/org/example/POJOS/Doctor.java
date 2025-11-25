@@ -1,4 +1,5 @@
 package org.example.POJOS;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,18 +16,16 @@ public class Doctor  {
 
     }
 
-    public Doctor(int doctor_id, String password, String name, String surname, String email, int phone, List<Patient> patients) {
-        this.doctor_id = doctor_id;
+    public Doctor(String name, String surname, int phone, String email, String password, List<Patient> patients) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
-        this.patients = patients;
         this.email = email;
         this.password = password;
+        this.patients = patients;
     }
 
-    public Doctor(int id, String password ,String name, String surname, String email, int phone) {
-        this.doctor_id = id;
+    public Doctor(String name, String surname, int phone, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.phone=phone;

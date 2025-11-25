@@ -156,17 +156,18 @@ public class TestConnection_With_Server {
                     }
 
 
-            System.out.println("Recording ID received from server: " + recording_id);
+                 System.out.println("Recording ID received from server: " + recording_id);
 
-            //4. End recording
-                    bita.stop();
-                    bita.close();
-                    connect.endRecording();
+                //4. End recording
+                bita.stop();
+                bita.close();
+                connect.endRecording();
 
-                    System.out.println("Recording completed successfully!");
-                //10. VISUALIZE THE RECORDING AFTER SAVING IT
 
-                    plotSignalByType(connect, recording_id, type);
+                 System.out.println("Recording completed successfully!");
+            //10. VISUALIZE THE RECORDING AFTER SAVING IT
+            Double[][] data = connect.requestRecordingData(recording_id, type);
+            plotSignalByType(connect, recording_id, type);
 
 
 
@@ -198,7 +199,7 @@ public class TestConnection_With_Server {
         } catch (Exception e) {
                 System.out.println("ERROR: " + e.getMessage());
 
-            } catch (Throwable e) {
+        } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }//
@@ -272,11 +273,11 @@ public class TestConnection_With_Server {
         Double[][] data = connect.requestRecordingData(recording_id, type);
 
             if(type.equalsIgnoreCase("ECG")||type.equalsIgnoreCase("EMG")){
-                PlotRecordings.showChartFromArray(data[1],type + " Recording");
+                PlotRecordings.showChartFromArray(data[0],type + " Recording");
             }
             else if(type.equals("BOTH")){
-                PlotRecordings.showChartFromArray((data[1]), " EMG Recording");
-                PlotRecordings.showChartFromArray(data[2]," ECG Recording");
+                PlotRecordings.showChartFromArray((data[0]), " EMG Recording");
+                PlotRecordings.showChartFromArray(data[1]," ECG Recording");
             }
             else {
                 System.out.println("Unknown recording type: " + type);

@@ -123,8 +123,9 @@ public class Connection_With_Server {
         }
     }
 
-    public void endRecording(){
+    public void endRecording() throws IOException {
         out.println("END_RECORDING");
+        in.readLine();
     }
 
 

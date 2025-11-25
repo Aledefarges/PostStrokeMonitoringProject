@@ -26,7 +26,7 @@ public class JDBCPatientManager implements PatientManager {
 
         try {
 
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, patient.getName());
             ps.setString(2, patient.getSurname());
@@ -110,12 +110,11 @@ public class JDBCPatientManager implements PatientManager {
         try {
             String sql = "SELECT patient_id, name, surname, dob, email, phone, medicalHistory, sex, doctor_id FROM Patients";
 
-            Statement stmt = manager.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
             while(rs.next())
             {
-                int patient_id = rs.getInt("patient_id");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
                 Date dob = rs.getDate("dob");
@@ -123,19 +122,19 @@ public class JDBCPatientManager implements PatientManager {
                 int phone = rs.getInt("phone");
                 String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
-
-
+                String password = rs.getString("password");
+                int patient_id = rs.getInt("patient_id");
                 //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
                 //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
 
-                Patient p= new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex);
+                Patient p= new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex);
                 //cuando este el getRecordingOfPatient añadir aqui tambien el atributo recording
                 patients.add(p);
 
             }
 
             rs.close();
-            stmt.close();
+            ps.close();
 
         }catch(Exception e) {
             e.printStackTrace();}
@@ -195,7 +194,7 @@ public class JDBCPatientManager implements PatientManager {
                 String surname = rs.getString("surname");
                 Date dob = rs.getDate("dob");
                 Integer phone = rs.getInt("phone");
-                String medicalhistory = rs.getString("medicalhistory");
+                String medicalhistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
 
 
@@ -297,9 +296,11 @@ public class JDBCPatientManager implements PatientManager {
    public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id){
         List<Patient> patients = new ArrayList<>();
         try{
-            Statement stmt = manager.getConnection().createStatement();
+
             String sql = "SELECT * FROM Patients WHERE doctor_id = " + doctor_id;
-            ResultSet rs= stmt.executeQuery(sql);
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+            ResultSet rs= ps.executeQuery(sql);
+
             while(rs.next()){
                 Integer patient_id = rs.getInt("patient_id");
                 String name = rs.getString("name");
@@ -314,7 +315,7 @@ public class JDBCPatientManager implements PatientManager {
                 patients.add(p);
             }
             rs.close();
-            stmt.close();
+            ps.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
