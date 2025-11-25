@@ -30,7 +30,7 @@ public class TestConnection_With_Server {
 
                 // 1. Connect
                 Connection_With_Server connect = new Connection_With_Server();
-                if (!connect.connection(ip,9000)){
+                if (!connect.connection(ip,9100)){
                     System.out.println("Could not connect to server.");
                     return;
                 } else System.out.println("Connected to server!");
