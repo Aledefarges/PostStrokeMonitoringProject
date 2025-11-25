@@ -11,7 +11,7 @@ public class Connection_With_Server {
 
     private Socket socket;
     private PrintWriter out;
-    private BufferedReader in;
+    BufferedReader in;
 
     public boolean connection(String ip_host, int port){
         // The function is boolean because it indicates whether the connection has succeeded or not
@@ -127,7 +127,7 @@ public class Connection_With_Server {
         out.println("END_RECORDING");
     }
 
-/*
+
     public Double[][] requestRecordingData(int recording_id, String type) throws IOException{
         //Pedir al servidor el recording
         out.println("GET_RECORDING|" + recording_id);
@@ -164,8 +164,6 @@ public class Connection_With_Server {
         }
         return new Double[][]{emgArray, ecgArray};
     }
-
-*/
 
     //Funciones que teníamos en Utilities:
 
