@@ -58,21 +58,22 @@ public class JDBCRecordingManager implements RecordingManager {
         Recording recording = null;
 
         try {
-            Statement stmt = manager.getConnection().createStatement();
-            String sql = "SELECT * FROM Recordings WHERE recording_id = " + recording_id;
+            String sql = "SELECT * FROM Recordings WHERE recording_id = ?";
+            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+            ps.setInt(1,recording_id);
 
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = ps.executeQuery(sql);
             if (rs.next()) {
                 LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                 Integer patient_id = rs.getInt("patient_id");
-                List<int[]> frameList = null;
-                recording = new Recording( dateRecording, type, patient_id);
 
+                recording = new Recording( dateRecording, type, patient_id);
+                recording.setId(recording_id);
             }
 
             rs.close();
-            stmt.close();
+            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

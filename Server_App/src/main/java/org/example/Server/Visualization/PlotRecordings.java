@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class PlotRecordings {
+/*public class PlotRecordings {
     public static XYSeries loadRecordingSeries(Connection c, int recordingId, int channel) throws Exception {
         XYSeries series = new XYSeries("Recording" + recordingId + "(a" + channel + ")");
 
@@ -44,5 +44,35 @@ public class PlotRecordings {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+    }
+}
+
+ */
+
+
+public class PlotRecordings {
+public static void showChartFromArray(Double[] data, String title) {
+    XYSeries series = new XYSeries("Data");
+    for(int i = 0; i < data.length; i++) {
+        series.add(i, data[i]);
+    }
+
+    XYSeriesCollection dataset = new XYSeriesCollection(series);
+
+    JFreeChart chart = ChartFactory.createXYLineChart(
+            title,
+            "Tiempo (s)",
+            "Valor",
+            dataset
+    );
+
+    ChartPanel chartPanel = new ChartPanel(chart);
+
+    JFrame frame = new JFrame("Gráfica "+title);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//Esto hace que si cierras una ventana, no se cierre el programa, sigue funcionando
+    frame.setContentPane(chartPanel);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
     }
 }

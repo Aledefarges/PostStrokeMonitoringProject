@@ -76,7 +76,7 @@ public class Recording implements Serializable {
     }
 
     public enum Type{
-        ECG,EMG;
+        ECG,EMG,BOTH;
     }
 }
 

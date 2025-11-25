@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 //
 
 public class Connection_with_Patient {
@@ -89,6 +90,9 @@ public class Connection_with_Patient {
                             break;
                         case "END_RECORDING":
                             handleEndRecording();
+                            break;
+                        case "GET_RECORDING":
+                            handleGetRecording(Integer.parseInt(parts[1]));
                             break;
                         case "UPDATE_PATIENT":
                             handleUpdatePatient(parts[1]);
@@ -277,6 +281,42 @@ private void savePatientRegistration(String p){
         recordingActive = false;
         out.println("OK|RECORDING_SAVED");
         System.out.println("Recording finished. Total frames: " + frameCounter);
+    }
+
+    private void handleGetRecording(int recording_id){
+        try{
+            Recording recording = recordingManager.getRecordingById(recording_id);
+            if (recording == null){
+                out.println("ERROR|NO_DATA");
+                return;
+            }
+            Recording.Type type = recording.getType();
+            List<int[]> frames = framesManager.getFramesByRecording(recording_id);
+            if (frames == null || frames.isEmpty()){
+                out.println("ERROR|NO_DATA");
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int[] frame : frames) {
+                if(type == Recording.Type.ECG){
+                    int ecg = frame[3];
+                    sb.append(ecg);
+                }else if (type == Recording.Type.EMG){
+                    int emg = frame[2];
+                    sb.append(emg);
+                }else if (type == Recording.Type.BOTH){
+                    int emg = frame[2];
+                    int ecg = frame[3];
+                    sb.append(emg).append(";").append(ecg);
+                }  sb.append(",");
+            }
+            System.out.println("Sent recording Id "+ recording_id + " type:"+type);
+        }catch(Exception e){
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR in get recording: " + e.getMessage());
+        }
+
+
     }
     private void handleUpdatePatient(String p){
         try{
