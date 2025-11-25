@@ -255,9 +255,12 @@ private void savePatientRegistration(String p){
         String[] p = data.split(";");
         int seq = Integer.parseInt(p[0]);
         // Leer analógicos según el número de canales activos (1 o 2)
-        int[] analog = new int[activeChannels.length];
+        int[] analogFull = new int[6];
         for (int i = 0; i < activeChannels.length; i++) {
-            analog[i] = Integer.parseInt(p[1 + i]);
+            int bitalinoChannel = activeChannels[i];
+            int value = Integer.parseInt(p[1+i]);
+
+            analogFull[bitalinoChannel] = value;
         }
         int[] digital = new int[4];
         // digitalStart indica el primer valor digital
@@ -266,7 +269,7 @@ private void savePatientRegistration(String p){
             digital[i] = Integer.parseInt(p[digitalStart + i]);
         }
 
-        framesManager.addFrame(currentRecording_id, frameCounter++, 0, seq, analog, digital);
+        framesManager.addFrame(currentRecording_id, frameCounter++, 0, seq, analogFull, digital);
     }
 
 
