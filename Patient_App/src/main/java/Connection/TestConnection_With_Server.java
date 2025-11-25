@@ -272,11 +272,11 @@ public class TestConnection_With_Server {
         Double[][] data = connect.requestRecordingData(recording_id, type);
 
             if(type.equalsIgnoreCase("ECG")||type.equalsIgnoreCase("EMG")){
-                PlotRecordings.showChartFromArray(data[0],type + " Recording");
+                PlotRecordings.showChartFromArray(data[1],type + " Recording");
             }
             else if(type.equals("BOTH")){
-                PlotRecordings.showChartFromArray((data[0]), " EMG Recording");
-                PlotRecordings.showChartFromArray(data[1]," ECG Recording");
+                PlotRecordings.showChartFromArray((data[1]), " EMG Recording");
+                PlotRecordings.showChartFromArray(data[2]," ECG Recording");
             }
             else {
                 System.out.println("Unknown recording type: " + type);
