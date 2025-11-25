@@ -143,7 +143,7 @@ public class TestConnection_With_Server {
                     //System.out.println("BITalino detected: " + mac);
 
                     //2. Connect BITalino
-                    /*bita.open(mac,100); //100Hz
+                    bita.open(mac,100); //100Hz
                     bita.start(channels); //channels: {0} ECG, {5} EMG, {0,5} BOTH
 
                     System.out.println("BITalino started recording...");
@@ -166,17 +166,9 @@ public class TestConnection_With_Server {
                     System.out.println("Recording completed successfully!");
                 //10. VISUALIZE THE RECORDING AFTER SAVING IT
 
-                JDBCManager db = new JDBCManager();
-                var conn = db.getConnection();
+                    plotSignalByType(connect, recording_id, type);
 
-                System.out.println("Opening plots...");
-                for (int ch : channels) {
-                var series = PlotRecordings.loadRecordingSeries(conn, recording_id, ch);
-                PlotRecordings.showChart(series);
-                }
 
-            System.out.println("Plots displayed!");
-                */
 
                 /*try {
                     System.out.println("\n--- VISUALIZATION STEP ---");
