@@ -10,6 +10,7 @@ import org.example.Server.Visualization.PlotRecordings;
 
 import javax.bluetooth.RemoteDevice;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.Scanner;
@@ -272,6 +273,22 @@ public class TestConnection_With_Server {
 
                         }
                 }
+
+        }
+
+        private static void plotSignalByType(Connection_With_Server connect, int recording_id, String type) throws IOException {
+        Double[][] data = connect.requestRecordingData(recording_id, type);
+
+            if(type.equalsIgnoreCase("ECG")||type.equalsIgnoreCase("EMG")){
+                PlotRecordings.showChartFromArray(data[0],type + " Recording");
+            }
+            else if(type.equals("BOTH")){
+                PlotRecordings.showChartFromArray((data[0]), " EMG Recording");
+                PlotRecordings.showChartFromArray(data[1]," ECG Recording");
+            }
+            else {
+                System.out.println("Unknown recording type: " + type);
+            }
 
         }
 }

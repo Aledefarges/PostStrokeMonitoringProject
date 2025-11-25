@@ -127,6 +127,46 @@ public class Connection_With_Server {
         out.println("END_RECORDING");
     }
 
+/*
+    public Double[][] requestRecordingData(int recording_id, String type) throws IOException{
+        //Pedir al servidor el recording
+        out.println("GET_RECORDING|" + recording_id);
+
+        //Leer la respuesta
+        String response = in.readLine();
+
+        if(response == null || !response.startsWith("RECORDING_DATA|")){
+            System.out.println("invalid server response: "+response);
+            return new Double[0][];
+        }
+
+        String[] parts = response.split("\\|");
+        String csv = parts[2];
+        String[] samples = csv.split(",");
+
+        //Si solo es un canal:
+        if(type.equals("ECG")||type.equals("EMG")){
+            Double[] oneChannel = new Double[samples.length];
+            for(int i = 0; i<samples.length; i++){
+                oneChannel[i] = Double.parseDouble(samples[i]);
+            }
+            return new Double[][]{oneChannel};
+        }
+
+        //Si son both
+        Double[] emgArray = new Double[samples.length];
+        Double[] ecgArray = new Double[samples.length];
+
+        for(int i = 0; i<samples.length; i++){
+            String[] pair = samples[i].split(";");
+            emgArray[i] = Double.parseDouble(pair[0]);
+            ecgArray[i] = Double.parseDouble(pair[1]);
+        }
+        return new Double[][]{emgArray, ecgArray};
+    }
+
+*/
+
     //Funciones que teníamos en Utilities:
 
     public boolean sendLogIn(String email, String password) throws IOException {

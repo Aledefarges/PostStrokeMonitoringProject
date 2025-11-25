@@ -311,11 +311,15 @@ private void savePatientRegistration(String p){
                 }  sb.append(",");
             }
             System.out.println("Sent recording Id "+ recording_id + " type:"+type);
+
+            if(sb.length()>0){
+                sb.deleteCharAt(sb.length()-1);
+            }
+            out.println(("RECORDING_DATA|" + recording_id + "|" + sb.toString()));
         }catch(Exception e){
             out.println("ERROR|EXCEPTION");
             System.out.println("ERROR in get recording: " + e.getMessage());
         }
-
 
     }
     private void handleUpdatePatient(String p){

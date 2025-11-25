@@ -62,7 +62,7 @@ public class JDBCRecordingManager implements RecordingManager {
             PreparedStatement ps = manager.getConnection().prepareStatement(sql);
             ps.setInt(1,recording_id);
 
-            ResultSet rs = ps.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
