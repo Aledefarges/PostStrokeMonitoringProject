@@ -73,6 +73,9 @@ public static void showChartFromArray(Double[] data, String title) {
     double min = Arrays.stream(data).mapToDouble(v -> v).min().orElse(0);
     double max = Arrays.stream(data).mapToDouble(v -> v).max().orElse(1);
 
+    if (min == max) {
+        max = min + 1;
+    }
     // Expandir el rango para ver la señal
     double margin = (max - min) * 0.1;
     plot.getRangeAxis().setRange(min-margin, max+margin);
