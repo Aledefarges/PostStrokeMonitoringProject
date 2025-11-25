@@ -7,8 +7,9 @@ import java.net.Socket;
 
 public class PatientServer {
     public static void main(String[] args) {
+        ServerSocket serverSocket = null;
         try{
-            ServerSocket serverSocket = new ServerSocket(9100);
+            serverSocket = new ServerSocket(9100);
             JDBCManager db = new JDBCManager();
             System.out.println("Patient server running on port 9100");
             while(true){
@@ -22,6 +23,14 @@ public class PatientServer {
 
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            if(serverSocket !=null){
+                try{
+                    serverSocket.close();
+                }catch(Exception e){
+                    System.out.println("Error closing server socket: " + e.getMessage());
+                }
+            }
         }
     }
 }
