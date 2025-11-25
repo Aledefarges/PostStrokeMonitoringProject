@@ -19,9 +19,9 @@ import java.time.LocalDate;
 import java.util.List;
 //
 
-public class Connection_with_Patient implements Runnable{
+public class Connection_with_Patient{
 
-    private final Socket socket;
+    //private final Socket socket;
     private JDBCManager db;
     private JDBCPatientManager patientManager;
     private JDBCRecordingManager recordingManager;
@@ -33,38 +33,33 @@ public class Connection_with_Patient implements Runnable{
     private int frameCounter = 0; // Number of frames received by each recording
     private int [] activeChannels;
 
-    public Connection_with_Patient(Socket socket,JDBCManager db) {
-        this.socket = socket;
+    public Connection_with_Patient(JDBCManager db) {
         this.db = db;
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         JDBCManager db = new JDBCManager();
         Connection_with_Patient server = new Connection_with_Patient(db);
         server.start();
-    }*/ //Este main ahora va en una clase aparte debido a que implementamos Runnable
+    } //Este main ahora va en una clase aparte debido a que implementamos Runnable
 
-    //La función start() ahora pasa a ser run()
-    @Override
-    public void run(){
+    public void start(){
         try{
+            ServerSocket serverSocket = new ServerSocket(9000);
+            Socket socket = serverSocket.accept();
+            System.out.println("Patient connected");
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(),true);
-
-            out.println("Server connected");
-
+            out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("SERVER: Connected"); // EL PACIENTE YA PUEDE LEERLO
             patientManager = new JDBCPatientManager(db);
             recordingManager = new JDBCRecordingManager(db);
             framesManager = new JDBCRecordingFramesManager(db);
-
-            String message = in.readLine();
-            while(message!=null){
-                System.out.println("Received message: "+message);
-
-                String [] parts = message.split("\\|");
+            String message; // esto para tenerlo ordenado y añadir lo de Utilities:
+            while((message = in.readLine()) != null) {
+                System.out.println("Received: " + message);
+                String[] parts = message.split("\\|");
                 String command = parts[0];
-
-                switch(command){
+                switch (command) {
                     case "ADD_PATIENT":
                         savePatientRegistration(parts[1]); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
                         break;
@@ -81,8 +76,8 @@ public class Connection_with_Patient implements Runnable{
                         deletePatient(parts[1]);
                         break;
                     case "START_RECORDING":
-                        handleStartRecording(parts[1]);
-                        break;
+                            handleStartRecording(parts[1]);
+                            break;
                     case "FRAME":
                         handleFrame(parts[1]);
                         break;
@@ -100,14 +95,15 @@ public class Connection_with_Patient implements Runnable{
                         break;
                 }
             }
-        }catch(Exception e){
-            System.out.println("ERROR in thread: " + e.getMessage());
-        }finally {
+        } catch(IOException e){
+            System.out.println("ERROR Connecting" + e.getMessage());
+        } finally {
             try {
                 if (in != null) in.close();
                 if (out != null) out.close();
-            } catch (IOException e) {}
-            System.out.println("Connection closed.");
+            } catch (IOException e) {
+                System.out.println("Connection closed.");
+            }
         }
     }
 
