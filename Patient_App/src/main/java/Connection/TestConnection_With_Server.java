@@ -143,7 +143,7 @@ public class TestConnection_With_Server {
                     //System.out.println("BITalino detected: " + mac);
 
                     //2. Connect BITalino
-                    /*bita.open(mac,100); //100Hz
+                    bita.open(mac,100); //100Hz
                     bita.start(channels); //channels: {0} ECG, {5} EMG, {0,5} BOTH
 
                     System.out.println("BITalino started recording...");
@@ -166,17 +166,9 @@ public class TestConnection_With_Server {
                     System.out.println("Recording completed successfully!");
                 //10. VISUALIZE THE RECORDING AFTER SAVING IT
 
-                JDBCManager db = new JDBCManager();
-                var conn = db.getConnection();
+                    plotSignalByType(connect, recording_id, type);
 
-                System.out.println("Opening plots...");
-                for (int ch : channels) {
-                var series = PlotRecordings.loadRecordingSeries(conn, recording_id, ch);
-                PlotRecordings.showChart(series);
-                }
 
-            System.out.println("Plots displayed!");
-                */
 
                 /*try {
                     System.out.println("\n--- VISUALIZATION STEP ---");
@@ -280,11 +272,11 @@ public class TestConnection_With_Server {
         Double[][] data = connect.requestRecordingData(recording_id, type);
 
             if(type.equalsIgnoreCase("ECG")||type.equalsIgnoreCase("EMG")){
-                PlotRecordings.showChartFromArray(data[0],type + " Recording");
+                PlotRecordings.showChartFromArray(data[1],type + " Recording");
             }
             else if(type.equals("BOTH")){
-                PlotRecordings.showChartFromArray((data[0]), " EMG Recording");
-                PlotRecordings.showChartFromArray(data[1]," ECG Recording");
+                PlotRecordings.showChartFromArray((data[1]), " EMG Recording");
+                PlotRecordings.showChartFromArray(data[2]," ECG Recording");
             }
             else {
                 System.out.println("Unknown recording type: " + type);
