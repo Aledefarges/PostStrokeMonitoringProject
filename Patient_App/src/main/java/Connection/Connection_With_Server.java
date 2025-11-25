@@ -86,11 +86,11 @@ public class Connection_With_Server {
     public int[] startRecording(int patient_id, String type){
         int [] channel;
         if (type.equals("EMG")){
-            channel = new int[]{1};
+            channel = new int[]{0};
         } else if (type.equals("ECG")){
-            channel = new int[]{2};
+            channel = new int[]{1};
         } else if (type.equals("BOTH")){
-            channel = new int[]{1,2};
+            channel = new int[]{0,1};
         } else{
             throw new IllegalArgumentException("Invalid type");
         }

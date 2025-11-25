@@ -225,13 +225,13 @@ private void savePatientRegistration(String p){
 
         switch (type){
             case "EMG":
-                activeChannels = new int[]{1};
+                activeChannels = new int[]{0};
                 break;
             case "ECG":
-                activeChannels = new int[]{2};
+                activeChannels = new int[]{1};
                 break;
             case "BOTH":
-                activeChannels = new int[]{1,2};
+                activeChannels = new int[]{0,1};
                 break;
             default:
                 out.println("ERROR|NO_SUCH_TYPE");
