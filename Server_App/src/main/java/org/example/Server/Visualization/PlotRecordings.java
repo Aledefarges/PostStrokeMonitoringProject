@@ -3,6 +3,7 @@ package org.example.Server.Visualization;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Arrays;
 
 /*public class PlotRecordings {
     public static XYSeries loadRecordingSeries(Connection c, int recordingId, int channel) throws Exception {
@@ -65,6 +67,15 @@ public static void showChartFromArray(Double[] data, String title) {
             "Valor",
             dataset
     );
+
+    XYPlot plot = chart.getXYPlot();
+
+    double min = Arrays.stream(data).mapToDouble(v -> v).min().orElse(0);
+    double max = Arrays.stream(data).mapToDouble(v -> v).max().orElse(1);
+
+    // Expandir el rango para ver la señal
+    double margin = (max - min) * 0.1;
+    plot.getRangeAxis().setRange(min-margin, max+margin);
 
     ChartPanel chartPanel = new ChartPanel(chart);
 
