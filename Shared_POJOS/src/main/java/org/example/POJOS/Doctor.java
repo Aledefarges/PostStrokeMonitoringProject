@@ -25,7 +25,7 @@ public class Doctor  {
         this.patients = patients;
     }
 
-    public Doctor(String name, String surname, int phone, String email, String password, List<Patient> patients) {
+    public Doctor(String name, String surname, int phone, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.phone=phone;
