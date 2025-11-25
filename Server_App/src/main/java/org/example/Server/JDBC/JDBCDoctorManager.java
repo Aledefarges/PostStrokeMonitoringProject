@@ -24,17 +24,27 @@ public class JDBCDoctorManager implements DoctorManager {
 
  @Override
  public void addDoctor(Doctor doctor){
-     String sql = "INSERT INTO Doctors (doctor_id,name,email,phone, password) VALUES (?,?,?,?,?)";
+     String sql = "INSERT INTO Doctors (name, surname, phone, email, password) VALUES (?,?,?,?,?)";
 
      try {
 
          PreparedStatement ps = manager.getConnection().prepareStatement(sql);
 
-         ps.setInt(1, doctor.getDoctor_id());
-         ps.setString(2, doctor.getName());
-         ps.setString(3, doctor.getEmail());
-         ps.setInt(4, doctor.getPhone());
-         ps.setString(5, doctor.getPassword());
+         ps.setString(1, doctor.getName());
+         ps.setString(2, doctor.getSurname());
+         ps.setInt(3, doctor.getPhone());
+         ps.setString(4, doctor.getEmail());
+
+         MessageDigest md = MessageDigest.getInstance("MD5");
+         md.update(doctor.getPassword().getBytes());
+         byte[] encryptedPassword = md.digest();
+
+         StringBuilder sb = new StringBuilder();
+         for (byte b: encryptedPassword){
+             sb.append(String.format("%02x",b)); //2 digit hexadecimal
+         }
+         String encryptedStringPassword = sb.toString();
+         ps.setString(5, encryptedStringPassword);
 
          ps.executeUpdate();
          ps.close() ;
@@ -42,22 +52,28 @@ public class JDBCDoctorManager implements DoctorManager {
      }catch(SQLException e){
          e.printStackTrace();
      }
+     catch(Exception e){
+         e.printStackTrace();
+     }
 
 
  }
 
  @Override
- public void deleteDoctor(String email) {
-     String sql = "DELETE FROM Doctors WHERE doctor_id =  ? ";
+ public boolean deleteDoctor(String email) {
+     String sql = "DELETE FROM Doctors WHERE email =  ? ";
 
      try{
          PreparedStatement ps = manager.getConnection().prepareStatement(sql);
          ps.setString(1, email);
-         ps.executeUpdate();
+         int rowsAffected = ps.executeUpdate(); //executeUpdate devuelve cuanats filas fueron eliminadas por el sql, el resultado puede ser 0 (no exsiet este mail), 1 se elimino paciente (ya que el mail es UNIQUE y no puede haber más de uno)
+         //ps.executeUpdate();
          ps.close();
+         return  rowsAffected == 1; //False si no se elimino ningun paciente (no existia ese email), true si se elimino un paciente
 
      }catch(SQLException e){
          e.printStackTrace();
+         return false;
      }
  }
 
@@ -81,7 +97,7 @@ public Doctor searchDoctorByEmail(String email){
      Doctor doctor=null;
     JDBCPatientManager jdbcPatientManager=new JDBCPatientManager(manager);
 
-    String sql = "SELECT * FROM Patients WHERE email = ?";
+    String sql = "SELECT * FROM Doctors WHERE email = ?";
 
     try{
          PreparedStatement stmt=manager.getConnection().prepareStatement(sql);
@@ -90,14 +106,13 @@ public Doctor searchDoctorByEmail(String email){
          ResultSet rs=stmt.executeQuery();
 
          if(rs.next()){
-             int doctor_id = rs.getInt("doctor_id");
              String password = rs.getString("password");
              String name = rs.getString("name");
              String surname = rs.getString("surname");
              int phone = rs.getInt("phone");
-             List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
+            // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
 
-             doctor = new Doctor(doctor_id, password, name, surname, email, phone, patients);
+             doctor = new Doctor(name, surname, phone, email, password);
          }
 
          rs.close();
@@ -107,10 +122,41 @@ public Doctor searchDoctorByEmail(String email){
      }
      return doctor;
 }
+@Override
+    public Doctor searchDoctorById(int doctor_id){
+        Doctor doctor=null;
+        JDBCPatientManager jdbcPatientManager=new JDBCPatientManager(manager);
+
+        String sql = "SELECT * FROM Doctors WHERE doctor_id = ?";
+
+        try{
+            PreparedStatement stmt=manager.getConnection().prepareStatement(sql);
+            stmt.setInt(1, doctor_id);
+
+            ResultSet rs=stmt.executeQuery();
+
+            if(rs.next()){
+                String password = rs.getString("password");
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                int phone = rs.getInt("phone");
+                String email = rs.getString("email");
+                // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
+
+                doctor = new Doctor(name, surname, phone, email, password);
+            }
+
+            rs.close();
+            stmt.close();
+        }catch(SQLException e){
+            e.printStackTrace();;
+        }
+        return doctor;
+    }
 
     @Override
     public void updatePassword(int doctor_id, String newPassword){
-        String sql = "UPDATE Doctors SET password = ? WHERE doctor_id = ?";
+        String sql = "UPDATE Doctors SET password = ? WHERE email = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
 
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -126,11 +172,34 @@ public Doctor searchDoctorByEmail(String email){
 
             ps.setString(1, encryptedStringPassword);
             ps.setInt(2, doctor_id);
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e2){
             e2.printStackTrace();
+        }
+    }
+    @Override
+    public void updateEmail(int doctor_id, String email) {
+        String sql = "UPDATE Doctors SET email = ? WHERE doctor_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setInt(2, doctor_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void updatePhone(int doctor_id, int phone) {
+        String sql = "UPDATE Doctors SET phone = ? WHERE doctor_id = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, phone);
+            ps.setInt(2, doctor_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
