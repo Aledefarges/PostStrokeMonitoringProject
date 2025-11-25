@@ -11,7 +11,7 @@ public class Connection_With_Server {
 
     private Socket socket;
     private PrintWriter out;
-    BufferedReader in;
+    public BufferedReader in;
 
     public boolean connection(String ip_host, int port){
         // The function is boolean because it indicates whether the connection has succeeded or not

@@ -110,6 +110,7 @@ public Doctor searchDoctorByEmail(String email){
              String name = rs.getString("name");
              String surname = rs.getString("surname");
              int phone = rs.getInt("phone");
+
             // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
 
              doctor = new Doctor(name, surname, phone, email, password);
