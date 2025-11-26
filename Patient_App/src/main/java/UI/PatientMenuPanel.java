@@ -45,7 +45,12 @@ public class PatientMenuPanel extends JPanel {
         delete_button.setForeground(Color.white);
         exit_button.setBackground(new Color(62,156,118));
         exit_button.setForeground(Color.white);
-        
+
+        email_button.addActionListener(e-> goToChangeEmail());
+        password_button.addActionListener(e-> goToChangePassword());
+        update_button.addActionListener(e-> goToChangePassword());
+        delete_button.addActionListener(e-> goToChangePassword());
+        exit_button.addActionListener(e-> System.exit(0));
         
     }
 
@@ -118,6 +123,19 @@ public class PatientMenuPanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+
+    private void goToChangeEmail() {
+        appFrame.switchPanel(new EmailPanel(appFrame, connection));
+    }
+    private void goToChangePassword() {
+       // appFrame.switchPanel(new PasswordPanel(appFrame, connection));
+    }
+    private void goToUpdate() {
+       // appFrame.switchPanel(new UpdatePanel(appFrame, connection));
+    }
+    private void goToDelete() {
+       // appFrame.switchPanel(new DeletePanel(appFrame, connection));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

@@ -26,7 +26,7 @@ public class menuPatient {
         String ip = "localhost";
         try {
 
-            if (!connect.connection(ip, 9000)) {
+            /*if (!connect.connection(ip, 9000)) {
                 System.out.println("Could not connect to server.");
                 return;
             } else System.out.println("Connected to server!");
@@ -52,13 +52,16 @@ public class menuPatient {
                     break;
             }
 
+             */
+
 
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
-    private static void register() throws IOException {
+
+    /*private static void register() throws IOException {
         System.out.print("Name: ");
         String name = sc.nextLine();
         System.out.print("Surname: ");
@@ -96,6 +99,8 @@ public class menuPatient {
         }
         else System.out.println("Login failed!.");
     }
+
+     */
     private static void updatePatient(String email) throws IOException {
 
         boolean ok = true;
@@ -117,37 +122,37 @@ public class menuPatient {
                 case 1:
                     System.out.print("Enter new name:");
                     value = sc.nextLine();
-                    connect.sendUpdateToServer(email, "name", value);
+                    connect.sendUpdateToServer("name", value);
                     break;
 
                 case 2:
                     System.out.print("Enter new surname:");
                     value = sc.nextLine();
-                    connect.sendUpdateToServer(email, "surname", value);
+                    connect.sendUpdateToServer( "surname", value);
                     break;
 
                 case 3:
                     System.out.print("Enter new phone:");
                     value = sc.nextLine();
-                    connect.sendUpdateToServer(email, "phone", value);
+                    connect.sendUpdateToServer( "phone", value);
                     break;
 
                 case 4:
                     System.out.print("Enter new medical history:");
                     value = sc.nextLine();
-                    connect.sendUpdateToServer(email, "medical_history", value);
+                    connect.sendUpdateToServer( "medical_history", value);
                     break;
 
                 case 5:
                     System.out.print("Enter new date of birth:");
                     value = sc.nextLine();
-                    connect.sendUpdateToServer(email, "dob", value);
+                    connect.sendUpdateToServer("dob", value);
                     break;
 
                 case 6:
                     System.out.println("Enter new sex (M/F):");
                     value = sc.nextLine();
-                    connect.sendUpdateToServer(email, "sex", value);
+                    connect.sendUpdateToServer("sex", value);
                     break;
 
                 case 0:
@@ -166,7 +171,7 @@ public class menuPatient {
         String oldPw = sc.nextLine();
         System.out.print("New password: ");
         String newPw = sc.nextLine();
-        boolean pwChanged = connect.sendChangePassword(email, oldPw, newPw);
+        boolean pwChanged = connect.sendChangePassword(oldPw, newPw);
         if(pwChanged) System.out.println("Password changed!");
         else System.out.println("Error changing password.");
     }
@@ -180,7 +185,7 @@ public class menuPatient {
         else System.out.println("Error changing email.");
     }
     private static void deletePatient(String email) throws IOException {
-        boolean delete_patient = connect.deletePatientFromServer(email);
+        boolean delete_patient = connect.deletePatientFromServer();
         if(delete_patient) System.out.println("Patient deleted successfully!");
         else System.out.println("Could not delete patient.");
     }

@@ -225,37 +225,37 @@ public class TestConnection_With_Server {
                                 case 1:
                                         System.out.print("Enter new name:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "name", value);
+                                        connect.sendUpdateToServer("name", value);
                                         break;
 
                                 case 2:
                                         System.out.print("Enter new surname:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "surname", value);
+                                        connect.sendUpdateToServer( "surname", value);
                                         break;
 
                                 case 3:
                                         System.out.print("Enter new phone:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "phone", value);
+                                        connect.sendUpdateToServer("phone", value);
                                         break;
 
                                 case 4:
                                         System.out.print("Enter new medical history:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "medical_history", value);
+                                        connect.sendUpdateToServer("medical_history", value);
                                         break;
 
                                 case 5:
                                         System.out.print("Enter new date of birth:");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "dob", value);
+                                        connect.sendUpdateToServer("dob", value);
                                         break;
 
                                 case 6:
                                         System.out.println("Enter new sex (M/F):");
                                         value = sc.nextLine();
-                                        connect.sendUpdateToServer(email, "sex", value);
+                                        connect.sendUpdateToServer("sex", value);
                                         break;
 
                                 case 0:

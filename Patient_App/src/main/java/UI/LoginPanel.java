@@ -31,7 +31,7 @@ public class LoginPanel extends JPanel {
         show_button.setBackground(new Color(70,130,180));
         show_button.setForeground(Color.WHITE);
 
-        setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         show_button.addActionListener(e-> togglePasswordVisible());
         login_button.addActionListener(e-> login());

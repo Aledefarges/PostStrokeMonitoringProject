@@ -32,6 +32,7 @@ public class Connection_with_Patient{
     private int currentRecording_id = -1; // The id will change depending on the recording
     private int frameCounter = 0; // Number of frames received by each recording
     private int [] activeChannels;
+    private Patient loggedPatient = null;
 
     public Connection_with_Patient(JDBCManager db) {
         this.db = db;
@@ -73,7 +74,7 @@ public class Connection_with_Patient{
                         handleChangeEmail(parts[1]);
                         break;
                     case "DELETE_PATIENT":
-                        deletePatient(parts[1]);
+                        deletePatient();
                         break;
                     case "START_RECORDING":
                             handleStartRecording(parts[1]);
@@ -139,12 +140,16 @@ private void savePatientRegistration(String p){
             String password = parts[1];
             Patient patient = patientManager.getPatientByEmail(email);
 
-            /*if (patient == null) {
+            if (patient == null) {
                 out.println("ERROR|NO_SUCH_EMAIL");
                 return;
-            }*/
+            }
+
             if (patientManager.checkPassword(email, password)) {
+
+                loggedPatient = patient;
                 out.println("OK|LOGIN_SUCCESS");
+
             } else {
                 out.println("ERROR|WRONG_PASSWORD");
             }
@@ -157,20 +162,22 @@ private void savePatientRegistration(String p){
 
     private void handleChangePassword(String data){
         try {
+            if (loggedPatient == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
             String[] parts = data.split(";");
-            String email = parts[0];
-            String oldPassword = parts[1];
-            String newPassword = parts[2];
 
-            Patient patient = patientManager.getPatientByEmail(email);
+            String oldPassword = parts[0];
+            String newPassword = parts[1];
 
             //Comprobar contraseña antigua:
-            if (!patient.getPassword().equals(oldPassword)) {
+            if (!loggedPatient.getPassword().equals(oldPassword)) {
                 out.println("ERROR|WRONG_OLD_PASSWORD");
                 return;
             }
-
-            patientManager.updatePassword(patient.getPatient_id(), newPassword);
+            patientManager.updatePassword(loggedPatient.getPatient_id(), newPassword);
+            loggedPatient.setPassword(newPassword);
             out.println("OK|PASSWORD_CHANGED");
 
         }catch(Exception e){
@@ -182,17 +189,16 @@ private void savePatientRegistration(String p){
 
     private void handleChangeEmail(String data){
         try {
-            String[] parts = data.split(";");
-            String email = parts[0];
-            String newEmail = parts[1];
-
-            Patient patient = patientManager.getPatientByEmail(email);
-
-            if (patient == null) {
-                out.println("ERROR|NO_SUCH_EMAIL");
+            if (loggedPatient == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
                 return;
             }
-            patientManager.updateEmail(patient.getPatient_id(), newEmail);
+            String[] parts = data.split(";");
+            String newEmail = parts[1];
+
+
+            patientManager.updateEmail(loggedPatient.getPatient_id(), newEmail);
+            loggedPatient.setEmail(newEmail);
             out.println("OK|EMAIL_CHANGED");
         }catch (Exception e) {
             e.printStackTrace();
@@ -201,12 +207,18 @@ private void savePatientRegistration(String p){
         }
     }
 
-    private void deletePatient(String email){
+    private void deletePatient(){
             try {
+                if (loggedPatient == null) {
+                    out.println("ERROR|NOT_LOGGED_IN");
+                    return;
+                }
+                String email = loggedPatient.getEmail();
                 boolean deleted = patientManager.deletePatient(email);
                 if (deleted) {
                     out.println("OK|PATIENT_DELETED");
                     System.out.println("Patient deleted correctly");
+                    loggedPatient = null; // La sesión se acaba porque el paciente ya no existe
                 } else {
                     out.println("ERROR|PATIENT_NOT_FOUND");
                 }
@@ -320,41 +332,41 @@ private void savePatientRegistration(String p){
     }
     private void handleUpdatePatient(String p){
         try{
-            String [] parts = p.split(";");
-            String email = parts[0];
-            String message = parts[1].toLowerCase();
-            String value = parts[2];
-
-            //Search the patient in the database given its email
-            Patient patient = patientManager.getPatientByEmail(email);
-
-            //Check if the patient exists in the database
-            if(patient == null){
-                out.println("ERROR|PATIENT_NOT_FOUND");
+            if (loggedPatient == null){
+                out.println("ERROR|NOT_LOGGED_IN");
                 return;
             }
-            //If the patient exists, we search for its id
-            int patient_id = patient.getPatient_id();
+            String [] parts = p.split(";");
+            String message = parts[0].toLowerCase();
+            String value = parts[1];
+
+            int patient_id = loggedPatient.getPatient_id();
 
             //Now the patient decides which field it wants to change
             switch(message){
                 case "name":
                     patientManager.updateName(patient_id, value);
+                    loggedPatient.setName(value);
                     break;
                 case "surname":
                     patientManager.updateSurName(patient_id, value);
+                    loggedPatient.setSurname(value);
                     break;
                 case "phone":
                     patientManager.updatePhone(patient_id, Integer.parseInt(value));
+                    loggedPatient.setPhone(Integer.parseInt(value));
                     break;
                 case "medical_history":
                     patientManager.updateMedicalHistory(patient_id, value);
+                    loggedPatient.setMedicalhistory(value);
                     break;
                 case "dob":
                     patientManager.updateDob(patient_id, Date.valueOf(value));
+                    loggedPatient.setDob(Date.valueOf(value));
                     break;
                 case "sex":
                     patientManager.updateSex(patient_id, Patient.Sex.valueOf(value.toUpperCase()));
+                    loggedPatient.setSex(Patient.Sex.valueOf(value.toUpperCase()));
                     break;
 
                 default:

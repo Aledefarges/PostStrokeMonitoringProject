@@ -67,11 +67,10 @@ public class Connection_With_Server {
 
     }
 
-    public boolean deletePatientFromServer(String email){
+    public boolean deletePatientFromServer(){
         try{
-            String message = "DELETE_PATIENT|" + email;
+            String message = "DELETE_PATIENT|";
             out.println(message);
-
             String response = in.readLine();
             return "OK|PATIENT_DELETED".equals(response);
         }catch (IOException e){
@@ -182,9 +181,9 @@ public class Connection_With_Server {
         }
     }
 
-    public boolean sendChangePassword(String email, String oldPassword, String newPassword){
+    public boolean sendChangePassword(String oldPassword, String newPassword){
         try{
-            out.println("CHANGE_PASSWORD|" + email + ";" + oldPassword + ";" + newPassword);
+            out.println("CHANGE_PASSWORD|" + oldPassword + ";" + newPassword);
             String response = in.readLine();
             return response.equals("OK|PASSWORD_CHANGED");
         } catch (IOException e) {
@@ -205,9 +204,9 @@ public class Connection_With_Server {
             return false;
         }
     }
-    public boolean sendUpdateToServer(String email, String p, String value){
+    public boolean sendUpdateToServer(String p, String value){
         try{
-            String message = "UPDATE_PATIENT|" + email + ";" + p + ";" + value;
+            String message = "UPDATE_PATIENT|"  + p + ";" + value;
             out.println(message);
             String response = in.readLine();
             return "OK|PATIENT_UPDATED".equals(response);
