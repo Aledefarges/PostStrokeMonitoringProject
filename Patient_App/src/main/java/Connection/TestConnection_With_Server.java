@@ -1,7 +1,7 @@
 package Connection;
 
 
-
+/*
 import Bitalino.BITalino;
 import Bitalino.Frame;
 import org.example.POJOS.Patient;
@@ -108,7 +108,7 @@ public class TestConnection_With_Server {
                 String upemail = sc.nextLine();
                 updatePatient(connect, upemail); */
 
-
+/*
 
             //9. BITALINO RECORDING TEST
                     System.out.println("\n--- REAL BITALINO RECORDING ---");
@@ -119,7 +119,8 @@ public class TestConnection_With_Server {
                     String type = sc.nextLine().toUpperCase();
 
                     // Start recording on server
-                    int[] channels = connect.startRecording(type);
+
+                    int[][] channels = connect.startRecording(type);
                     System.out.println("Recording started in server.");
             // Read server confirmation with recording_id
             String startResp = connect.in.readLine();
@@ -142,7 +143,7 @@ public class TestConnection_With_Server {
 
                     //String mac = devices.firstElement().getBluetoothAddress();
                     //System.out.println("BITalino detected: " + mac);
-
+/*
                     //2. Connect BITalino
                     bita.open(mac,100); //100Hz
                     bita.start(channels); //channels: {1} ECG, {0} EMG, {0,1} BOTH
@@ -195,7 +196,7 @@ public class TestConnection_With_Server {
                 }
 
                  */
-
+/*
             connect.close();
         } catch (Exception e) {
                 System.out.println("ERROR: " + e.getMessage());
@@ -288,3 +289,4 @@ public class TestConnection_With_Server {
 }
 
 
+*/
