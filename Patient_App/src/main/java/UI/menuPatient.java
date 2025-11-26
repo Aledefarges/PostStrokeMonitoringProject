@@ -187,31 +187,31 @@ public class menuPatient {
     private static void patientMenu(String email) throws IOException {
         int option;
         System.out.println("Select and option:");
-        System.out.println("1. Change email:");
-        System.out.println("2. Change password:");
-        System.out.println("3. Update information:");
-        System.out.println("4. Delete patient:");
-        System.out.println("5. Start recording:");
+        System.out.println("1. Start recording:");
+        System.out.println("2. Change email:");
+        System.out.println("3. Change password:");
+        System.out.println("4. Update information:");
+        System.out.println("5. Delete patient:");
         System.out.println("0. Exit:");
         option = Integer.parseInt(sc.nextLine());
         switch (option) {
             case 1:
-                changeEmail();
+                recordingMenu();
                 break;
             case 2:
-                changePassword(email);
+                changeEmail();
                 break;
             case 3:
-                updatePatient(email);
+                changePassword(email);
                 break;
             case 4:
-                deletePatient(email);
+                updatePatient(email);
                 break;
             case 5:
-                //view patient information
+                deletePatient(email);
                 break;
             case 6:
-                recordingMenu();
+                //view patient information
                 break;
             case 0:
                 System.out.println("Goodbye!");

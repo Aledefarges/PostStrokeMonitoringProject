@@ -8,7 +8,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Connection.Connection_With_Server;
-import com.jgoodies.forms.factories.*;
+
 
 
 
@@ -36,7 +36,7 @@ public class MenuPanel extends JPanel {
         register_button.setForeground(Color.WHITE);
         exit_button.setBackground(new Color(62, 156, 118));
         exit_button.setForeground(Color.WHITE);
-        separator1.setBackground(new Color(70,130,180));
+        separator1.setForeground(new Color(70,130,180));
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
@@ -48,14 +48,15 @@ public class MenuPanel extends JPanel {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Nerea Leria
-        DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
+
         title = new JLabel();
-        separator1 = compFactory.createSeparator("");
+        separator1 = new JSeparator() {};
         login_button = new JButton();
         register_button = new JButton();
         exit_button = new JButton();
 
         //======== this ========
+
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {404, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};

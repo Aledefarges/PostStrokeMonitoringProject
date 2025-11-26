@@ -1,0 +1,71 @@
+JFDML JFormDesigner: "8.2.4.0.393" Java: "21.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 25"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignLeft": true
+			"$alignTop": true
+			"$columnSpecs": "327"
+		} ) {
+			name: "this"
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsTitle" ) {
+				name: "title1"
+				"textWithMnemonic": "Patient Menu"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsSeparator" ) {
+				name: "separator1"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "select_label"
+				"text": "Select an option"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 2
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "recording_button"
+				"text": "1. Start recording"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 3
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "email_button"
+				"text": "2. Change email"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 4
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "password_button"
+				"text": "3. Change password"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 5
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "update_button"
+				"text": "4. Update information"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 6
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "delete_button"
+				"text": "5. Delete account "
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 7
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "exit_button"
+				"text": "EXIT"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 8
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 390, 455 )
+		} )
+	}
+}

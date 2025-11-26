@@ -7,6 +7,7 @@ package UI;
 import Connection.Connection_With_Server;
 
 import java.awt.*;
+import java.io.IOException;
 import javax.swing.*;
 
 
@@ -33,6 +34,7 @@ public class LoginPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
         show_button.addActionListener(e-> togglePasswordVisible());
+        login_button.addActionListener(e-> login());
 
     }
 
@@ -103,8 +105,31 @@ public class LoginPanel extends JPanel {
         }
     }
 
+    private void login()  {
+        try{
+            String email = email_field.getText().trim();
+            String password = password_field.getText().trim();
+
+            if(email.isEmpty() || password.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please fill all the fields");
+                return;
+            }
+
+            boolean loginOK = connection.sendLogIn(email, password);
+            if (loginOK) {
+                JOptionPane.showMessageDialog(this, "Log In successful");
+                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+            }else{
+                JOptionPane.showMessageDialog(this, "Invalid email or password");
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Invalid data: " +e.getMessage());
+        }
+
+
+    }
+
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JPanel panel1;
     private JLabel email_label;
     private JTextField email_field;

@@ -20,7 +20,6 @@ public class RegisterPanel extends JPanel {
         this.connection = connection;
         initComponents();
 
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         title.setFont(new Font("Arial", Font.BOLD, 20));
         name_label.setFont(new Font("Arial", Font.BOLD,14));
@@ -75,7 +74,7 @@ public class RegisterPanel extends JPanel {
         //---- title ----
         title.setText("Complete your patient information");
         add(title, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- name_label ----
