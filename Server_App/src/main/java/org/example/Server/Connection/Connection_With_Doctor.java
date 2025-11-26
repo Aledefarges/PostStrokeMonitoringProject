@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Date;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -207,6 +209,114 @@ public class Connection_With_Doctor implements Runnable{
         }
     }
 
+    private void viewAllPatients(String doctor_email){
+
+        try {
+            if (loggedDoctor == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+
+            if (!loggedDoctor.getEmail().equalsIgnoreCase(doctor_email)) {
+                out.println("ERROR|DOCTOR_EMAIL_MISMATCH");
+                return;
+            }
+            List<Patient> patients = patientManager.getListOfPatientsOfDoctor(loggedDoctor.getDoctor_id());
+            if(patients.isEmpty()){
+                out.println("PATIENTS_LIST|EMPTY");
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("PATIENTS_LIST|");
+            for (Patient p : patients) {
+                sb.append(p.getName()).append(";")
+                  .append(p.getSurname()).append(";")
+                  .append(p.getDob()).append(";")
+                  .append(p.getEmail()).append(";")
+                  .append(p.getPhone()).append(";")
+                  .append(p.getSex().name()).append("|");
+            }
+
+            sb.deleteCharAt(sb.length() - 1); //eliminar el último "|"
+            out.println(sb.toString());
+
+            System.out.println("Sent list of patients to doctor: " + doctor_email);
+
+
+
+        } catch (Exception e) {
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR viewing all patients: " + e.getMessage());
+        }
+
+    }
+
+    private void viewPatientData(String doctor_email, String patient_email){
+        try{
+            if (loggedDoctor == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+
+            if (!loggedDoctor.getEmail().equalsIgnoreCase(doctor_email)) {
+                out.println("ERROR|DOCTOR_EMAIL_MISMATCH");
+                return;
+            }
+
+            Patient patient = patientManager.getPatientByEmail(patient_email);
+            if (patient == null) {
+                out.println("ERROR|PATIENT_NOT_FOUND");
+                return;
+            }
+
+            String data = patient.getName() + ";" +
+                          patient.getSurname() + ";" +
+                          patient.getDob() + ";" +
+                          patient.getEmail() + ";" +
+                          patient.getPhone() + ";" +
+                          patient.getMedicalhistory() + ";" +
+                          patient.getSex().name();
+
+            out.println("PATIENT_DATA|" + data);
+            System.out.println("Sent data for patient: " + patient_email);
+
+
+        } catch (Exception e) {
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR viewing patient data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void updatePatientHistory(String doctor_email, String patient_email, String new_history){
+        try{
+            if (loggedDoctor == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+
+            if (!loggedDoctor.getEmail().equalsIgnoreCase(doctor_email)) {
+                out.println("ERROR|DOCTOR_EMAIL_MISMATCH");
+                return;
+            }
+
+            Patient patient = patientManager.getPatientByEmail(patient_email);
+            if (patient == null) {
+                out.println("ERROR|PATIENT_NOT_FOUND");
+                return;
+            }
+            patientManager.updateMedicalHistory(patient.getPatient_id(), new_history);
+            out.println("OK|MEDICAL_HISTORY_UPDATED");
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR updating patient history: " + e.getMessage());
+        }
+
+    }
+
+
+
     private static void releaseResourcesServer(PrintWriter out, BufferedReader in, Socket socket){
         try {
             try{
@@ -224,7 +334,6 @@ public class Connection_With_Doctor implements Runnable{
             Logger.getLogger(Connection_With_Doctor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
 
 
