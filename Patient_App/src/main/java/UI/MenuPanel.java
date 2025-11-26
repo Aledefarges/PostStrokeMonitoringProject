@@ -1,0 +1,107 @@
+/*
+ * Created by JFormDesigner on Tue Nov 25 23:16:23 CET 2025
+ */
+
+package UI;
+
+import java.awt.*;
+import javax.swing.*;
+
+import Connection.Connection_With_Server;
+import com.jgoodies.forms.factories.*;
+
+
+
+public class MenuPanel extends JPanel {
+    private Connection_With_Server connection;
+    private AppFrame appFrame;
+
+    public MenuPanel(AppFrame appFrame, Connection_With_Server connection) {
+        this.appFrame = appFrame;
+        this.connection = connection;
+        initComponents();
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        login_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        register_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exit_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+        login_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        register_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        exit_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        
+        login_button.setBackground(new Color(70,130,180));
+        login_button.setForeground(Color.WHITE);
+        register_button.setBackground(new Color(70, 130, 180));
+        register_button.setForeground(Color.WHITE);
+        exit_button.setBackground(new Color(62, 156, 118));
+        exit_button.setForeground(Color.WHITE);
+        separator1.setBackground(new Color(70,130,180));
+
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+
+        login_button.addActionListener(e-> goToLogin());
+        register_button.addActionListener(e-> goToRegister());
+        exit_button.addActionListener(e-> System.exit(0));
+    }
+
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
+        DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
+        title = new JLabel();
+        separator1 = compFactory.createSeparator("");
+        login_button = new JButton();
+        register_button = new JButton();
+        exit_button = new JButton();
+
+        //======== this ========
+        setLayout(new GridBagLayout());
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {404, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+        //---- title ----
+        title.setText("WELCOME TO POST-STROKE MONITORING APP");
+        add(title, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+        add(separator1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- login_button ----
+        login_button.setText("1. LOG IN");
+        add(login_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- register_button ----
+        register_button.setText("2. REGISTER");
+        add(register_button, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- exit_button ----
+        exit_button.setText("3. EXIT");
+        add(exit_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+    private void goToLogin(){
+        appFrame.switchPanel(new LoginPanel(appFrame, connection));
+    }
+    private void goToRegister(){
+        appFrame.switchPanel(new RegisterPanel(appFrame,connection));
+    }
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
+    private JLabel title;
+    private JComponent separator1;
+    private JButton login_button;
+    private JButton register_button;
+    private JButton exit_button;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+}
