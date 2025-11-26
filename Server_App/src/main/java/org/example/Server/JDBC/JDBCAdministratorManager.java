@@ -6,10 +6,7 @@ import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
 
 import java.security.MessageDigest;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class JDBCAdministratorManager implements AdministratorManager {
@@ -24,12 +21,10 @@ public class JDBCAdministratorManager implements AdministratorManager {
     //SearchById
     @Override
     public void addAdministrator(Administrator administrator){
-       //H
         String sql = "INSERT INTO Administrators (admin_id,name,email,phone, password) VALUES (?,?,?,?,?)";
 
-        try {
-
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, administrator.getAdmin_id());
             ps.setString(2, administrator.getName());
@@ -38,7 +33,6 @@ public class JDBCAdministratorManager implements AdministratorManager {
             ps.setString(5, administrator.getPassword());
 
             ps.executeUpdate();
-            ps.close() ;
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -48,15 +42,12 @@ public class JDBCAdministratorManager implements AdministratorManager {
 
     @Override
     public void deleteAdministrator(String email) {
-
         String sql = "DELETE FROM Administrators WHERE admin_id =  ? ";
 
-        try{
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, email);
             ps.executeUpdate();
-            ps.close();
-
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -68,24 +59,25 @@ public class JDBCAdministratorManager implements AdministratorManager {
 
         String sql = "SELECT * FROM Administrators WHERE email = ?";
 
-        try{
-            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-            stmt.setString(1, email);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ResultSet rs=stmt.executeQuery();
+            ps.setString(1, email);
 
-            if(rs.next()){
-                int admin_id = rs.getInt("admin_id");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                int phone = rs.getInt("phone");
-                String password = rs.getString("password");
+            try(ResultSet rs= ps.executeQuery()){
+                if(rs.next()){
+                    int admin_id = rs.getInt("admin_id");
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    int phone = rs.getInt("phone");
+                    String password = rs.getString("password");
 
 
-                admin = new Administrator(admin_id, email, password, name, surname, phone);
+                    admin = new Administrator(admin_id, email, password, name, surname, phone);
+                }
+
             }
-            rs.close();
-            stmt.close();
+
         }catch(SQLException e){
             e.printStackTrace();;
         }
@@ -95,7 +87,8 @@ public class JDBCAdministratorManager implements AdministratorManager {
     @Override
     public void updatePassword(int admin_id, String newPassword){
         String sql = "UPDATE Administrators SET password = ? WHERE admin_id = ?";
-        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+        try (Connection c = manager.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)){
 
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(newPassword.getBytes());
@@ -121,28 +114,27 @@ public class JDBCAdministratorManager implements AdministratorManager {
     @Override
     public boolean checkPassword(String email, String password) {
         String sql = "SELECT password FROM Administrators WHERE email = ?";
-        try{
-            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-            stmt.setString(1, email);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)){
+            ps.setString(1, email);
 
-            ResultSet rs = stmt.executeQuery();
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    String pass = rs.getString("password");
 
-            if(rs.next()){
-                String pass = rs.getString("password");
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    md.update(password.getBytes());
+                    byte[] digest = md.digest();
 
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                md.update(password.getBytes());
-                byte[] digest = md.digest();
+                    //Converting byte[] to hexadecimal String so it can be compared with the stored password
+                    StringBuilder sb = new StringBuilder();
+                    for (byte b: digest){
+                        sb.append(String.format("%02x",b));
+                    }
+                    String encryptedPass = sb.toString();
 
-                //Converting byte[] to hexadecimal String so it can be compared with the stored password
-                StringBuilder sb = new StringBuilder();
-                for (byte b: digest){
-                    sb.append(String.format("%02x",b));
+                    return pass.equalsIgnoreCase(encryptedPass);
                 }
-                String encryptedPass = sb.toString();
-
-                return pass.equalsIgnoreCase(encryptedPass);
-
             }
         }
         catch(SQLException e){

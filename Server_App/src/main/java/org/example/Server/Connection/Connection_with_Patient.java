@@ -267,7 +267,14 @@ private void savePatientRegistration(String p){
 
     private void handleFrame(String data) {
 
-        if (!recordingActive) return;
+        if (!recordingActive) {
+            System.err.println("ERROR|NOT_RECORDING_ACTIVE");
+            return;
+        }
+        if(currentRecording_id <= 0){
+            System.err.println("ERROR|NO_SUCH_RECORDING, recording id: "+ currentRecording_id);
+            return;
+        }
 
         String[] p = data.split(";");
         int seq = Integer.parseInt(p[0]);

@@ -48,10 +48,6 @@ public class RecordingPanel extends JPanel {
         both_button.addActionListener(e -> startRecording("BOTH"));
         back_button.addActionListener(e-> appFrame.switchPanel(new PatientMenuPanel(appFrame, connection)));
 
-//        emg_button.addActionListener(e -> new Thread(() -> startRecording("EMG")).start());
-//        ecg_button.addActionListener(e -> new Thread(() -> startRecording("ECG")).start());
-
-
     }
 
     private void initComponents() {
@@ -104,37 +100,53 @@ public class RecordingPanel extends JPanel {
     }
 
     private void startRecording(String type) {
-    try{
-        int[][] result = connection.startRecording(type);
-        int []channel = result[0];
-        int recording_id = result[1][0];
+    // Desactivar botones mientras graba
+    emg_button.setEnabled(false);
+    ecg_button.setEnabled(false);
+    both_button.setEnabled(false);
+    back_button.setEnabled(false);
+    new Thread(() -> {
+            try{
+                int[][] result = connection.startRecording(type);
+                int []channel = result[0];
+                int recording_id = result[1][0];
 
-        // Start BITalino
-        BITalino bita = new BITalino();
-        String mac = "20:17:11:20:50:77";
-        bita.open(mac,100);
-        bita.start(channel);
+                // Start BITalino
+                BITalino bita = new BITalino();
+                String mac = "20:17:11:20:50:77";
+                bita.open(mac,100);
+                bita.start(channel);
 
-        int numFrames = 1000;
-        for(int i = 0; i < numFrames; i++){
-            Frame[] block = bita.read(1);
-            connection.sendFrames(block, channel);
-        }
+                int numFrames = 1000;
+                for(int i = 0; i < numFrames; i++){
+                    Frame[] block = bita.read(1);
+                    connection.sendFrames(block, channel);
+                }
 
-        bita.stop();
-        bita.close();
-        connection.endRecording();
+                bita.stop();
+                bita.close();
+                connection.endRecording();
 
-        try{
-            plotSignalByType(connection, recording_id, type);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this,"Recording saves, but cannot be visualized " +e.getMessage());
-        }
+                SwingUtilities.invokeLater(() -> {
+                    try{
+                        plotSignalByType(connection,recording_id,type);
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(this, "Recording saved but cannot be visualized: "+ e.getMessage());
+                    }
+                });
+            } catch (Throwable e) {
+                e.printStackTrace();
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(this, "Error during recording: " +e.getMessage()));
+            }finally {
+                SwingUtilities.invokeLater(() -> {
+                    emg_button.setEnabled(true);
+                    ecg_button.setEnabled(true);
+                    both_button.setEnabled(true);
+                    back_button.setEnabled(true);
+                });
+            }
+        }).start();
 
-    } catch (Throwable e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error during recording: " +e.getMessage());
-    }
     }
 
     private static void plotSignalByType(Connection_With_Server connect, int recording_id, String type) throws IOException {

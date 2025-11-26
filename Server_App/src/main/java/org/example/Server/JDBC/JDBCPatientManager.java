@@ -24,9 +24,8 @@ public class JDBCPatientManager implements PatientManager {
 
         String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password) VALUES (?,?,?,?,?,?,?,?)";
 
-        try {
-
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, patient.getName());
             ps.setString(2, patient.getSurname());
@@ -50,35 +49,29 @@ public class JDBCPatientManager implements PatientManager {
 
             ps.executeUpdate();
 
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                int generatedId = rs.getInt(1);
-                patient.setPatient_id(generatedId);
+            try(ResultSet rs = ps.getGeneratedKeys()){
+                if (rs.next()) {
+                    int generatedId = rs.getInt(1);
+                    patient.setPatient_id(generatedId);
+                }
             }
-            ps.close() ;
-            //FALTA AÑADIR RECORDINGS y Doctor
+            //FALTA AÑADIR Doctor
         }catch(SQLException e){
             e.printStackTrace();
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     @Override
     public boolean deletePatient (String email){
         String sql = "DELETE FROM Patients WHERE email =  ? ";
 
-        try{
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1, email);
             int rowsAffected = ps.executeUpdate(); //executeUpdate devuelve cuanats filas fueron eliminadas por el sql, el resultado puede ser 0 (no exsiet este mail), 1 se elimino paciente (ya que el mail es UNIQUE y no puede haber más de uno)
-            //ps.executeUpdate();
-            ps.close();
             return  rowsAffected == 1; //False si no se elimino ningun paciente (no existia ese email), true si se elimino un paciente
-
-
         }catch(SQLException e){
             e.printStackTrace();
             return false;
@@ -88,15 +81,14 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public List<Patient> getListOfPatients(){
         List<Patient> patients = new ArrayList<Patient>();
+        String sql = "SELECT patient_id, name, surname, dob, email, phone, medicalHistory, sex, doctor_id FROM Patients";
 
-        try {
-            String sql = "SELECT patient_id, name, surname, dob, email, phone, medicalHistory, sex, doctor_id FROM Patients";
-
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();){
             while(rs.next())
             {
+                int patient_id = rs.getInt("patient_id");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
                 Date dob = rs.getDate("dob");
@@ -105,19 +97,13 @@ public class JDBCPatientManager implements PatientManager {
                 String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                 String password = rs.getString("password");
-                int patient_id = rs.getInt("patient_id");
                 //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
                 //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
 
                 Patient p= new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex);
                 //cuando este el getRecordingOfPatient añadir aqui tambien el atributo recording
                 patients.add(p);
-
             }
-
-            rs.close();
-            ps.close();
-
         }catch(Exception e) {
             e.printStackTrace();}
 
@@ -127,33 +113,30 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public Patient getPatientById(int patient_id) {
         Patient patient = null;
+        String sql = "SELECT * FROM Patients WHERE patient_id = ?";
 
-        try{
-            String sql = "SELECT * FROM Patients WHERE patient_id = ?";
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+        try(Connection c = manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)){
             ps.setInt(1, patient_id);
             // The SQL query uses a placeholder (?) for the patient_id value, it is needed to replace that
             // placeholder before executing the query.
             // 'setInt(1, patient_id)' inserts the value into the first '?' in the SQL.
             // If we don't set it, the query remains incomplete and will fail.
-            ResultSet rs = ps.executeQuery(sql);
+            try(ResultSet rs = ps.executeQuery(sql)){
+                if(rs.next()) {
+                    String password = rs.getString("password");
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    Date dob = rs.getDate("dob");
+                    int phone = rs.getInt("phone");
+                    String medicalHistory = rs.getString("medicalHistory");
+                    Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+                    int doctor_id = rs.getInt("doctor_id");
+                    String email = rs.getString("email");
 
-            if(rs.next()){
-                String password = rs.getString("password");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                Date dob = rs.getDate("dob");
-                int phone = rs.getInt("phone");
-                String medicalHistory = rs.getString("medicalHistory");
-                Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
-                int doctor_id = rs.getInt("doctor_id");
-                String email = rs.getString("email");
-
-                patient = new Patient(name,surname,dob,email,sex,medicalHistory,phone,password);
+                    patient = new Patient(name, surname, dob, email, sex, medicalHistory, phone, password);
+                }
             }
-
-            rs.close();
-            ps.close();
         }catch(SQLException e){
             e.printStackTrace();;
         }
@@ -168,21 +151,20 @@ public class JDBCPatientManager implements PatientManager {
         String sql = "SELECT * FROM Patients WHERE email = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
+            try(ResultSet rs = ps.executeQuery()){
+                if (rs.next()) {
+                    Integer patient_id = rs.getInt("patient_id");
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    Date dob = rs.getDate("dob");
+                    Integer phone = rs.getInt("phone");
+                    String medicalhistory = rs.getString("medicalHistory");
+                    Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
 
-            if (rs.next()) {
-                Integer patient_id = rs.getInt("patient_id");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                Date dob = rs.getDate("dob");
-                Integer phone = rs.getInt("phone");
-                String medicalhistory = rs.getString("medicalHistory");
-                Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
 
-
-                patient = new Patient(patient_id, name, surname, dob, email, phone, medicalhistory, sex);
+                    patient = new Patient(patient_id, name, surname, dob, email, phone, medicalhistory, sex);
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -276,28 +258,28 @@ public class JDBCPatientManager implements PatientManager {
 
    @Override
    public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id){
-        List<Patient> patients = new ArrayList<>();
-        try{
+       List<Patient> patients = new ArrayList<>();
+       String sql = "SELECT * FROM Patients WHERE doctor_id = " + doctor_id;
+       try(Connection c=manager.getConnection();
+        PreparedStatement ps=c.prepareStatement(sql)){
 
-            String sql = "SELECT * FROM Patients WHERE doctor_id = " + doctor_id;
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-            ResultSet rs= ps.executeQuery(sql);
+           ps.setInt(1, doctor_id);
 
-            while(rs.next()){
-                Integer patient_id = rs.getInt("patient_id");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
-                Date dob = rs.getDate("dob");
-                String email = rs.getString("email");
-                Integer phone = rs.getInt("phone");
-                String medicalHistory = rs.getString("medicalHistory");
+           try(ResultSet rs= ps.executeQuery(sql)){
+               while(rs.next()){
+                   int patient_id = rs.getInt("patient_id");
+                   String name = rs.getString("name");
+                   String surname = rs.getString("surname");
+                   Date dob = rs.getDate("dob");
+                   String email = rs.getString("email");
+                   Integer phone = rs.getInt("phone");
+                   String medicalHistory = rs.getString("medicalHistory");
+                   Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
 
-                Patient p = new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex);
-                patients.add(p);
-            }
-            rs.close();
-            ps.close();
+                   Patient p = new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex);
+                   patients.add(p);
+               }
+           }
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -333,27 +315,28 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public boolean checkPassword(String email, String password) {
         String sql = "SELECT password FROM Patients WHERE email = ?";
-        try{
-            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-            stmt.setString(1, email);
+        try(Connection c=manager.getConnection();
+        PreparedStatement ps = c.prepareStatement(sql)){
+            ps.setString(1, email);
 
-            ResultSet rs = stmt.executeQuery();
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    String pass = rs.getString("password");
 
-            if(rs.next()){
-                String pass = rs.getString("password");
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    md.update(password.getBytes());
+                    byte[] digest = md.digest();
 
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                md.update(password.getBytes());
-                byte[] digest = md.digest();
+                    //Converting byte[] to hexadecimal String so it can be compared with the stored password
+                    StringBuilder sb = new StringBuilder();
+                    for (byte b: digest){
+                        sb.append(String.format("%02x",b));
+                    }
+                    String encryptedPass = sb.toString();
 
-                //Converting byte[] to hexadecimal String so it can be compared with the stored password
-                StringBuilder sb = new StringBuilder();
-                for (byte b: digest){
-                    sb.append(String.format("%02x",b));
+                    return pass.equalsIgnoreCase(encryptedPass);
+
                 }
-                String encryptedPass = sb.toString();
-
-                return pass.equalsIgnoreCase(encryptedPass);
 
             }
         }

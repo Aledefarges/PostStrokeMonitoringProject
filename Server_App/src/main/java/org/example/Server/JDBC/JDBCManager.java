@@ -8,62 +8,53 @@ import java.sql.Statement;
 
 public class JDBCManager {
     //changed from private to rpotected to be able to access for tests
-    protected Connection c;
-    private DoctorManager dMan;
-    private PatientManager pMan;
-    private AdministratorManager aMan;
-    private RecordingManager rMan;
-    private RecordingFramesManager rfrMan;
+//    protected Connection c;
+//    private DoctorManager dMan;
+//    private PatientManager pMan;
+//    private AdministratorManager aMan;
+//    private RecordingManager rMan;
+//    private RecordingFramesManager rfrMan;
 
-    public Connection getConnection(){
-        return c;
-    }
 
-    public JDBCManager(){
-        this.connect();
-        this.dMan = new JDBCDoctorManager(this);
-        this.pMan = new JDBCPatientManager(this);
-         //¿Habría que llamar tmb al resto de JDBC Managers?
-        //Cuando se crean dos constructores salen errores en los dos, igual solo puede haber uno
-        this.createTables();
-    }
-   /* public JDBCManager(){
-        this.connect();
-        this.dMan = new JDBCDoctorManager(this);
-        this.pMan = new JDBCPatientManager(this);
-        this.aMan = new JDBCAdministratorManager(this);
-        this.rMan = new JDBCRecordingManager(this);
-        this.rfrMan = new JDBCRecordingFramesManager(this);
-        this.createTables();
-    }
-*/
-    private void connect() {
+
+    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokeDataBase.db";
+
+    static {
         try{
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection( "jdbc:sqlite:./Server_App/db/PostStrokeDataBase.db");//
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
-
-        } catch (ClassNotFoundException cnfE) {
-            System.out.println("Databases not loaded");
-            cnfE.printStackTrace();
-        } catch (SQLException sqlE) {
-            System.out.println("Error with database");
-            sqlE.printStackTrace();
-        }
-    }
-
-    public void close(){
-        try{
-            c.close();
-        }catch (SQLException e) {
-            System.out.println("Error closing the database");
+            createTables();
+        }catch (ClassNotFoundException e){
+            System.err.println("SQLite JDBC driver not found");
+            e.printStackTrace();
+        }catch (SQLException e){
+            System.err.println("Error initializing db");
             e.printStackTrace();
         }
     }
 
-    public void createTables(){
+    public JDBCManager(){
+
+    }
+
+    public Connection getConnection(){
         try{
-            Statement createPatient = c.createStatement();
+            Connection c = DriverManager.getConnection(DB_URL);
+            try(Statement st = c.createStatement()){
+                st.execute("PRAGMA foreign_keys = ON");
+            }
+            return c;
+        }catch (SQLException e){
+            throw new RuntimeException("Cannot connect to database");
+        }
+    }
+
+
+    private static void createTables() throws SQLException{
+        try(Connection c = DriverManager.getConnection(DB_URL);
+        Statement st = c.createStatement()){
+            st.execute("PRAGMA foreign_keys = ON");
+
+            //Table Patients
             String sql_patient = "CREATE TABLE Patients ("
                     + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT NOT NULL,"
@@ -77,11 +68,9 @@ public class JDBCManager {
                     + "doctor_id INTEGER,"
                     + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL"//si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
-            createPatient.executeUpdate(sql_patient);
-            createPatient.close();
+            st.executeUpdate(sql_patient);
 
-            //Table doctor
-            Statement createDoctor = c.createStatement();
+            //Table doctors
             String sql_doctor = "CREATE TABLE Doctors ("
                     + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT,"
@@ -90,11 +79,9 @@ public class JDBCManager {
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL"
                     + ")";
-            createDoctor.executeUpdate(sql_doctor);
-            createDoctor.close();
+            st.executeUpdate(sql_doctor);
 
             //Table Administrators
-            Statement createAdmin = c.createStatement();
             String sql_administrator = "CREATE TABLE Administrators ("
                     + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "name TEXT NOT NULL,"
@@ -103,11 +90,9 @@ public class JDBCManager {
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL"
                     +")";
-            createAdmin.executeUpdate(sql_administrator);
-            createAdmin.close();
+            st.executeUpdate(sql_administrator);
 
             //Table recordings
-            Statement createRecord = c.createStatement();
             String sql_recordings = "CREATE TABLE Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
@@ -115,10 +100,9 @@ public class JDBCManager {
                     + "patient_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE"
                     + ")";
-            createRecord.executeUpdate(sql_recordings);
-            createRecord.close();
+            st.executeUpdate(sql_recordings);
 
-            Statement createFrames = c.createStatement();
+            //Table frames
             String sql_frames = "CREATE TABLE RecordingFrames ("
                     + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "recording_id INTEGER NOT NULL,"
@@ -137,8 +121,8 @@ public class JDBCManager {
                     + "d3 INTEGER,"
                     + "FOREIGN KEY(recording_id) REFERENCES Recordings(recording_id) ON DELETE CASCADE"
                     + ")";
-            createFrames.executeUpdate(sql_frames);
-            createFrames.close();
+            st.executeUpdate(sql_frames);
+            System.out.println("Database initialized, tables ensured");
         }
         catch (SQLException sqlE) {
             if (sqlE.getMessage().contains("already exists")){
@@ -151,11 +135,4 @@ public class JDBCManager {
         }
     }
 
-    public void disconnect(){
-        try {
-            c.close();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
 }

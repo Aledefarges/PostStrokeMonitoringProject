@@ -7,10 +7,7 @@ import org.example.POJOS.Patient;
 
 import javax.xml.transform.Result;
 import java.security.MessageDigest;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +23,8 @@ public class JDBCDoctorManager implements DoctorManager {
  public void addDoctor(Doctor doctor){
      String sql = "INSERT INTO Doctors (name, surname, phone, email, password) VALUES (?,?,?,?,?)";
 
-     try {
-
-         PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-
+     try(Connection c=manager.getConnection();
+     PreparedStatement ps=c.prepareStatement(sql)){
          ps.setString(1, doctor.getName());
          ps.setString(2, doctor.getSurname());
          ps.setInt(3, doctor.getPhone());
@@ -44,16 +39,15 @@ public class JDBCDoctorManager implements DoctorManager {
              sb.append(String.format("%02x",b)); //2 digit hexadecimal
          }
          String encryptedStringPassword = sb.toString();
-         ps.setString(5, encryptedStringPassword);
 
+         ps.setString(5, encryptedStringPassword);
          ps.executeUpdate();
-         ps.close() ;
 
      }catch(SQLException e){
          e.printStackTrace();
      }
-     catch(Exception e){
-         e.printStackTrace();
+     catch(Exception e2){
+         e2.printStackTrace();
      }
 
 
@@ -63,8 +57,8 @@ public class JDBCDoctorManager implements DoctorManager {
  public boolean deleteDoctor(String email) {
      String sql = "DELETE FROM Doctors WHERE email =  ? ";
 
-     try{
-         PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+     try(Connection c=manager.getConnection();
+     PreparedStatement ps=c.prepareStatement(sql)){
          ps.setString(1, email);
          int rowsAffected = ps.executeUpdate(); //executeUpdate devuelve cuanats filas fueron eliminadas por el sql, el resultado puede ser 0 (no exsiet este mail), 1 se elimino paciente (ya que el mail es UNIQUE y no puede haber más de uno)
          //ps.executeUpdate();
@@ -80,13 +74,12 @@ public class JDBCDoctorManager implements DoctorManager {
 @Override
 public void assingDoctorToPatient(Integer patient_id, Integer doctor_id){
      String sql="UPDATE Patients SET doctor_id=? WHERE id=?";
-     try{
-         PreparedStatement ps=manager.getConnection().prepareStatement(sql);
+     try(Connection c=manager.getConnection();
+     PreparedStatement ps=c.prepareStatement(sql)){
          ps.setInt(1,doctor_id);
          ps.setInt(2,patient_id);
 
          ps.executeUpdate();
-         ps.close();
      }catch(SQLException e){
          e.printStackTrace();
      }
@@ -94,30 +87,25 @@ public void assingDoctorToPatient(Integer patient_id, Integer doctor_id){
 
 @Override
 public Doctor searchDoctorByEmail(String email){
-     Doctor doctor=null;
-    JDBCPatientManager jdbcPatientManager=new JDBCPatientManager(manager);
-
+    Doctor doctor=null;
     String sql = "SELECT * FROM Doctors WHERE email = ?";
 
-    try{
-         PreparedStatement stmt=manager.getConnection().prepareStatement(sql);
-         stmt.setString(1, email);
+    try(Connection c=manager.getConnection();
+    PreparedStatement ps=c.prepareStatement(sql)){
+         ps.setString(1, email);
 
-         ResultSet rs=stmt.executeQuery();
+         try(ResultSet rs=ps.executeQuery()){
+             if(rs.next()){
+                 String password = rs.getString("password");
+                 String name = rs.getString("name");
+                 String surname = rs.getString("surname");
+                 int phone = rs.getInt("phone");
 
-         if(rs.next()){
-             String password = rs.getString("password");
-             String name = rs.getString("name");
-             String surname = rs.getString("surname");
-             int phone = rs.getInt("phone");
+                 // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
 
-            // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
-
-             doctor = new Doctor(name, surname, phone, email, password);
+                 doctor = new Doctor(name, surname, phone, email, password);
+             }
          }
-
-         rs.close();
-         stmt.close();
      }catch(SQLException e){
          e.printStackTrace();;
      }
@@ -126,29 +114,24 @@ public Doctor searchDoctorByEmail(String email){
 @Override
     public Doctor searchDoctorById(int doctor_id){
         Doctor doctor=null;
-        JDBCPatientManager jdbcPatientManager=new JDBCPatientManager(manager);
 
         String sql = "SELECT * FROM Doctors WHERE doctor_id = ?";
 
-        try{
-            PreparedStatement stmt=manager.getConnection().prepareStatement(sql);
-            stmt.setInt(1, doctor_id);
+        try(Connection c=manager.getConnection();
+        PreparedStatement ps=c.prepareStatement(sql)){
+            ps.setInt(1, doctor_id);
 
-            ResultSet rs=stmt.executeQuery();
+            try(ResultSet rs=ps.executeQuery()){
+                if(rs.next()){
+                    String password = rs.getString("password");
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    int phone = rs.getInt("phone");
+                    String email = rs.getString("email");
 
-            if(rs.next()){
-                String password = rs.getString("password");
-                String name = rs.getString("name");
-                String surname = rs.getString("surname");
-                int phone = rs.getInt("phone");
-                String email = rs.getString("email");
-                // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
-
-                doctor = new Doctor(name, surname, phone, email, password);
+                    doctor = new Doctor(name, surname, phone, email, password);
+                }
             }
-
-            rs.close();
-            stmt.close();
         }catch(SQLException e){
             e.printStackTrace();;
         }
@@ -158,7 +141,8 @@ public Doctor searchDoctorByEmail(String email){
     @Override
     public void updatePassword(int doctor_id, String newPassword){
         String sql = "UPDATE Doctors SET password = ? WHERE doctor_id = ?";
-        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+        try (Connection c=manager.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql)){
 
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(newPassword.getBytes());
@@ -207,28 +191,28 @@ public Doctor searchDoctorByEmail(String email){
     @Override
     public boolean checkPassword(String email, String password) {
         String sql = "SELECT password FROM Doctors WHERE email = ?";
-        try{
-            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-            stmt.setString(1, email);
 
-            ResultSet rs = stmt.executeQuery();
+        try(Connection c=manager.getConnection(); PreparedStatement ps=c.prepareStatement(sql)){
+            ps.setString(1, email);
 
-            if(rs.next()){
-                String pass = rs.getString("password");
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    String pass = rs.getString("password");
 
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                md.update(password.getBytes());
-                byte[] digest = md.digest();
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    md.update(password.getBytes());
+                    byte[] digest = md.digest();
 
-                //Converting byte[] to hexadecimal String so it can be compared with the stored password
-                StringBuilder sb = new StringBuilder();
-                for (byte b: digest){
-                    sb.append(String.format("%02x",b));
+                    //Converting byte[] to hexadecimal String so it can be compared with the stored password
+                    StringBuilder sb = new StringBuilder();
+                    for (byte b: digest){
+                        sb.append(String.format("%02x",b));
+                    }
+                    String encryptedPass = sb.toString();
+
+                    return pass.equalsIgnoreCase(encryptedPass);
+
                 }
-                String encryptedPass = sb.toString();
-
-                return pass.equalsIgnoreCase(encryptedPass);
-
             }
         }
         catch(SQLException e){
