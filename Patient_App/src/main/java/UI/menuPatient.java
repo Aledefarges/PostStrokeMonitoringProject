@@ -238,7 +238,7 @@ public class menuPatient {
         String type = sc.nextLine().toUpperCase();
 
         // Start recording on server
-        int[] channels = connect.startRecording(type);
+        int[][] channels = connect.startRecording(type);
         System.out.println("Recording started in server.");
         // Read server confirmation with recording_id
         String startResp = connect.in.readLine();

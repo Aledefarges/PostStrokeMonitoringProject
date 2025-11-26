@@ -107,7 +107,7 @@ public class RecordingPanel extends JPanel {
 
         // Start BITalino
         BITalino bita = new BITalino();
-        String mac = "98:D3:51:FD:9C:72";
+        String mac = "20:17:11:20:50:77";
         bita.open(mac,100);
         bita.start(channel);
 
