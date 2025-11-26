@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class TestConnection_With_Server {
     public static void main(String[] args){
         String ip = "127.0.0.1"; //Cambiar al ip del server
-        int port = 9010;
+        int port = 9000;
 
         try{
             Connection_With_Server connect = new Connection_With_Server();

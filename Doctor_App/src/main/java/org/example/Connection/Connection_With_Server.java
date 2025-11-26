@@ -1,6 +1,6 @@
 package org.example.Connection;
 
-import org.example.POJOS.Patient;
+import org.example.POJOS.Doctor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,15 +43,15 @@ public class Connection_With_Server {
         }
     }
 
-    public boolean sendRegisterDoctor(String name, String surname, int phone, List<Patient> patients , String email, String password) {
+    public boolean sendRegisterDoctor(Doctor doctor) {
         try{
-            String message = "REGISTER_DOCTOR|" +
-                    name + ";" +
-                    surname + ";" +
-                    phone + ";" +
-                    patients + ";" +
-                    email + ";" +
-                    password + ";";
+            String message =
+                    "DOCTOR_REGISTER|" +
+                            doctor.getName() + ";" +
+                            doctor.getSurname() + ";" +
+                            doctor.getPhone() + ";" +
+                            doctor.getEmail() + ";" +
+                            doctor.getPassword();
 
             out.println(message);
             String response = in.readLine();
