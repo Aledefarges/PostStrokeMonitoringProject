@@ -23,7 +23,7 @@ public class menuPatient {
 
     public static void main(String[] args) {
 
-        String ip = "localhost";
+        String ip = "10.60.96.179";
         try {
 
             /*if (!connect.connection(ip, 9000)) {
@@ -247,7 +247,8 @@ public class menuPatient {
         int recording_id = Integer.parseInt(respParts[2]);
         // 1. Discover BITalino
         BITalino bita = new BITalino();
-        String mac = "20:17:11:20:50:77";  // tu MAC real
+        //String mac = "20:17:11:20:50:77";
+        String mac = "98:D3:51:FD:9C:72";// tu MAC real
                     /*
                     Vector<RemoteDevice> devices = bita.findDevices();
                     Thread.sleep(5000); // wait for scan
