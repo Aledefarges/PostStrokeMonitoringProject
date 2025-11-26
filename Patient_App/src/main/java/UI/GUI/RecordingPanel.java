@@ -47,7 +47,11 @@ public class RecordingPanel extends JPanel {
         ecg_button.addActionListener(e -> startRecording("ECG"));
         both_button.addActionListener(e -> startRecording("BOTH"));
         back_button.addActionListener(e-> appFrame.switchPanel(new PatientMenuPanel(appFrame, connection)));
-        
+
+//        emg_button.addActionListener(e -> new Thread(() -> startRecording("EMG")).start());
+//        ecg_button.addActionListener(e -> new Thread(() -> startRecording("ECG")).start());
+
+
     }
 
     private void initComponents() {
