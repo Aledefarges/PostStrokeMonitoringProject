@@ -62,7 +62,6 @@ public class JDBCDoctorManager implements DoctorManager {
          ps.setString(1, email);
          int rowsAffected = ps.executeUpdate(); //executeUpdate devuelve cuanats filas fueron eliminadas por el sql, el resultado puede ser 0 (no exsiet este mail), 1 se elimino paciente (ya que el mail es UNIQUE y no puede haber más de uno)
          //ps.executeUpdate();
-         ps.close();
          return  rowsAffected == 1; //False si no se elimino ningun paciente (no existia ese email), true si se elimino un paciente
 
      }catch(SQLException e){
@@ -73,7 +72,7 @@ public class JDBCDoctorManager implements DoctorManager {
 
 @Override
 public void assingDoctorToPatient(Integer patient_id, Integer doctor_id){
-     String sql="UPDATE Patients SET doctor_id=? WHERE id=?";
+     String sql="UPDATE Patients SET doctor_id=? WHERE patient_id=?";
      try(Connection c=manager.getConnection();
      PreparedStatement ps=c.prepareStatement(sql)){
          ps.setInt(1,doctor_id);
@@ -107,7 +106,7 @@ public Doctor searchDoctorByEmail(String email){
              }
          }
      }catch(SQLException e){
-         e.printStackTrace();;
+         e.printStackTrace();
      }
      return doctor;
 }
@@ -133,7 +132,7 @@ public Doctor searchDoctorByEmail(String email){
                 }
             }
         }catch(SQLException e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
         return doctor;
     }

@@ -44,7 +44,6 @@ public class JDBCRecordingFramesManager implements RecordingFramesManager {
                 }else ps.setInt(11 + i, 0);
             }
             ps.executeUpdate();
-            ps.close();
 
         }catch(SQLException e){
             e.printStackTrace();

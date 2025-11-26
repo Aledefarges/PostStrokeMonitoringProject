@@ -81,7 +81,7 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public List<Patient> getListOfPatients(){
         List<Patient> patients = new ArrayList<Patient>();
-        String sql = "SELECT patient_id, name, surname, dob, email, phone, medicalHistory, sex, doctor_id FROM Patients";
+        String sql = "SELECT patient_id, password, name, surname, dob, email, phone, medicalHistory, sex, doctor_id FROM Patients";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql);
@@ -93,10 +93,10 @@ public class JDBCPatientManager implements PatientManager {
                 String surname = rs.getString("surname");
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
+                String password = rs.getString("password");
                 int phone = rs.getInt("phone");
                 String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
-                String password = rs.getString("password");
                 //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
                 //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
 
@@ -122,7 +122,7 @@ public class JDBCPatientManager implements PatientManager {
             // placeholder before executing the query.
             // 'setInt(1, patient_id)' inserts the value into the first '?' in the SQL.
             // If we don't set it, the query remains incomplete and will fail.
-            try(ResultSet rs = ps.executeQuery(sql)){
+            try(ResultSet rs = ps.executeQuery()){
                 if(rs.next()) {
                     String password = rs.getString("password");
                     String name = rs.getString("name");
@@ -138,7 +138,7 @@ public class JDBCPatientManager implements PatientManager {
                 }
             }
         }catch(SQLException e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
         return patient;
     }
@@ -259,13 +259,13 @@ public class JDBCPatientManager implements PatientManager {
    @Override
    public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id){
        List<Patient> patients = new ArrayList<>();
-       String sql = "SELECT * FROM Patients WHERE doctor_id = " + doctor_id;
+       String sql = "SELECT * FROM Patients WHERE doctor_id = ?";
        try(Connection c=manager.getConnection();
         PreparedStatement ps=c.prepareStatement(sql)){
 
            ps.setInt(1, doctor_id);
 
-           try(ResultSet rs= ps.executeQuery(sql)){
+           try(ResultSet rs= ps.executeQuery()){
                while(rs.next()){
                    int patient_id = rs.getInt("patient_id");
                    String name = rs.getString("name");

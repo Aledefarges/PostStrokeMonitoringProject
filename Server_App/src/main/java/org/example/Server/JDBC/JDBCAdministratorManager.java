@@ -21,13 +21,13 @@ public class JDBCAdministratorManager implements AdministratorManager {
     //SearchById
     @Override
     public void addAdministrator(Administrator administrator){
-        String sql = "INSERT INTO Administrators (admin_id,name,email,phone, password) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO Administrators (name, surname,email,phone, password) VALUES (?,?,?,?,?)";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setInt(1, administrator.getAdmin_id());
-            ps.setString(2, administrator.getName());
+            ps.setString(1, administrator.getName());
+            ps.setString(2, administrator.getSurname());
             ps.setString(3, administrator.getEmail());
             ps.setInt(4, administrator.getPhone());
             ps.setString(5, administrator.getPassword());
@@ -42,7 +42,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 
     @Override
     public void deleteAdministrator(String email) {
-        String sql = "DELETE FROM Administrators WHERE admin_id =  ? ";
+        String sql = "DELETE FROM Administrators WHERE email =  ? ";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql)) {
@@ -79,7 +79,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
             }
 
         }catch(SQLException e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
         return admin;
     }
