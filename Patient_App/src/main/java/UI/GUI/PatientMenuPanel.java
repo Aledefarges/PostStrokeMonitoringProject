@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Wed Nov 26 08:50:21 CET 2025
  */
 
-package UI;
+package UI.GUI;
 
 import java.awt.*;
 import javax.swing.*;
@@ -132,10 +132,10 @@ public class PatientMenuPanel extends JPanel {
        appFrame.switchPanel(new PasswordPanel(appFrame, connection));
     }
     private void goToUpdate() {
-       // appFrame.switchPanel(new UpdatePanel(appFrame, connection));
+       appFrame.switchPanel(new UpdatePanel(appFrame, connection));
     }
     private void goToDelete() {
-       // appFrame.switchPanel(new DeletePanel(appFrame, connection));
+       connection.deletePatientFromServer();
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

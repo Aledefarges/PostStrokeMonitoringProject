@@ -1,4 +1,4 @@
-package UI;
+package UI.GUI;
 
 import Connection.Connection_With_Server;
 

@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Wed Nov 26 10:24:14 CET 2025
  */
 
-package UI;
+package UI.GUI;
 
 import Connection.Connection_With_Server;
 

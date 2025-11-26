@@ -1,0 +1,112 @@
+JFDML JFormDesigner: "8.2.4.0.393" Java: "21.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "126, 310"
+			"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignLeft": true
+			"$alignTop": true
+		} ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label"
+				"text": "Update your information (leave any field blank to keep it unchanged)"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridwidth": 2
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "name_label"
+				"text": "Name:"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "name_field"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 1
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "surname_label"
+				"text": "Surname:"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 2
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "surname_field"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 2
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "phone_label"
+				"text": "Phone:"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "phone_field"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 3
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "mh_label"
+				"text": "Medical History:"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 4
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "mh_field"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 4
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "dob_label"
+				"text": "Date of birh:"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "dob_field"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 5
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "sex_label"
+				"text": "Sex"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 6
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "sex_field"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 6
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "update_button"
+				"text": "UPDATE"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 7
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "back_button"
+				"text": " BACK TO PATIENT MENU"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 8
+				"gridx": 1
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}

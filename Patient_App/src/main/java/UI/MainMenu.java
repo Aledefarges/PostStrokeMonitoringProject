@@ -1,5 +1,7 @@
 package UI;
 
+import UI.GUI.AppFrame;
+
 import javax.swing.*;
 
 public class MainMenu {
