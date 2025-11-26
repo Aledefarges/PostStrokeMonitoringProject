@@ -23,9 +23,9 @@ public class TestConnection_With_Server {
         //String ip = "172.20.10.3";
 
 
-        String ip = "10.60.105.250";
+       // String ip = "10.60.105.250";
 
-        //String ip = "172.16.205.116";
+        String ip = "172.16.205.116";
         try {
 
                 // 1. Connect
@@ -145,7 +145,7 @@ public class TestConnection_With_Server {
 
                     //2. Connect BITalino
                     bita.open(mac,100); //100Hz
-                    bita.start(channels); //channels: {0} ECG, {5} EMG, {0,5} BOTH
+                    bita.start(channels); //channels: {1} ECG, {0} EMG, {0,1} BOTH
 
                     System.out.println("BITalino started recording...");
 

@@ -295,14 +295,14 @@ private void savePatientRegistration(String p){
             StringBuilder sb = new StringBuilder();
             for (int[] frame : frames) {
                 if(type == Recording.Type.ECG){
-                    int ecg = frame[3];
+                    int ecg = frame[2];
                     sb.append(ecg);
                 }else if (type == Recording.Type.EMG){
-                    int emg = frame[2];
+                    int emg = frame[1];
                     sb.append(emg);
                 }else if (type == Recording.Type.BOTH){
-                    int emg = frame[2];
-                    int ecg = frame[3];
+                    int emg = frame[1];
+                    int ecg = frame[2];
                     sb.append(emg).append(";").append(ecg);
                 }  sb.append(",");
             }
