@@ -85,24 +85,6 @@ public class JDBCPatientManager implements PatientManager {
         }
     }
 
-    //Esto es exactamente lo mismo que lo de arriba
-//    @Override
-//    public void deletePatientByEmail(String email) {
-//        try{
-//            String sql = "DELETE FROM Patients WHERE email = ?";
-//            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
-//
-//            ps.setString(1,email);
-//            ps.executeUpdate();
-//            ps.close();
-//
-//           userManager.deleteUserByEmail(email);
-//
-//        }catch(SQLException e){
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     public List<Patient> getListOfPatients(){
         List<Patient> patients = new ArrayList<Patient>();
