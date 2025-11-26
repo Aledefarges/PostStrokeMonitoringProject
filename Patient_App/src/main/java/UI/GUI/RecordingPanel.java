@@ -101,21 +101,20 @@ public class RecordingPanel extends JPanel {
 
     private void startRecording(String type) {
     try{
-        int[] channels = connection.startRecording(type);
-        String startResp = connection.in.readLine();
-        String[] respParts = startResp.split("\\|");
-        int recording_id = Integer.parseInt(respParts[2]);
+        int[][] result = connection.startRecording(type);
+        int []channel = result[0];
+        int recording_id = result[1][0];
 
         // Start BITalino
         BITalino bita = new BITalino();
         String mac = "98:D3:51:FD:9C:72";
         bita.open(mac,100);
-        bita.start(channels);
+        bita.start(channel);
 
         int numFrames = 1000;
         for(int i = 0; i < numFrames; i++){
             Frame[] block = bita.read(1);
-            connection.sendFrames(block, channels);
+            connection.sendFrames(block, channel);
         }
 
         bita.stop();

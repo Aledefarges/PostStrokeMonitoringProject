@@ -82,7 +82,8 @@ public class Connection_With_Server {
 
     // Indicates that a new Recording needs to be created as a new row in the Database
     // Then it send to the server which channels are being used by BITalino
-    public int[] startRecording(String type){
+    public int[][] startRecording(String type){
+
         int [] channel;
         if (type.equals("EMG")){
             channel = new int[]{0};
@@ -95,7 +96,23 @@ public class Connection_With_Server {
         }
 
         out.println("START_RECORDING|" + type);
-        return channel;
+
+        int recording_id = -1;
+        try{
+            String response = in.readLine();
+            if(!response.startsWith("OK|RECORDING_STARTED")){
+                System.out.println("Server error to start recording");
+            }else{
+                //Para obtener recording_id
+                String[] parts = response.split("\\|");
+                recording_id = Integer.parseInt(parts[2]);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return new int[][]{channel, new int[]{recording_id}};
     }
 
 

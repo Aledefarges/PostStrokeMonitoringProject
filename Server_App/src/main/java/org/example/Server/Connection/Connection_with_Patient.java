@@ -102,6 +102,11 @@ public class Connection_with_Patient implements Runnable{
                         break;
                 }
             }
+
+            if(recordingActive){
+                System.out.println("Client disconnected abruptly");
+                recordingActive = false;
+            }
         }catch (IOException e) {
             throw new RuntimeException(e);
         } finally{
