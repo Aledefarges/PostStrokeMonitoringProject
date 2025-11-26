@@ -48,8 +48,8 @@ public class PatientMenuPanel extends JPanel {
 
         email_button.addActionListener(e-> goToChangeEmail());
         password_button.addActionListener(e-> goToChangePassword());
-        update_button.addActionListener(e-> goToChangePassword());
-        delete_button.addActionListener(e-> goToChangePassword());
+        update_button.addActionListener(e-> goToUpdate());
+        delete_button.addActionListener(e-> goToDelete());
         exit_button.addActionListener(e-> System.exit(0));
         
     }
