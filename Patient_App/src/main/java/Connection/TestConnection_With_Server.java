@@ -25,7 +25,7 @@ public class TestConnection_With_Server {
 
        // String ip = "10.60.105.250";
 
-        String ip = "172.16.205.116";
+        String ip = "10.60.96.179";
         try {
 
                 // 1. Connect
@@ -128,8 +128,8 @@ public class TestConnection_With_Server {
             int recording_id = Integer.parseInt(respParts[2]);
                     // 1. Discover BITalino
                     BITalino bita = new BITalino();
-                    //String mac = "20:17:11:20:50:77";  // tu MAC real
-            String mac = "98:D3:51:FD:9C:72";
+                   String mac = "20:17:11:20:50:77";  // tu MAC real
+            //String mac = "98:D3:51:FD:9C:72";
                     /*
                     Vector<RemoteDevice> devices = bita.findDevices();
                     Thread.sleep(5000); // wait for scan

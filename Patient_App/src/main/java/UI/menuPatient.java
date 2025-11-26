@@ -23,7 +23,7 @@ public class menuPatient {
 
     public static void main(String[] args) {
 
-        String ip = "localhost";
+        String ip = "10.60.96.179";
         try {
 
             /*if (!connect.connection(ip, 9000)) {
