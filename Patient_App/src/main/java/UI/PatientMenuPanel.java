@@ -72,13 +72,13 @@ public class PatientMenuPanel extends JPanel {
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {327, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 25, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
         ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
         add(title1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
         add(separator1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- select_label ----
@@ -129,7 +129,7 @@ public class PatientMenuPanel extends JPanel {
         appFrame.switchPanel(new EmailPanel(appFrame, connection));
     }
     private void goToChangePassword() {
-       // appFrame.switchPanel(new PasswordPanel(appFrame, connection));
+       appFrame.switchPanel(new PasswordPanel(appFrame, connection));
     }
     private void goToUpdate() {
        // appFrame.switchPanel(new UpdatePanel(appFrame, connection));
