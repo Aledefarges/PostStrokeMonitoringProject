@@ -156,8 +156,8 @@ public Doctor searchDoctorByEmail(String email){
     }
 
     @Override
-    public void updatePassword(String email, String newPassword){
-        String sql = "UPDATE Doctors SET password = ? WHERE email = ?";
+    public void updatePassword(int doctor_id, String newPassword){
+        String sql = "UPDATE Doctors SET password = ? WHERE doctor_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
 
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -172,7 +172,7 @@ public Doctor searchDoctorByEmail(String email){
             String encryptedStringPassword = sb.toString();
 
             ps.setString(1, encryptedStringPassword);
-            ps.setString(2, email);
+            ps.setInt(2, doctor_id);
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -182,11 +182,11 @@ public Doctor searchDoctorByEmail(String email){
         }
     }
     @Override
-    public void updateEmail(String email, String newEmail) {
-        String sql = "UPDATE Doctors SET email = ? WHERE email = ?";
+    public void updateEmail(int doctor_id, String newEmail) {
+        String sql = "UPDATE Doctors SET email = ? WHERE doctor_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
             ps.setString(1, newEmail);
-            ps.setString(2, email);
+            ps.setInt(2, doctor_id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
