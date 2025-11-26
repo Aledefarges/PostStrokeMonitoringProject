@@ -146,7 +146,7 @@ public class RecordingPanel extends JPanel {
         else {
             System.out.println("Unknown recording type: " + type);
         }
-
+       //
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

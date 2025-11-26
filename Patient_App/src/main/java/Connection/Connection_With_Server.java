@@ -41,7 +41,7 @@ public class Connection_With_Server {
     }
 
 
-
+//
     public boolean sendPatientToServer(Patient patient) {
 
         try {

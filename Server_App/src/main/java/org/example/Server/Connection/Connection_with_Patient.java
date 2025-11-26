@@ -404,7 +404,7 @@ private void savePatientRegistration(String p){
             Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+ //
 }
 
 
