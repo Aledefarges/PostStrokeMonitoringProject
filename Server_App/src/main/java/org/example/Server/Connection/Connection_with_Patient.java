@@ -17,11 +17,13 @@ import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //
 
-public class Connection_with_Patient{
+public class Connection_with_Patient implements Runnable{
 
-    //private final Socket socket;
+    private final Socket socket;
     private JDBCManager db;
     private JDBCPatientManager patientManager;
     private JDBCRecordingManager recordingManager;
@@ -34,32 +36,36 @@ public class Connection_with_Patient{
     private int [] activeChannels;
     private Patient loggedPatient = null;
 
-    public Connection_with_Patient(JDBCManager db) {
-        this.db = db;
+    public Connection_with_Patient(Socket socket) {
+        this.socket = socket;
+        this.db = new JDBCManager() ;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         JDBCManager db = new JDBCManager();
         Connection_with_Patient server = new Connection_with_Patient(db);
         server.start();
-    } //Este main ahora va en una clase aparte debido a que implementamos Runnable
+    }*/ //Este main ahora va en una clase aparte debido a que implementamos Runnable
 
-    public void start(){
-        try{
-            ServerSocket serverSocket = new ServerSocket(9000);
-            Socket socket = serverSocket.accept();
-            System.out.println("Patient connected");
+    @Override
+    public void run() {
+        try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
-            out.println("SERVER: Connected"); // EL PACIENTE YA PUEDE LEERLO
+
+            out.println("Server connected");
+
             patientManager = new JDBCPatientManager(db);
             recordingManager = new JDBCRecordingManager(db);
             framesManager = new JDBCRecordingFramesManager(db);
-            String message; // esto para tenerlo ordenado y añadir lo de Utilities:
-            while((message = in.readLine()) != null) {
-                System.out.println("Received: " + message);
+
+            String message;
+            while ((message=in.readLine()) != null) {
+                System.out.println("Received message: " + message);
+
                 String[] parts = message.split("\\|");
                 String command = parts[0];
+
                 switch (command) {
                     case "ADD_PATIENT":
                         savePatientRegistration(parts[1]); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
@@ -77,8 +83,8 @@ public class Connection_with_Patient{
                         deletePatient();
                         break;
                     case "START_RECORDING":
-                            handleStartRecording(parts[1]);
-                            break;
+                        handleStartRecording(parts[1]);
+                        break;
                     case "FRAME":
                         handleFrame(parts[1]);
                         break;
@@ -96,15 +102,10 @@ public class Connection_with_Patient{
                         break;
                 }
             }
-        } catch(IOException e){
-            System.out.println("ERROR Connecting" + e.getMessage());
-        } finally {
-            try {
-                if (in != null) in.close();
-                if (out != null) out.close();
-            } catch (IOException e) {
-                System.out.println("Connection closed.");
-            }
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally{
+            releaseResourcesServer(out,in,socket);
         }
     }
 
@@ -382,7 +383,23 @@ private void savePatientRegistration(String p){
         }
     }
 
-
+    private static void releaseResourcesServer(PrintWriter out, BufferedReader in, Socket socket){
+        try {
+            try{
+                out.close();
+            }catch(Exception ex){
+                Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try{
+                in.close();
+            }catch(Exception ex){
+                Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            socket.close();
+        }catch(IOException ex){
+            Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
 
