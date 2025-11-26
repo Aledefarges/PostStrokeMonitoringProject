@@ -50,6 +50,7 @@ public class PatientMenuPanel extends JPanel {
         password_button.addActionListener(e-> goToChangePassword());
         update_button.addActionListener(e-> goToUpdate());
         delete_button.addActionListener(e-> goToDelete());
+        recording_button.addActionListener(e-> goToRecording());
         exit_button.addActionListener(e-> System.exit(0));
         
     }
@@ -136,6 +137,9 @@ public class PatientMenuPanel extends JPanel {
     }
     private void goToDelete() {
        connection.deletePatientFromServer();
+    }
+    private void goToRecording() {
+        appFrame.switchPanel(new RecordingPanel(appFrame, connection));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
