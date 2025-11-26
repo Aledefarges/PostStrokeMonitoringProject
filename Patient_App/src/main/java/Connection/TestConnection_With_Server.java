@@ -113,13 +113,13 @@ public class TestConnection_With_Server {
             //9. BITALINO RECORDING TEST
                     System.out.println("\n--- REAL BITALINO RECORDING ---");
                     System.out.print("Enter patient_id: ");
-                    int p_id = Integer.parseInt(sc.nextLine());
+                    String email = sc.nextLine();
 
                     System.out.print("Type (ECG/EMG/BOTH): ");
                     String type = sc.nextLine().toUpperCase();
 
                     // Start recording on server
-                    int[] channels = connect.startRecording(p_id, type);
+                    int[] channels = connect.startRecording(type);
                     System.out.println("Recording started in server.");
             // Read server confirmation with recording_id
             String startResp = connect.in.readLine();
