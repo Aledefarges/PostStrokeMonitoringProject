@@ -232,10 +232,9 @@ private void savePatientRegistration(String p){
 
     private void handleStartRecording(String data){
         String[] parts = data.split(";");
-        int patient_id = Integer.parseInt(parts[0]);
-        String type = parts[1].toUpperCase();
+        String type = parts[0].toUpperCase();
         Recording.Type typeEnum = Recording.Type.valueOf(type);
-
+        int patient_id = loggedPatient.getPatient_id();
         switch (type){
             case "EMG":
                 activeChannels = new int[]{0};

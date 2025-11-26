@@ -82,7 +82,7 @@ public class Connection_With_Server {
 
     // Indicates that a new Recording needs to be created as a new row in the Database
     // Then it send to the server which channels are being used by BITalino
-    public int[] startRecording(int patient_id, String type){
+    public int[] startRecording(String type){
         int [] channel;
         if (type.equals("EMG")){
             channel = new int[]{0};
@@ -94,9 +94,7 @@ public class Connection_With_Server {
             throw new IllegalArgumentException("Invalid type");
         }
 
-        out.println("START_RECORDING|" +
-                patient_id + ";" +
-                type);
+        out.println("START_RECORDING|" + type);
         return channel;
     }
 

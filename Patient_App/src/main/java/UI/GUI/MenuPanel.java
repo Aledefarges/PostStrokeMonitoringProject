@@ -25,7 +25,7 @@ public class MenuPanel extends JPanel {
         register_button.setAlignmentX(Component.CENTER_ALIGNMENT);
         exit_button.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        title.setFont(new Font("Arial", Font.BOLD, 24));
+        title.setFont(new Font("Arial", Font.BOLD, 22));
         login_button.setFont(new Font("Arial", Font.PLAIN, 16));
         register_button.setFont(new Font("Arial", Font.PLAIN, 16));
         exit_button.setFont(new Font("Arial", Font.PLAIN, 16));
