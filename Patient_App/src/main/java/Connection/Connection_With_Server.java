@@ -192,18 +192,13 @@ public class Connection_With_Server {
 
     //Funciones que teníamos en Utilities:
 
-    public boolean sendLogIn(String email, String password) throws IOException {
-        try{
+    public String sendLogIn(String email, String password) throws IOException {
             // Enviar comando
             out.println("LOGIN|" + email + ";" + password);
 
             // Leer respuesta
             String response = in.readLine();
-            return response.equals("OK|LOGIN_SUCCESS");
-        }catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+            return response;
     }
 
     public boolean sendChangePassword(String oldPassword, String newPassword){

@@ -1,10 +1,10 @@
-package UI.GUI;
+package GUI;
 
-import Connection.Connection_With_Server;
+import org.example.Connection.Connection_With_Server;
 
 import javax.swing.*;
 
-public class AppFrame extends JFrame {
+public class AppFrame extends JFrame{
     private Connection_With_Server connection;
     public AppFrame() {
         connection = new Connection_With_Server();

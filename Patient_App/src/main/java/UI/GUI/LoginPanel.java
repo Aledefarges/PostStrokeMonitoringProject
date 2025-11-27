@@ -114,8 +114,8 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            boolean loginOK = connection.sendLogIn(email, password);
-            if (loginOK) {
+            String response = connection.sendLogIn(email, password);
+            if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
                 appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
             }else{
