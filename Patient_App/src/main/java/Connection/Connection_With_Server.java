@@ -79,7 +79,7 @@ public class Connection_With_Server {
     }
     public boolean deletePatientFromServer(){
         try{
-            String message = "DELETE_PATIENT|";
+            String message = "DELETE_ACCOUNT|";
             out.println(message);
             String response = in.readLine();
             return "OK|PATIENT_DELETED".equals(response);
