@@ -51,9 +51,6 @@ public class Connection_With_Administrator {
                    case "ADMIN_LOGIN":
                        handleAdminLogin(parts[1]);
                        break;
-                   case "ADMIN_REGISTER":
-                       handleAdminRegister(parts[1]);
-                       break;
 
                    case "ADMIN_SHUTDOWN":
                        handleAdminShutdown(parts[1]);
@@ -94,25 +91,6 @@ public class Connection_With_Administrator {
        }
    }
 
-   private void handleAdminRegister(String data){
-       try{
-           String[] parts = data.split(";");
-
-           String name = parts[0];
-           String surname = parts[1];
-           int phone = Integer.parseInt(parts[2]);
-           String email = parts[3];
-           String password = parts[4];
-
-           Administrator admin = new Administrator(0,email,password,name,surname,phone);
-           adminManager.addAdministrator(admin);
-
-           out.println("OK|ADMIN_REGISTERED");
-       }catch(Exception ex){
-           out.println("ERROR|EXCEPTION");
-           ex.printStackTrace();
-       }
-   }
 
    private void handleAdminShutdown(String password){
        try{

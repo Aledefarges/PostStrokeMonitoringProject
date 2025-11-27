@@ -55,18 +55,17 @@ public class TestConnection_With_Server {
 
                         Administrator admin = new Administrator(0,regEmail,regPw,name,surname,phone);
 
-                        boolean okReg  = connect.sendAdminRegister(admin);
-                        if (okReg) System.out.println("Register successful!");
-                        else System.out.println("Register failed.");
+                        //boolean okReg  = connect.sendAdminRegister(admin);
+                        //if (okReg) System.out.println("Register successful!");
+                        //else System.out.println("Register failed.");
                         break;
                     case 3:
                         System.out.println("\n--- SHUTDOWN SERVER ---");
                         System.out.print("Enter shutdown password: ");
                         String pw = sc.nextLine();
+                        connect.sendAdminShutdown(pw);
 
-                        boolean shut = connect.sendAdminShutdown(pw);
-                        if (shut) System.out.println("Shutdown successful!");
-                        else System.out.println("Wrong password — server will NOT shut down.");
+                        System.out.println("Wrong password, server will not shutdown");
                         break;
                     case 0:
                         running = false;

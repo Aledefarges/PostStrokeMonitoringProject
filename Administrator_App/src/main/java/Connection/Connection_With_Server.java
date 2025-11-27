@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.MessageDigest;
+
 import org.example.POJOS.Administrator;
 
 public class Connection_With_Server {
@@ -58,10 +60,33 @@ public class Connection_With_Server {
            //El server recibe este mensaje y comprueba si la contraseña del admin es correcta antes de cerrarlo
 
            String response = in.readLine();
-           return "OK|SERVER_CLOSING".equals(response);
+           if ("OK|SERVER_CLOSING".equals(response)) {
+               System.out.println("Server accepted shutdown. Closing administrator");
+               close();
+               System.exit(0);
+           }
+           return false;
        }catch(IOException ex){
            ex.printStackTrace();
            return false;
        }
+    }
+
+    public static String encryptAdminPassword(String password){
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b: digest){
+                sb.append(String.format("%02x", b));
+
+            }
+            return sb.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
