@@ -173,6 +173,7 @@ private void savePatientRegistration(String p){
                     loggedPatient = patient;
                     loggedDoctor = null;
                     userType = UserType.PATIENT;
+                    loggedPatient.setPassword(password);
                     out.println("OK|LOGIN_SUCCESS_PATIENT");
                 }else{
                     out.println("ERROR|WRONG_PASSWORD");
@@ -218,7 +219,8 @@ private void savePatientRegistration(String p){
                         out.println("ERROR|NOT_LOGGED_IN");
                         return;
                     }
-                    if (!loggedPatient.getPassword().equals(oldPassword)) {
+                    String storedPassword = loggedPatient.getPassword();
+                    if (!storedPassword.equals(oldPassword)) {
                         out.println("ERROR|WRONG_OLD_PASSWORD");
                         return;
                     }
