@@ -29,7 +29,7 @@ public class Connection_With_Administrator {
 
    public void start(){
        try{
-           ServerSocket serverSocket = new ServerSocket(9010);
+           ServerSocket serverSocket = new ServerSocket(9000);
            Socket socket = serverSocket.accept();
            System.out.println("Administrator connected");
 
@@ -38,9 +38,11 @@ public class Connection_With_Administrator {
 
            adminManager = new JDBCAdministratorManager(db);
 
-           String message=in.readLine();
+           out.println("WELCOME_ADMIN");
 
-           while(message!=null){
+           String message;
+
+           while((message=in.readLine())!=null){
                System.out.println("Received: "+message);
                String [] parts = message.split("\\|");
                String command = parts[0];
@@ -71,15 +73,15 @@ public class Connection_With_Administrator {
        try{
            String [] parts = data.split(";");
 
-           String email = parts[0];
-           String password = parts[1];
+           String email = parts[0].trim();
+           String password = parts[1].trim();
 
            Administrator admin = adminManager.searchAdministratorByEmail(email);
 
-           /*if (admin == null) {
+           if (admin == null) {
                out.println("ERROR|NO_SUCH_EMAIL");
                return;
-           }*/
+           }
 
            if (admin.getPassword().equals(password)) {
                out.println("OK|LOGIN_SUCCESS");
