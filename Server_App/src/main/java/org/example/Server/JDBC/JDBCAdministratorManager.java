@@ -79,14 +79,20 @@ public class JDBCAdministratorManager implements AdministratorManager {
 
             try(ResultSet rs= ps.executeQuery()){
                 if(rs.next()){
-                    int admin_id = rs.getInt("admin_id");
-                    String name = rs.getString("name");
-                    String surname = rs.getString("surname");
-                    int phone = rs.getInt("phone");
-                    String password = rs.getString("password");
+                    String dbEmail = rs.getString("email");
+                    String dbPassword = rs.getString("password");
+                    System.out.println("FOUND IN DB → email=[" + dbEmail + "], password=[" + dbPassword + "]");
 
-
-                    admin = new Administrator(admin_id, email, password, name, surname, phone);
+                    admin = new Administrator(
+                            rs.getInt("admin_id"),
+                            dbEmail,
+                            dbPassword,
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getInt("phone")
+                    );
+                }else{
+                    System.out.println("NOT FOUND in DB");
                 }
 
             }

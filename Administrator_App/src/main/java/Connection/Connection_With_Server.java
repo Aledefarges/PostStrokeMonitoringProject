@@ -42,6 +42,7 @@ public class Connection_With_Server {
        try{
            out.println("ADMIN_LOGIN|" + email + ";" + password);
 
+
            String response = in.readLine();
            return "OK|LOGIN_SUCCESS".equals(response);
        }catch(IOException ex){
