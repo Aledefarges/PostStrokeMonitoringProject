@@ -91,7 +91,14 @@ public class PasswordPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Please enter a different password from the old one");
             }
 
-            boolean passwordOK = connection.sendChangePassword(old_password, new_password);
+            //Función de prueba para encryptar la constraseña:
+            String old_enc = Connection_With_Server.encryptPatientPassword(old_password);
+            String new_enc = Connection_With_Server.encryptPatientPassword(new_password);
+
+            boolean passwordOK = connection.sendChangePassword(old_enc,new_enc);
+
+            //Nerea antes de meter la encryptación:
+            //boolean passwordOK = connection.sendChangePassword(old_password, new_password);
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful");
                 appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));

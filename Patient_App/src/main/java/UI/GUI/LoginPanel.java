@@ -114,7 +114,11 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            String response = connection.sendLogIn(email, password);
+            //Encryptar contraseña:
+            String encryptedPassword = Connection_With_Server.encryptPatientPassword(password);
+
+            //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
+            String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
                 appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));

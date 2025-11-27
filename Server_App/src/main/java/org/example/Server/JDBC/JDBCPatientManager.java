@@ -258,6 +258,7 @@ public class JDBCPatientManager implements PatientManager {
 
     @Override
     public void updateMedicalHistory(int patient_id, String medicalHistory) {
+
         String sql = "UPDATE Patients SET medicalHistory = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
             ps.setString(1, medicalHistory);

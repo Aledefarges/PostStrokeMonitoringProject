@@ -5,6 +5,7 @@ import org.example.POJOS.Patient;
 
 import java.io.*;
 import java.net.Socket;
+import java.security.MessageDigest;
 
 public class Connection_With_Server {
 
@@ -234,6 +235,25 @@ public class Connection_With_Server {
         catch(IOException e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    //Encryption of password of patient:
+    public static String encryptPatientPassword(String password){
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b: digest){
+                sb.append(String.format("%02x", b));
+
+            }
+            return sb.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

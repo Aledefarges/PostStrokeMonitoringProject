@@ -203,6 +203,8 @@ public class RegisterPanel extends JPanel {
             String sex = sex_field.getText().trim().toUpperCase();
             Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
             String password = password_field.getText().trim();
+            //Encrypted contraseña:
+            String encryptedPassword = Connection_With_Server.encryptPatientPassword(password);
             String doctor_selected = doctors_box.getSelectedItem().toString();
             int doctot_id = Integer.parseInt(doctor_selected.split(" - ")[0]);
 
@@ -211,7 +213,8 @@ public class RegisterPanel extends JPanel {
                 return;
             }
 
-            Patient patient = new Patient(name,surname, dob_1,email,sexEnum,medicalHistory,phone_1,password);
+            //En el paciente, ahora va encryptedPassword donde antes para Nerea iba password
+            Patient patient = new Patient(name,surname, dob_1,email,sexEnum,medicalHistory,phone_1,encryptedPassword);
             boolean ok_register = connection.sendPatientToServer(patient, doctot_id);
             if(ok_register){
                 JOptionPane.showMessageDialog(this, "Register successful");
