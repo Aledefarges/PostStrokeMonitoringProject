@@ -120,15 +120,20 @@ private void savePatientRegistration(String p){
            String medicalHistory = parts[5];
            Patient.Sex sex = Patient.Sex.valueOf(parts[6].trim().toUpperCase());
            String password = parts[7];
+           int doctorId = Integer.parseInt(parts[8]);
 
             Patient patient = new Patient(name, surname, dob, email, sex, medicalHistory,phone,password);
 
             patientManager.addPatient(patient);
 
+            int patientId = patient.getPatient_id();
+            doctorManager.assingDoctorToPatient(patientId, doctorId);
+
             out.println("PATIENT_SAVED");
             System.out.println(" Patient saved correctly");
 
         }catch(Exception e){
+            out.println("ERROR|EXCEPTION");
             System.out.println("ERROR saving patient" + e.getMessage());
         }
     }
