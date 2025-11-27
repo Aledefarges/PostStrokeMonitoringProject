@@ -8,6 +8,8 @@ import org.example.POJOS.Patient;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,13 @@ public class JDBCPatientManager implements PatientManager {
 
             ps.setString(1, patient.getName());
             ps.setString(2, patient.getSurname());
-            ps.setDate(3, patient.getDob());
+
+            LocalDate dob = patient.getDob().toLocalDate();
+            java.sql.Date sqlDate = java.sql.Date.valueOf(
+                    dob.atStartOfDay(ZoneId.systemDefault()).toLocalDate()
+            );
+            ps.setDate(3, sqlDate);
+
             ps.setString(4, patient.getEmail());
             ps.setString(5, patient.getSex().toString().trim());
             ps.setInt(6, patient.getPhone());

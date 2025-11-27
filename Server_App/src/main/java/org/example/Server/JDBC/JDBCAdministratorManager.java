@@ -6,6 +6,7 @@ import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.List;
 
@@ -30,12 +31,24 @@ public class JDBCAdministratorManager implements AdministratorManager {
             ps.setString(2, administrator.getSurname());
             ps.setString(3, administrator.getEmail());
             ps.setInt(4, administrator.getPhone());
-            ps.setString(5, administrator.getPassword());
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(administrator.getPassword().getBytes());
+            byte[] encryptedPassword = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b: encryptedPassword){
+                sb.append(String.format("%02x",b)); //2 digit hexadecimal
+            }
+            String encryptedStringPassword = sb.toString();
+            ps.setString(5, encryptedStringPassword);
 
             ps.executeUpdate();
 
         }catch(SQLException e){
             e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
 
     }

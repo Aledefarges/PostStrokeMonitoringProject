@@ -7,6 +7,7 @@ import org.example.POJOS.Recording;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,11 @@ public class JDBCRecordingManager implements RecordingManager {
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             ps.setString(1, recording.getType().name());
-            ps.setDate(2, java.sql.Date.valueOf(recording.getDateRecording()));
+            LocalDate d = recording.getDateRecording();
+            java.sql.Date sqlDate = java.sql.Date.valueOf(
+                    d.atStartOfDay(ZoneId.systemDefault()).toLocalDate()
+            );
+            ps.setDate(2, sqlDate);
             ps.setInt(3, recording.getPatient_id());
 
             ps.executeUpdate();
