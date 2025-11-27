@@ -46,7 +46,7 @@ public class Connection_With_Server {
     public boolean sendRegisterDoctor(Doctor doctor) {
         try{
             String message =
-                    "DOCTOR_REGISTER|" +
+                    "ADD_DOCTOR|" +
                             doctor.getName() + ";" +
                             doctor.getSurname() + ";" +
                             doctor.getPhone() + ";" +
@@ -55,7 +55,7 @@ public class Connection_With_Server {
 
             out.println(message);
             String response = in.readLine();
-            return response.equals("OK|DOCTOR_REGISTERED");
+            return response.equals("OK|DOCTOR_SAVED");
 
 
         }catch(IOException e){
@@ -65,10 +65,10 @@ public class Connection_With_Server {
 
     public boolean sendDoctorLogin(String email, String password) {
         try{
-            out.println("LOGIN_DOCTOR|" + email + ";" + password);
+            out.println("LOGIN|" + email + ";" + password);
 
             String response = in.readLine();
-            if(response.equals("OK|DOCTOR_LOGGED_IN")) {
+            if(response.equals("OK|LOGIN_SUCCESS_DOCTOR")) {
                 loggedIn=true;
                 return true;
             }
@@ -78,15 +78,10 @@ public class Connection_With_Server {
         }
     }
 
-    public void sendLogout(){
-        if(!loggedIn) return;
-        out.println("LOG_OUT_DOCTOR");
-        loggedIn=false;
-    }
 
     public String sendAllPatients(){
         try{
-            out.println("GET_ALL_PATIENTS");
+            out.println("VIEW_ALL_PATIENTS|");
             String response = in.readLine();
             return response;
         }catch(IOException e){
@@ -96,7 +91,7 @@ public class Connection_With_Server {
 
     public String sendPatientData(String email){
         try{
-            out.println("GET_PATIENT_DATA|" + email);
+            out.println("VIEW_PATIENT_DATA|");
             String response = in.readLine();
             return response;
         }catch(IOException e){
@@ -106,9 +101,9 @@ public class Connection_With_Server {
 
     public boolean sendPatientHistory(String email, String newMedicalHistory){
         try{
-            out.println("UPDATE_HISTORY|" + email + ";" + newMedicalHistory);
+            out.println("UPDATE_PATIENT_HISTORY|" + email + ";" + newMedicalHistory);
             String response = in.readLine();
-            return response.equals("OK|HISTORY_UPDATED");
+            return response.equals("OK|MEDICAL_HISTORY_UPDATED");
         }catch(IOException e){
             return false;
         }
@@ -116,7 +111,7 @@ public class Connection_With_Server {
 
     public boolean sendChangeEmail(String oldEmail, String newEmail){
         try{
-            out.println("CHANGE_DOCTOR_EMAIL|" + oldEmail + ";" + newEmail);
+            out.println("CHANGE_EMAIL|" + oldEmail + ";" + newEmail);
             String response = in.readLine();
             return response.equals("OK|EMAIL_CHANGED");
 
@@ -127,7 +122,7 @@ public class Connection_With_Server {
 
     public boolean sendChangePassword(String oldPassword, String newPassword){
         try{
-            out.println("CHANGE_DOCTOR_PASSWORD|" + oldPassword + ";" + newPassword);
+            out.println("CHANGE_PASSWORD|" + oldPassword + ";" + newPassword);
             String response = in.readLine();
             return response.equals("OK|PASSWORD_CHANGED");
         }catch(IOException e){

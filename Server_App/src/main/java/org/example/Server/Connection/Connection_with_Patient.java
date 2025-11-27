@@ -1,11 +1,9 @@
 package org.example.Server.Connection;
 
+import org.example.POJOS.Doctor;
 import org.example.POJOS.Recording;
-import org.example.Server.JDBC.JDBCManager;
-import org.example.Server.JDBC.JDBCPatientManager;
+import org.example.Server.JDBC.*;
 import org.example.POJOS.Patient;
-import org.example.Server.JDBC.JDBCRecordingFramesManager;
-import org.example.Server.JDBC.JDBCRecordingManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +24,7 @@ public class Connection_with_Patient implements Runnable{
     private final Socket socket;
     private JDBCManager db;
     private JDBCPatientManager patientManager;
+    private JDBCDoctorManager doctorManager;
     private JDBCRecordingManager recordingManager;
     private JDBCRecordingFramesManager framesManager;
     private BufferedReader in;
@@ -35,17 +34,13 @@ public class Connection_with_Patient implements Runnable{
     private int frameCounter = 0; // Number of frames received by each recording
     private int [] activeChannels;
     private Patient loggedPatient = null;
+    private Doctor loggedDoctor = null;
+    private UserType userType = null;
 
     public Connection_with_Patient(Socket socket) {
         this.socket = socket;
         this.db = new JDBCManager() ;
     }
-
-    /*public static void main(String[] args) {
-        JDBCManager db = new JDBCManager();
-        Connection_with_Patient server = new Connection_with_Patient(db);
-        server.start();
-    }*/ //Este main ahora va en una clase aparte debido a que implementamos Runnable
 
     @Override
     public void run() {
@@ -56,6 +51,7 @@ public class Connection_with_Patient implements Runnable{
             out.println("Server connected");
 
             patientManager = new JDBCPatientManager(db);
+            doctorManager = new JDBCDoctorManager(db);
             recordingManager = new JDBCRecordingManager(db);
             framesManager = new JDBCRecordingFramesManager(db);
 
@@ -67,35 +63,33 @@ public class Connection_with_Patient implements Runnable{
                 String command = parts[0];
 
                 switch (command) {
-                    case "ADD_PATIENT":
-                        savePatientRegistration(parts[1]); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
+                    case "ADD_PATIENT": savePatientRegistration(parts[1]); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
                         break;
-                    case "LOGIN":
-                        handleLogIn(parts[1]);
+                    case "ADD_DOCTOR": saveDoctorRegistration(parts[1]);
                         break;
-                    case "CHANGE_PASSWORD":
-                        handleChangePassword(parts[1]);
+                    case "LOGIN": handleLogIn(parts[1]);
                         break;
-                    case "CHANGE_EMAIL":
-                        handleChangeEmail(parts[1]);
+                    case "CHANGE_PASSWORD": handleChangePassword(parts[1]);
                         break;
-                    case "DELETE_PATIENT":
-                        deletePatient();
+                    case "CHANGE_EMAIL": handleChangeEmail(parts[1]);
                         break;
-                    case "START_RECORDING":
-                        handleStartRecording(parts[1]);
+                    case "DELETE_ACCOUNT": delete();
                         break;
-                    case "FRAME":
-                        handleFrame(parts[1]);
+                    case "START_RECORDING": handleStartRecording(parts[1]);
                         break;
-                    case "END_RECORDING":
-                        handleEndRecording();
+                    case "FRAME": handleFrame(parts[1]);
                         break;
-                    case "GET_RECORDING":
-                        handleGetRecording(Integer.parseInt(parts[1]));
+                    case "END_RECORDING": handleEndRecording();
                         break;
-                    case "UPDATE_PATIENT":
-                        handleUpdatePatient(parts[1]);
+                    case "GET_RECORDING": handleGetRecording(Integer.parseInt(parts[1]));
+                        break;
+                    case "UPDATE_PATIENT": handleUpdatePatient(parts[1]);
+                        break;
+                    case "VIEW_ALL_DOCTORS": getListOfDoctors();
+                        break;
+                    case "VIEW_ALL_PATIENTS": getListOfPatients();
+                        break;
+                    case "UPDATE_PATIENT_HISTORY": updatePatientHistory(parts[1], parts[2]);
                         break;
                     default:
                         out.println("ERROR|Unknown command");
@@ -139,26 +133,61 @@ private void savePatientRegistration(String p){
         }
     }
 
+    private void saveDoctorRegistration(String d){
+
+        try{
+            String [] parts = d.split(";");
+            String name = parts[0];
+            String surname = parts[1];
+            int phone = Integer.parseInt(parts[2]);
+            String email = parts[3];
+            String password = parts[4];
+            //List<Patient> patients = patientManager.getListOfPatientsOfDoctor();
+
+            Doctor doctor = new Doctor(name, surname, phone, email, password);
+            doctorManager.addDoctor(doctor);
+            out.println("DOCTOR_SAVED");
+            System.out.println(" Doctor saved correctly");
+
+        }catch(Exception e){
+            System.out.println("ERROR saving doctor" + e.getMessage());
+        }
+    }
+
     private void handleLogIn(String data){
         try {
             String[] parts = data.split(";");
             String email = parts[0];
             String password = parts[1];
-            Patient patient = patientManager.getPatientByEmail(email);
 
-            if (patient == null) {
-                out.println("ERROR|NO_SUCH_EMAIL");
+            Patient patient = patientManager.getPatientByEmail(email);
+            if (patient != null){
+                if(patientManager.checkPassword(email, password)){
+                    loggedPatient = patient;
+                    loggedDoctor = null;
+                    userType = UserType.PATIENT;
+                    out.println("OK|LOGIN_SUCCESS_PATIENT");
+                }else{
+                    out.println("ERROR|WRONG_PASSWORD");
+                }
                 return;
             }
 
-            if (patientManager.checkPassword(email, password)) {
-
-                loggedPatient = patient;
-                out.println("OK|LOGIN_SUCCESS");
-
-            } else {
+            Doctor doctor = doctorManager.getDoctorByEmail(email);
+            if (doctor != null){
+                if(doctorManager.checkPassword(email, password)){
+                    loggedDoctor = doctor;
+                    loggedPatient = null;
+                    userType = UserType.DOCTOR;
+                    out.println("OK|LOGIN_SUCCESS_DOCTOR");
+                }else{
                 out.println("ERROR|WRONG_PASSWORD");
+                }
+                return;
             }
+
+            out.println("ERROR|NO_SUCH_EMAIL");
+
         }catch(Exception e){
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
@@ -168,23 +197,40 @@ private void savePatientRegistration(String p){
 
     private void handleChangePassword(String data){
         try {
-            if (loggedPatient == null) {
+            if (userType == null) {
                 out.println("ERROR|NOT_LOGGED_IN");
                 return;
             }
             String[] parts = data.split(";");
-
             String oldPassword = parts[0];
             String newPassword = parts[1];
 
-            //Comprobar contraseña antigua:
-            if (!loggedPatient.getPassword().equals(oldPassword)) {
-                out.println("ERROR|WRONG_OLD_PASSWORD");
-                return;
+            switch(userType){
+                case PATIENT:
+                    if (loggedPatient == null){
+                        out.println("ERROR|NOT_LOGGED_IN");
+                        return;
+                    }
+                    if (!loggedPatient.getPassword().equals(oldPassword)) {
+                        out.println("ERROR|WRONG_OLD_PASSWORD");
+                        return;
+                    }
+                    patientManager.updatePassword(loggedPatient.getPatient_id(), newPassword);
+                    loggedPatient.setPassword(newPassword);
+                    out.println("OK|PASSWORD_CHANGED");
+                    break;
+
+                case DOCTOR:
+                    if (loggedDoctor == null){
+                        out.println("ERROR|NOT_LOGGED_IN");
+                        return;
+                    }
+                    doctorManager.updatePassword(loggedDoctor.getDoctor_id(), newPassword);
+                    loggedDoctor.setPassword(newPassword);
+                    out.println("OK|PASSWORD_CHANGED");
+                    break;
+
             }
-            patientManager.updatePassword(loggedPatient.getPatient_id(), newPassword);
-            loggedPatient.setPassword(newPassword);
-            out.println("OK|PASSWORD_CHANGED");
 
         }catch(Exception e){
             e.printStackTrace();
@@ -195,17 +241,33 @@ private void savePatientRegistration(String p){
 
     private void handleChangeEmail(String data){
         try {
-            if (loggedPatient == null) {
+            if (userType == null) {
                 out.println("ERROR|NOT_LOGGED_IN");
                 return;
             }
             String[] parts = data.split(";");
             String newEmail = parts[1];
+            switch(userType){
+                case PATIENT:
+                    if (loggedPatient == null){
+                        out.println("ERROR|NOT_LOGGED_IN");
+                        return;
+                    }
+                    patientManager.updateEmail(loggedPatient.getPatient_id(), newEmail);
+                    loggedPatient.setEmail(newEmail);
+                    out.println("OK|EMAIL_CHANGED");
+                    break;
+                case DOCTOR:
+                    if (loggedDoctor == null){
+                        out.println("ERROR|NOT_LOGGED_IN");
+                        return;
+                    }
+                    doctorManager.updateEmail(loggedDoctor.getDoctor_id(), newEmail);
+                    loggedDoctor.setEmail(newEmail);
+                    out.println("OK|EMAIL_CHANGED");
+                    break;
+            }
 
-
-            patientManager.updateEmail(loggedPatient.getPatient_id(), newEmail);
-            loggedPatient.setEmail(newEmail);
-            out.println("OK|EMAIL_CHANGED");
         }catch (Exception e) {
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
@@ -213,21 +275,41 @@ private void savePatientRegistration(String p){
         }
     }
 
-    private void deletePatient(){
+    private void delete(){
             try {
-                if (loggedPatient == null) {
+                if (userType == null) {
                     out.println("ERROR|NOT_LOGGED_IN");
                     return;
                 }
-                String email = loggedPatient.getEmail();
-                boolean deleted = patientManager.deletePatient(email);
-                if (deleted) {
-                    out.println("OK|PATIENT_DELETED");
-                    System.out.println("Patient deleted correctly");
-                    loggedPatient = null; // La sesión se acaba porque el paciente ya no existe
-                } else {
-                    out.println("ERROR|PATIENT_NOT_FOUND");
+                switch(userType) {
+                    case PATIENT:
+                        if(loggedPatient == null){
+                            out.println("ERROR|NOT_LOGGED_IN");
+                            return;
+                        }
+                        if(patientManager.deletePatient(loggedPatient.getEmail())){
+                            out.println("OK|PATIENT_DELETED");
+                            loggedPatient = null;
+                            userType = null;
+                        }else{
+                            out.println("ERROR|PATIENT_NOT_FOUND");
+                        }
+                        break;
+                    case DOCTOR:
+                        if(loggedDoctor == null){
+                            out.println("ERROR|NOT_LOGGED_IN");
+                            return;
+                        }
+                        if(doctorManager.deleteDoctor(loggedDoctor.getEmail())){
+                            out.println("OK|DOCTOR_DELETED");
+                            loggedDoctor = null;
+                            userType = null;
+                        }else{
+                            out.println("ERROR|DOCTOR_NOT_FOUND");
+                        }
+                        break;
                 }
+
             }catch (Exception e){
                 out.println("ERROR|EXCEPTION");
                 System.out.println("ERROR deleting patient: " + e.getMessage());
@@ -239,6 +321,10 @@ private void savePatientRegistration(String p){
         String[] parts = data.split(";");
         String type = parts[0].toUpperCase();
         Recording.Type typeEnum = Recording.Type.valueOf(type);
+        if (loggedPatient == null) {
+            out.println("ERROR|NOT_LOGGED_IN");
+            return;
+        }
         int patient_id = loggedPatient.getPatient_id();
         switch (type){
             case "EMG":
@@ -394,6 +480,92 @@ private void savePatientRegistration(String p){
         }
     }
 
+
+    private void getListOfDoctors(){
+
+        try{
+            List<Doctor> doctors = doctorManager.getAllDoctors();
+            if(doctors.isEmpty()){
+                out.println("DOCTORS_LIST|EMPTY");
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("DOCTORS_LIST|");
+
+            for(Doctor d: doctors){
+                sb.append(d.getDoctor_id()).append(";")
+                        .append(d.getName()).append(";")
+                        .append(d.getSurname()).append("|");
+            }
+            sb.deleteCharAt(sb.length() - 1); //eliminar el último "|"
+            out.println(sb.toString());
+            System.out.println("List of doctors to patient");
+        }catch(Exception e){
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR in get list of doctors: " + e.getMessage());
+        }
+    }
+    private void getListOfPatients(){
+        try {
+            if (loggedDoctor == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+
+            List<Patient> patients = patientManager.getListOfPatientsOfDoctor(loggedDoctor.getDoctor_id());
+            if(patients.isEmpty()){
+                out.println("PATIENTS_LIST|EMPTY");
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("PATIENTS_LIST|");
+            for (Patient p : patients) {
+                sb.append(p.getPatient_id()).append(";")
+                        .append(p.getName()).append(";")
+                        .append(p.getSurname()).append(";")
+                        .append(p.getDob()).append(";")
+                        .append(p.getEmail()).append(";")
+                        .append(p.getPhone()).append(";")
+                        .append(p.getMedicalhistory()).append(";")
+                        .append(p.getSex().name()).append("|");
+            }
+
+            sb.deleteCharAt(sb.length() - 1); //eliminar el último "|"
+            out.println(sb.toString());
+
+            System.out.println("Sent list of patients to doctor: " + loggedDoctor.getEmail());
+
+        } catch (Exception e) {
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR viewing all patients: " + e.getMessage());
+        }
+
+    }
+
+
+    private void updatePatientHistory(String patient_email, String new_history){
+        try{
+            if (loggedDoctor == null) {
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+
+            Patient patient = patientManager.getPatientByEmail(patient_email);
+            if (patient == null) {
+                out.println("ERROR|PATIENT_NOT_FOUND");
+                return;
+            }
+            patientManager.updateMedicalHistory(patient.getPatient_id(), new_history);
+            out.println("OK|MEDICAL_HISTORY_UPDATED");
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR updating patient history: " + e.getMessage());
+        }
+
+    }
+
+
     private static void releaseResourcesServer(PrintWriter out, BufferedReader in, Socket socket){
         try {
             try{
@@ -411,7 +583,8 @@ private void savePatientRegistration(String p){
             Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- //
+
+    enum UserType{PATIENT, DOCTOR}
 }
 
 
