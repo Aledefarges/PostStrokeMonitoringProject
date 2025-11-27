@@ -1,6 +1,7 @@
 package org.example.Server.JDBC;
 
 
+import org.example.POJOS.Exceptions;
 import org.example.Server.IFaces.PatientManager;
 import org.example.POJOS.Patient;
 
@@ -136,6 +137,8 @@ public class JDBCPatientManager implements PatientManager {
 
                     patient = new Patient(name, surname, dob, email, sex, medicalHistory, phone, password);
                 }
+            } catch (Exceptions e) {
+                throw new RuntimeException(e);
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -164,6 +167,8 @@ public class JDBCPatientManager implements PatientManager {
 
                     patient = new Patient(patient_id, name, surname, dob, email, phone, medicalhistory, sex);
                 }
+            } catch (Exceptions e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -279,8 +284,10 @@ public class JDBCPatientManager implements PatientManager {
                    Patient p = new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex);
                    patients.add(p);
                }
+           } catch (Exceptions e) {
+               throw new RuntimeException(e);
            }
-        }catch(SQLException e){
+       }catch(SQLException e){
             e.printStackTrace();
         }
         return patients;
