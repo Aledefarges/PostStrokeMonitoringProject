@@ -74,7 +74,7 @@ public class TestConnection_With_Server {
                         System.out.print("Enter patient email: ");
                         String patientEmail = sc.nextLine();
 
-                        String patientData= connect.sendPatientData(patientEmail);
+                        String patientData= connect.sendAllPatients();
                         System.out.println("Patient data: "+patientData);
                         break;
                     case 5:

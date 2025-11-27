@@ -90,7 +90,7 @@ public class Connection_With_Server {
     }
 
 
-    public boolean sendUpdatePatientHistory(String email, String newMedicalHistory){
+    public boolean sendPatientHistory(String email, String newMedicalHistory){
         try{
             out.println("UPDATE_PATIENT_HISTORY|" + email + ";" + newMedicalHistory);
             String response = in.readLine();
