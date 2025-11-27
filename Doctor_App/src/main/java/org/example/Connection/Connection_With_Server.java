@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.MessageDigest;
 import java.util.List;
 
 public class Connection_With_Server {
@@ -114,4 +115,22 @@ public class Connection_With_Server {
             return false;
         }
     }
+
+    public static String encryptPassword(String password){
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for(byte b : digest){
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
