@@ -45,16 +45,16 @@ public class JDBCRecordingManager implements RecordingManager {
             e.printStackTrace();
         }
     }
-    @Override
-    public void deleteRecording (Integer recording_id){
+    public boolean deleteRecording (int recording_id){
         String sql = "DELETE FROM Recordings WHERE recording_id = ?";
         try(Connection c = manager.getConnection();
-        PreparedStatement ps = c.prepareStatement(sql)){
+            PreparedStatement ps = c.prepareStatement(sql)){
             ps.setInt(1, recording_id);
-
-            ps.executeUpdate();
+            int rows = ps.executeUpdate();
+            return rows > 0;
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
     }
 

@@ -91,6 +91,8 @@ public class Connection_with_Patient implements Runnable{
                         break;
                     case "UPDATE_PATIENT_HISTORY": updatePatientHistory(parts[1], parts[2]);
                         break;
+                    case "DELETE_RECORDING": handleDeleteRecording(Integer.parseInt(parts[1]));
+                        break;
                     default:
                         out.println("ERROR|Unknown command");
                         break;
@@ -586,6 +588,35 @@ private void savePatientRegistration(String p){
             socket.close();
         }catch(IOException ex){
             Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void handleDeleteRecording(int recording_id){
+        try{
+            if(loggedDoctor == null){
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+
+            // verifica que el recording existe
+            Recording rec = recordingManager.getRecordingById(recording_id);
+            if(rec == null){
+                out.println("ERROR|RECORDING_NOT_FOUND");
+                return;
+            }
+
+            boolean recordingDeleted = recordingManager.deleteRecording(recording_id);
+
+            if(recordingDeleted){
+                out.println("OK|RECORDING_DELETED");
+                System.out.println("Recording " + recording_id + " deleted by doctor.");
+            }else{
+                out.println("ERROR|DELETE_FAILED");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR deleting recording: " + e.getMessage());
         }
     }
 

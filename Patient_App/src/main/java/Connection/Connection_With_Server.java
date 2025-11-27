@@ -98,7 +98,7 @@ public class Connection_With_Server {
         if (type.equals("EMG")){
             channel = new int[]{0};
         } else if (type.equals("ECG")){
-            channel = new int[]{1};
+            channel = new int[]{0};
         } else if (type.equals("BOTH")){
             channel = new int[]{0,1};
         } else{
