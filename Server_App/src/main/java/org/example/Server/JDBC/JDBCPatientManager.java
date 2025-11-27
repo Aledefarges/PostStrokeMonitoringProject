@@ -45,7 +45,7 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(7, patient.getMedicalhistory());
             //ps.setInt(9, patient.getDoctor().getDoctor_id());
 
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            /*MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(patient.getPassword().getBytes());
             byte[] encryptedPassword = md.digest();
 
@@ -53,8 +53,9 @@ public class JDBCPatientManager implements PatientManager {
             for (byte b: encryptedPassword){
                 sb.append(String.format("%02x",b)); //2 digit hexadecimal
             }
-            String encryptedStringPassword = sb.toString();
-            ps.setString(8, encryptedStringPassword);
+            String encryptedStringPassword = sb.toString();*/
+
+            ps.setString(8, patient.getPassword());
 
             ps.executeUpdate();
 
@@ -307,18 +308,18 @@ public class JDBCPatientManager implements PatientManager {
         String sql = "UPDATE Patients SET password = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
 
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            /*MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(newPassword.getBytes());
-            byte[] encryptedPassword = md.digest();
+            byte[] encryptedPassword = md.digest();*/
 
             //Converting byte[] to hexadecimal String so it can be stored in TEXT
-            StringBuilder sb = new StringBuilder();
+            /*StringBuilder sb = new StringBuilder();
             for (byte b: encryptedPassword){
                 sb.append(String.format("%02x",b)); //2 digit hexadecimal
             }
-            String encryptedStringPassword = sb.toString();
+            String encryptedStringPassword = sb.toString();*/
 
-            ps.setString(1, encryptedStringPassword);
+            ps.setString(1, newPassword);
             ps.setInt(2, patient_id);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -339,7 +340,7 @@ public class JDBCPatientManager implements PatientManager {
                 if(rs.next()){
                     String pass = rs.getString("password");
 
-                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    /*MessageDigest md = MessageDigest.getInstance("MD5");
                     md.update(password.getBytes());
                     byte[] digest = md.digest();
 
@@ -348,9 +349,9 @@ public class JDBCPatientManager implements PatientManager {
                     for (byte b: digest){
                         sb.append(String.format("%02x",b));
                     }
-                    String encryptedPass = sb.toString();
+                    String encryptedPass = sb.toString();*/
 
-                    return pass.equalsIgnoreCase(encryptedPass);
+                    return pass.equalsIgnoreCase(password);
 
                 }
 
