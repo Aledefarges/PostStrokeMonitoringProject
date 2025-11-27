@@ -5,7 +5,6 @@
 package UI.GUI;
 
 
-import Bitalino.BITalinoException;
 import Connection.Connection_With_Server;
 import Bitalino.Frame;
 import Bitalino.BITalino;

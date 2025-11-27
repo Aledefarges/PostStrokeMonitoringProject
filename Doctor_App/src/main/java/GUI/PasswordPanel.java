@@ -2,18 +2,18 @@
  * Created by JFormDesigner on Wed Nov 26 10:24:14 CET 2025
  */
 
-package UI.GUI;
+package GUI;
 
-import Connection.Connection_With_Server;
+import org.example.Connection.Connection_With_Server;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 
 public class PasswordPanel extends JPanel {
     private Connection_With_Server connection;
-    private AppFrame appFrame;
-    public PasswordPanel(AppFrame appFrame, Connection_With_Server connection) {
+    private AppFrameDoctor appFrame;
+    public PasswordPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
@@ -39,12 +39,12 @@ public class PasswordPanel extends JPanel {
         ok_button = new JButton();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
-        (0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
-        .TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt
-        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
-        propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException()
-        ;}});
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder
+        ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border
+        .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
+        . Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void
+        propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+        ;} } );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {111, 258, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
@@ -94,7 +94,7 @@ public class PasswordPanel extends JPanel {
             boolean passwordOK = connection.sendChangePassword(old_password, new_password);
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid password");
             }

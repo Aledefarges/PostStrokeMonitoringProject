@@ -63,19 +63,13 @@ public class Connection_With_Server {
         }
     }
 
-    public boolean sendDoctorLogin(String email, String password) {
-        try{
-            out.println("LOGIN|" + email + ";" + password);
 
-            String response = in.readLine();
-            if(response.equals("OK|LOGIN_SUCCESS_DOCTOR")) {
-                loggedIn=true;
-                return true;
-            }
-            return false;
-        }catch(IOException e){
-            return false;
-        }
+    public String sendDoctorLogin(String email, String password) throws IOException {
+        // Enviar comando
+        out.println("LOGIN|" + email + ";" + password);
+        // Leer respuesta
+        String response = in.readLine();
+        return response;
     }
 
 

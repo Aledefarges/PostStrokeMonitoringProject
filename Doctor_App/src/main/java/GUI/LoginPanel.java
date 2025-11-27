@@ -2,28 +2,27 @@
  * Created by JFormDesigner on Tue Nov 25 23:28:01 CET 2025
  */
 
-package UI.GUI;
+package GUI;
 
-import Connection.Connection_With_Server;
-
-import java.awt.*;
+import org.example.Connection.Connection_With_Server;
 import javax.swing.*;
+import java.awt.*;
 
 
 public class LoginPanel extends JPanel {
     private Connection_With_Server connection;
-    private AppFrame appFrame;
-    public LoginPanel(AppFrame appFrame, Connection_With_Server connection) {
+    private AppFrameDoctor appFrame;
+    public LoginPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
 
         this.add(panel1);
 
-        email_label.setFont(new Font("Arial", Font.BOLD, 14));
-        password_label.setFont(new Font("Arial", Font.BOLD, 14));
-        login_button.setFont(new Font("Arial", Font.PLAIN, 14));
-        show_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        email_label.setFont(new Font("Arial", Font.BOLD, 16));
+        password_label.setFont(new Font("Arial", Font.BOLD, 16));
+        login_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        show_button.setFont(new Font("Arial", Font.PLAIN, 16));
 
         login_button.setBackground(new Color(70,130,180));
         login_button.setForeground(Color.WHITE);
@@ -114,10 +113,11 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            String response = connection.sendLogIn(email, password);
-            if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
+            String response = connection.sendDoctorLogin(email, password);
+
+            if (response.startsWith("OK|LOGIN_SUCCESS_DOCTOR")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password");
             }

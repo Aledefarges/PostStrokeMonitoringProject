@@ -1,19 +1,19 @@
 /*
- * Created by JFormDesigner on Wed Nov 26 10:24:14 CET 2025
+ * Created by JFormDesigner on Wed Nov 26 09:56:34 CET 2025
  */
 
-package UI.GUI;
+package GUI;
 
-import Connection.Connection_With_Server;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
+import org.example.Connection.Connection_With_Server;
 
-
-public class PasswordPanel extends JPanel {
+public class EmailPanel extends JPanel {
     private Connection_With_Server connection;
-    private AppFrame appFrame;
-    public PasswordPanel(AppFrame appFrame, Connection_With_Server connection) {
+    private AppFrameDoctor appFrame;
+    
+    public EmailPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
@@ -26,7 +26,7 @@ public class PasswordPanel extends JPanel {
         ok_button.setBackground(new Color(70,130,180));
         ok_button.setForeground(Color.WHITE);
 
-        ok_button.addActionListener(e -> changePassword());
+        ok_button.addActionListener(e -> changeEmail());
     }
 
     private void initComponents() {
@@ -39,20 +39,15 @@ public class PasswordPanel extends JPanel {
         ok_button = new JButton();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
-        (0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
-        .TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt
-        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
-        propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException()
-        ;}});
+
         setLayout(new GridBagLayout());
-        ((GridBagLayout)getLayout()).columnWidths = new int[] {111, 258, 0};
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {121, 238, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
         ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- old_label ----
-        old_label.setText("Old password:");
+        old_label.setText("Old email:");
         add(old_label, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
@@ -61,7 +56,7 @@ public class PasswordPanel extends JPanel {
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- new_label ----
-        new_label.setText("New password:");
+        new_label.setText("New email:");
         add(new_label, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
@@ -77,30 +72,33 @@ public class PasswordPanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
-    private void changePassword() {
+    private void changeEmail() {
 
         try{
-            String old_password = old_field.getText().trim();
-            String new_password = new_field.getText().trim();
+            String old_email = old_field.getText().trim();
+            String new_email = new_field.getText().trim();
 
-            if(old_password.isEmpty() || new_password.isEmpty()){
+            if(old_email.isEmpty() || new_email.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Please fill all the fields");
                 return;
             }
-            if(new_password.equals(old_password)){
-                JOptionPane.showMessageDialog(null, "Please enter a different password from the old one");
+            if(new_email.equals(old_email)){
+                JOptionPane.showMessageDialog(null, "Please enter a different email from the old one");
             }
 
-            boolean passwordOK = connection.sendChangePassword(old_password, new_password);
-            if (passwordOK) {
-                JOptionPane.showMessageDialog(this, "Password change successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+            boolean emailOK = connection.sendChangeEmail(old_email, new_email);
+            if (emailOK) {
+                JOptionPane.showMessageDialog(this, "Email change successful");
+                // appFrame.switchPanel(new DoctorMenu(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Invalid password");
+                JOptionPane.showMessageDialog(this, "Invalid email");
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());
         }
+
+        
+        
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
@@ -110,4 +108,6 @@ public class PasswordPanel extends JPanel {
     private JTextField new_field;
     private JButton ok_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
-}
+    }
+
+

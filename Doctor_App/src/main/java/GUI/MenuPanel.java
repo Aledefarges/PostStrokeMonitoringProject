@@ -2,28 +2,24 @@
  * Created by JFormDesigner on Tue Nov 25 23:16:23 CET 2025
  */
 
-package UI.GUI;
+package GUI;
 
-import java.awt.*;
+
+import org.example.Connection.Connection_With_Server;
+
+
 import javax.swing.*;
-
-import Connection.Connection_With_Server;
-
-
+import java.awt.*;
 
 
 public class MenuPanel extends JPanel {
     private Connection_With_Server connection;
-    private AppFrame appFrame;
+    private AppFrameDoctor appFrame;
 
-    public MenuPanel(AppFrame appFrame, Connection_With_Server connection) {
+    public MenuPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        login_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        register_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        exit_button.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         title.setFont(new Font("Arial", Font.BOLD, 20));
         login_button.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -47,10 +43,8 @@ public class MenuPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
-
         title = new JLabel();
-        separator1 = new JSeparator() {};
+        separator1 = new JSeparator();
         login_button = new JButton();
         register_button = new JButton();
         exit_button = new JButton();
@@ -64,7 +58,7 @@ public class MenuPanel extends JPanel {
         ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- title ----
-        title.setText("WELCOME TO POST-STROKE MONITORING APP");
+        title.setText("WELCOME DOCTOR TO POST-STROKE MONITORING APP");
         add(title, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
@@ -95,7 +89,7 @@ public class MenuPanel extends JPanel {
         appFrame.switchPanel(new LoginPanel(appFrame, connection));
     }
     private void goToRegister(){
-        appFrame.switchPanel(new RegisterPanel(appFrame,connection));
+        //appFrame.switchPanel(new RegisterPanel(appFrame,connection));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria

@@ -20,9 +20,9 @@ public class EmailPanel extends JPanel {
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
-        old_label.setFont(new Font("Arial", Font.BOLD, 14));
-        new_label.setFont(new Font("Arial", Font.BOLD, 14));
-        ok_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        old_label.setFont(new Font("Arial", Font.BOLD, 16));
+        new_label.setFont(new Font("Arial", Font.BOLD, 16));
+        ok_button.setFont(new Font("Arial", Font.PLAIN, 16));
 
         ok_button.setBackground(new Color(70,130,180));
         ok_button.setForeground(Color.WHITE);
