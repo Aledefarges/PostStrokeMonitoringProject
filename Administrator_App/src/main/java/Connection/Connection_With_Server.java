@@ -51,27 +51,6 @@ public class Connection_With_Server {
        }
     }
 
-    //Admin register:
-    public boolean sendAdminRegister(Administrator admin) {
-       try{
-           String message =
-                   "ADMIN_REGISTER|" +
-                           admin.getName() + ";" +
-                           admin.getSurname() + ";" +
-                           admin.getPhone() + ";" +
-                           admin.getEmail() + ";" +
-                           admin.getPassword();
-
-           out.println(message);
-
-           String response = in.readLine();
-           return "OK|ADMIN_REGISTERED".equals(response);
-       }catch(IOException ex){
-           ex.printStackTrace();
-           return false;
-       }
-    }
-
     //Close server
     public boolean sendAdminShutdown(String adminPassword){
        try{

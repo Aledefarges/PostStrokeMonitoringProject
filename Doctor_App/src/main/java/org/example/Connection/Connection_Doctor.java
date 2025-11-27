@@ -8,9 +8,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
-import java.util.List;
 
-public class Connection_With_Server {
+public class Connection_Doctor {
 
     private Socket socket;
     private BufferedReader in;

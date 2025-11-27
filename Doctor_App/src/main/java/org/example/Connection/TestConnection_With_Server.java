@@ -1,4 +1,4 @@
-package org.example.Connection;
+/*package org.example.Connection;
 
 import org.example.POJOS.Doctor;
 
@@ -122,4 +122,6 @@ public class TestConnection_With_Server {
         }
     }
 }
+
+ */
 

@@ -4,15 +4,15 @@
 
 package GUI;
 
-import org.example.Connection.Connection_With_Server;
+import org.example.Connection.Connection_Doctor;
 import javax.swing.*;
 import java.awt.*;
 
 
 public class LoginPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public LoginPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
+    public LoginPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();

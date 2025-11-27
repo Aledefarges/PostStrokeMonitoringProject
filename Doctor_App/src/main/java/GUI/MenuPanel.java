@@ -5,7 +5,7 @@
 package GUI;
 
 
-import org.example.Connection.Connection_With_Server;
+import org.example.Connection.Connection_Doctor;
 
 
 import javax.swing.*;
@@ -13,10 +13,10 @@ import java.awt.*;
 
 
 public class MenuPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public MenuPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
+    public MenuPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();

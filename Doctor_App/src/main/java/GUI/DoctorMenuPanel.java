@@ -4,17 +4,17 @@
 
 package GUI;
 
-import org.example.Connection.Connection_With_Server;
+import org.example.Connection.Connection_Doctor;
 
 import java.awt.*;
 import javax.swing.*;
 
 
 public class DoctorMenuPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public DoctorMenuPanel(AppFrameDoctor appFrame, Connection_With_Server connection) {
+    public DoctorMenuPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
