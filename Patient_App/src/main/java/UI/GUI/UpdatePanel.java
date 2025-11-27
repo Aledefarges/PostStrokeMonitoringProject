@@ -38,6 +38,8 @@ public class UpdatePanel extends JPanel {
         update_button.addActionListener(e-> update());
         back_button.addActionListener(e -> goToPatientMenu());
 
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+
     }
 
     private void initComponents() {

@@ -41,10 +41,9 @@ public class Connection_With_Server {
     }
 
 
-//
-    public boolean sendPatientToServer(Patient patient) {
-
+    public boolean sendPatientToServer(Patient patient, int doctor_id ) {
         try {
+
             String message = "ADD_PATIENT|" +
                     patient.getName() + ";" +
                     patient.getSurname() + ";" +
@@ -53,7 +52,8 @@ public class Connection_With_Server {
                     patient.getPhone() + ";" +
                     patient.getMedicalhistory() + ";" +
                     patient.getSex().name() + ";" +
-                    patient.getPassword();
+                    patient.getPassword() + ";" +
+                    doctor_id;
 
                 out.println(message);
 
@@ -67,6 +67,16 @@ public class Connection_With_Server {
 
     }
 
+    public String requestAllDoctor(){
+        try{
+            out.println("VIEW_ALL_DOCTORS");
+            String response = in.readLine();
+            return response;
+        }catch(IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public boolean deletePatientFromServer(){
         try{
             String message = "DELETE_PATIENT|";

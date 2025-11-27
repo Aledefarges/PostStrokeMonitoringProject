@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 			"$columnSpecs": "161, 276"
-			"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 20"
+			"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20"
 			"$hGap": 5
 			"$vGap": 5
 			"$alignLeft": true
@@ -114,12 +114,24 @@ new FormModel {
 				"gridx": 1
 				"gridy": 8
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "doctor_label"
+				"text": "Choose doctor:"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 9
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "doctors_box"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 9
+			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "register_button"
 				"text": "REGISTER"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 1
-				"gridy": 9
+				"gridy": 10
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 10 )

@@ -89,17 +89,8 @@ public class Connection_With_Server {
         }
     }
 
-    public String sendPatientData(String email){
-        try{
-            out.println("VIEW_PATIENT_DATA|");
-            String response = in.readLine();
-            return response;
-        }catch(IOException e){
-            return null;
-        }
-    }
 
-    public boolean sendPatientHistory(String email, String newMedicalHistory){
+    public boolean sendUpdatePatientHistory(String email, String newMedicalHistory){
         try{
             out.println("UPDATE_PATIENT_HISTORY|" + email + ";" + newMedicalHistory);
             String response = in.readLine();
