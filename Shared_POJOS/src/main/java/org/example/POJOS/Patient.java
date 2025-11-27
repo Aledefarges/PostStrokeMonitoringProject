@@ -1,12 +1,9 @@
 package org.example.POJOS;
 
-
-
 import java.sql.Date;
 import java.util.List;
-import java.util.Objects;
 
-public class Patient  {
+public class Patient {
     private int patient_id;
     private String name;
     private String surname;
@@ -17,9 +14,21 @@ public class Patient  {
     private int phone;
     private List<Recording> recordings;
     private String medicalhistory;
-//private Doctor doctor;
+    private Doctor doctor;
 
-    public Patient(String name, String surname, Date dob, String email, Sex sex , String medicalHistory, Integer phone,String password) {
+    public Patient(String name, String surname, Date dob, String email, Sex sex , String medicalHistory, int phone,String password) throws Exceptions{
+        if(!checkNameFormat(name)){
+            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+        }
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+        }
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+        }
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+        }
         this.name = name;
         this.surname = surname;
         this.dob = dob;
@@ -30,8 +39,20 @@ public class Patient  {
         this.password = password;
     }
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, Integer phone, String medicalHistory, Sex sex) {
-         // para los métodos sin password
+    public Patient(int patient_id, String name, String surname, Date dob, String email, int phone, String medicalHistory, Sex sex) throws Exceptions{
+        // para los métodos sin password
+        if(!checkNameFormat(name)){
+            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+        }
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+        }
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+        }
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+        }
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -43,7 +64,19 @@ public class Patient  {
         this.password = null;
     }
 
-    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  Integer phone, String medicalHistory, Sex sex) {
+    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  int phone, String medicalHistory, Sex sex) throws Exceptions{
+        if(!checkNameFormat(name)){
+            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+        }
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+        }
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+        }
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+        }
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -53,7 +86,6 @@ public class Patient  {
         this.sex=sex;
         this.email = email;
         this.password = password;
-        //this.doctor.getUser_id()=doctorId;
     }
 
     public int getPatient_id() {
@@ -68,7 +100,10 @@ public class Patient  {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws Exceptions {
+        if(!checkNameFormat(name)){
+            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+        }
         this.name = name;
     }
 
@@ -76,7 +111,10 @@ public class Patient  {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public void setSurname(String surname) throws Exceptions {
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+        }
         this.surname = surname;
     }
 
@@ -84,17 +122,20 @@ public class Patient  {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws Exceptions {
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+        }
         this.email = email;
     }
 
-//    public Doctor getDoctor() {
-//        return doctor;
-//    }
-//
-//    public void setDoctor(Doctor doctor) {
-//        this.doctor = doctor;
-//    }
+    public Doctor getDoctor() {
+        return doctor;
+     }
+
+    public void setDoctor(Doctor doctor) {
+          this.doctor = doctor;
+    }
 
     public String getMedicalhistory() {
         return medicalhistory;
@@ -116,7 +157,10 @@ public class Patient  {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(int phone) throws Exceptions{
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+        }
         this.phone = phone;
     }
 
@@ -169,11 +213,44 @@ public class Patient  {
                 ", phone=" + phone +
                 ", recordings=" + recordings +
                 ", medicalhistory='" + medicalhistory + '\'' +
-              //  ", doctor=" + doctor +
+                ", doctor=" + doctor +
                 '}';
     }
 
     public enum Sex {
         M,F;
     } //
+    public boolean checkEmailFormat(String email) {
+        if(email == null || email.isEmpty()) {
+            return false;
+        }
+        if (email.contains("@") && email.contains(".")) {
+            return true;
+        }
+        return false;
+    }
+    public boolean checkPhoneFormat(int phone) {
+        if (phone < 600000000 || phone > 799999999) {
+            return false;
+        }
+        else
+            return true;
+    }
+    public boolean checkNameFormat(String name) {
+        for (char character : name.toCharArray()) {
+            if (!Character.isLetter(character) && character != ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean checkSurnameFormat(String surname) {
+        for (char character : surname.toCharArray()) {
+            if (!Character.isLetter(character) && character != ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
