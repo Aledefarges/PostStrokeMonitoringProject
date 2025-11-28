@@ -98,7 +98,7 @@ public class Connection_Doctor {
     public boolean sendChangeEmail(String email, String newEmail){
         try{
             out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
-            String response = readLineHandlingListener();
+            String response = in.readLine();
             return response.equals("OK|EMAIL_CHANGED");
 
         }catch(IOException e){
@@ -134,15 +134,5 @@ public class Connection_Doctor {
         }
     }
 
-    public String readLineHandlingListener()throws IOException{
-        String response = in.readLine();
-
-        if(response == null || response.equals("SERVER SHUTDOWN")){
-            JOptionPane.showMessageDialog(null,"The server has been shut down. The application will close.");
-            close();
-            System.exit(0);
-        }
-        return response;
-    }
 
 }
