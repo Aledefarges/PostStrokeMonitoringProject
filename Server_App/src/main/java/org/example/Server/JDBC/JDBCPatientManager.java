@@ -25,7 +25,7 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public void addPatient(Patient patient) {
 
-        String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password,doctor_id) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password) VALUES (?,?,?,?,?,?,?,?)";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql)) {
@@ -43,7 +43,7 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(5, patient.getSex().toString().trim());
             ps.setInt(6, patient.getPhone());
             ps.setString(7, patient.getMedicalhistory());
-            ps.setInt(9, patient.getDoctor().getDoctor_id());
+            //ps.setInt(9, patient.getDoctor().getDoctor_id());
 
 
             ps.setString(8, patient.getPassword());
@@ -89,14 +89,15 @@ public class JDBCPatientManager implements PatientManager {
             while(rs.next())
             {
                 int patient_id = rs.getInt("patient_id");
+                String password = rs.getString("password");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 int phone = rs.getInt("phone");
                 String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+
                 //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
                 //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
 
@@ -134,7 +135,7 @@ public class JDBCPatientManager implements PatientManager {
                     int doctor_id = rs.getInt("doctor_id");
                     String email = rs.getString("email");
 
-                    patient = new Patient(name, surname, dob, email, sex, medicalHistory, phone, password);
+                    patient = new Patient(patient_id, password, name,  surname, dob, email, phone, medicalHistory, sex);
                 }
             } catch (Exceptions e) {
                 throw new RuntimeException(e);
@@ -273,6 +274,7 @@ public class JDBCPatientManager implements PatientManager {
            try(ResultSet rs= ps.executeQuery()){
                while(rs.next()){
                    int patient_id = rs.getInt("patient_id");
+                   String password = rs.getString("password");
                    String name = rs.getString("name");
                    String surname = rs.getString("surname");
                    Date dob = rs.getDate("dob");
@@ -281,7 +283,7 @@ public class JDBCPatientManager implements PatientManager {
                    String medicalHistory = rs.getString("medicalHistory");
                    Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
 
-                   Patient p = new Patient(patient_id, name, surname, dob, email, phone, medicalHistory, sex);
+                   Patient p = new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex);
                    patients.add(p);
                }
            } catch (Exceptions e) {
