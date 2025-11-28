@@ -17,7 +17,7 @@ public class JDBCManager {
 
 
 
-    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb1.db";
+    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb2.db";
 
     static {
         try{
@@ -96,7 +96,7 @@ public class JDBCManager {
             String sql_recordings = "CREATE TABLE Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
-                    + "recordingDate TEXT,"
+                    + "recordingDate TIMESTAMP,"
                     + "patient_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE"
                     + ")";
