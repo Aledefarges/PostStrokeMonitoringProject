@@ -69,13 +69,28 @@ public class RecordingsPanel extends JPanel {
 
             String[] parts = response.split("\\|");
                 String part = parts[2];
-                String[] values = part.split(",");
+                String[] frames = part.split(",");
 
-                Double[] data = new Double[values.length];
-                for(int i = 0; i < values.length; i++){
-                    data[i] = Double.parseDouble(values[i]);
+                if (recording.getType() == Recording.Type.ECG ||  recording.getType() ==  Recording.Type.EMG){
+                    Double[] data = new Double[frames.length];
+                    for(int i = 0; i < frames.length; i++){
+                        data[i] = Double.parseDouble(frames[i]);
+                    }
+                    PlotRecordings.showChartFromArray(data, "Recording ID " +recording.getId());
+
+                } else if(recording.getType() == Recording.Type.BOTH){
+                    Double [] emg = new Double[frames.length];
+                    Double [] ecg = new Double[frames.length];
+
+                    for(int i = 0; i < frames.length; i++){
+                        String[] pair = frames[i].split(",");
+                        emg[i] = Double.parseDouble(pair[0]);
+                        ecg[i] = Double.parseDouble(pair[1]);
+
+                    }
+                    PlotRecordings.showChartFromArray(emg, "EMG Recording ID " +recording.getId());
+                    PlotRecordings.showChartFromArray(ecg, "ECG Recording ID " +recording.getId());
                 }
-                PlotRecordings.showChartFromArray(data, "Recording ID " +recording.getId());
         });
     }
 
