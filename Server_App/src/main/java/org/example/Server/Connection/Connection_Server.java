@@ -4,6 +4,8 @@ import org.example.POJOS.Doctor;
 import org.example.POJOS.Recording;
 import org.example.Server.JDBC.*;
 import org.example.POJOS.Patient;
+import org.example.Server.Visualization.signalsAnalizer;
+
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -420,7 +422,14 @@ private void savePatientRegistration(String p){
             if(sb.length()>0){
                 sb.deleteCharAt(sb.length()-1);
             }
-            out.println(("RECORDING_DATA|" + recording_id + "|" + sb.toString()));
+
+            if(userType == UserType.DOCTOR && (type == Recording.Type.ECG || type == Recording.Type.BOTH)){
+                String diagnosis = signalsAnalizer.analizeECGFromFrames(frames, 100.0);
+                out.println("RECORDING_DATA|" + recording_id + "|" + sb.toString() + "|" + diagnosis);
+            }
+            else{
+                out.println(("RECORDING_DATA|" + recording_id + "|" + sb.toString()));
+            }
         }catch(Exception e){
             out.println("ERROR|EXCEPTION");
             System.out.println("ERROR in get recording: " + e.getMessage());
