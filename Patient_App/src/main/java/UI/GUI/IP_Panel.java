@@ -9,9 +9,6 @@ import Connection.Connection_Patient;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * @author nerea
- */
 public class IP_Panel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
@@ -75,17 +72,23 @@ public class IP_Panel extends JPanel {
     }
 
     public void  introIP(){
-        String ip = ip_field.getText().trim();
-        connection = new Connection_Patient();
-        done_button.addActionListener(e -> {
+        done_button.addActionListener(e ->{
+            String ip = ip_field.getText().trim();
+
+            if(ip.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter IP address");
+                return;
+            }
+            connection = new Connection_Patient();
+
             if (connection.connection(ip, 9000)) {
                 appFrame.switchPanel(new MenuPanel(appFrame, connection));
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "No se pudo conectar al servidor"
-                );
-            }
-        });
+                            "Could not connect to server."
+                    );
+                }
+            });
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
