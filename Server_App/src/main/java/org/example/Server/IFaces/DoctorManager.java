@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface DoctorManager {
    public void addDoctor(Doctor doctor);
-   public boolean deleteDoctor(String email);
    public void assingDoctorToPatient(Integer patient_id, Integer doctor_id);
    public void updatePassword(int doctor_id, String newPassword);
    public boolean checkPassword(String email, String password);
