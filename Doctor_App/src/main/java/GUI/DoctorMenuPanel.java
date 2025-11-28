@@ -33,6 +33,8 @@ public class DoctorMenuPanel extends JPanel {
         email_button.setForeground(Color.WHITE);
         password_button.setBackground(new Color(70, 130, 180));
         password_button.setForeground(Color.WHITE);
+        delete_button.setBackground(new Color(70, 130, 180));
+        delete_button.setForeground(Color.WHITE);
         exit_button.setBackground(new Color(62, 156, 118));
         exit_button.setForeground(Color.WHITE);
         separator1.setForeground(new Color(70,130,180));
@@ -40,6 +42,7 @@ public class DoctorMenuPanel extends JPanel {
         patient_button.addActionListener(e-> goToHandlePatient());
         email_button.addActionListener(e-> changeEmail());
         password_button.addActionListener(e-> changePassword());
+        delete_button.addActionListener(e -> deleteDoctor());
 
     }
 
@@ -51,7 +54,9 @@ public class DoctorMenuPanel extends JPanel {
         patient_button = new JButton();
         email_button = new JButton();
         password_button = new JButton();
+        delete_button = new JButton();
         exit_button = new JButton();
+
 
         //======== this ========
         setLayout(new GridBagLayout());
@@ -93,6 +98,12 @@ public class DoctorMenuPanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
+        //---- delete_button ----
+        delete_button.setText("4. Delete account");
+        add(delete_button, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
         //---- exit_button ----
         exit_button.setText("EXIT");
         add(exit_button, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
@@ -110,6 +121,10 @@ public class DoctorMenuPanel extends JPanel {
     private void changePassword() {
         appFrame.switchPanel(new PasswordPanel(appFrame, connection));
     }
+    private void deleteDoctor(){
+        connection.deleteDoctorFromServer();
+        appFrame.switchPanel(new MenuPanel(appFrame, connection));
+    }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
@@ -120,5 +135,6 @@ public class DoctorMenuPanel extends JPanel {
     private JButton email_button;
     private JButton password_button;
     private JButton exit_button;
+    private JButton delete_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
