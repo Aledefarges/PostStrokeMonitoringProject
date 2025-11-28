@@ -18,16 +18,16 @@ public class Patient {
 
     public Patient(String name, String surname, Date dob, String email, Sex sex , String medicalHistory, int phone,String password) throws Exceptions{
         if(!checkNameFormat(name)){
-            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
         if(!checkSurnameFormat(surname)){
-            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
         }
         if(!checkEmailFormat(email)){
-            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
         }
         if(!checkPhoneFormat(phone)){
-            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
         }
         this.name = name;
         this.surname = surname;
@@ -42,16 +42,16 @@ public class Patient {
     public Patient(int patient_id, String name, String surname, Date dob, String email, int phone, String medicalHistory, Sex sex) throws Exceptions{
         // para los métodos sin password
         if(!checkNameFormat(name)){
-            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
         if(!checkSurnameFormat(surname)){
-            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
         }
         if(!checkEmailFormat(email)){
-            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
         }
         if(!checkPhoneFormat(phone)){
-            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
         }
         this.patient_id = patient_id;
         this.name = name;
@@ -66,16 +66,16 @@ public class Patient {
 
     public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  int phone, String medicalHistory, Sex sex) throws Exceptions{
         if(!checkNameFormat(name)){
-            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
         if(!checkSurnameFormat(surname)){
-            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
         }
         if(!checkEmailFormat(email)){
-            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
         }
         if(!checkPhoneFormat(phone)){
-            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
         }
         this.patient_id = patient_id;
         this.name = name;
@@ -102,7 +102,7 @@ public class Patient {
 
     public void setName(String name) throws Exceptions {
         if(!checkNameFormat(name)){
-            throw new Exceptions(Error.INVALID_NAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
         this.name = name;
     }
@@ -113,7 +113,7 @@ public class Patient {
 
     public void setSurname(String surname) throws Exceptions {
         if(!checkSurnameFormat(surname)){
-            throw new Exceptions(Error.INVALID_SURNAME_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
         }
         this.surname = surname;
     }
@@ -124,7 +124,7 @@ public class Patient {
 
     public void setEmail(String email) throws Exceptions {
         if(!checkEmailFormat(email)){
-            throw new Exceptions(Error.INVALID_EMAIL_FORMAT);
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
         }
         this.email = email;
     }
@@ -159,7 +159,7 @@ public class Patient {
 
     public void setPhone(int phone) throws Exceptions{
         if(!checkPhoneFormat(phone)){
-            throw new Exceptions(Error.INVALID_PHONE_NUMBER);
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
         }
         this.phone = phone;
     }

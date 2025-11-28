@@ -1,6 +1,6 @@
 package org.example.POJOS;
 
-public enum Error {
+public enum ValidationError {
     INVALID_CHOICE,
     INVALID_EMAIL_FORMAT,
     INVALID_PHONE_NUMBER,
