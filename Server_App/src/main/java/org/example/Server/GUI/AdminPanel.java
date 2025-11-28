@@ -5,30 +5,41 @@
 package org.example.Server.GUI;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.ServerSocket;
 import javax.swing.*;
 
-/**
- * @author nerea
- */
 public class AdminPanel extends JPanel {
-    public AdminPanel() {
+
+    private ServerSocket serverSocket;
+    private boolean running = true;
+
+    public AdminPanel(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
         initComponents();
+
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        close_button.setFont(new Font("Arial", Font.BOLD, 16));
+
+        close_button.setBackground(new Color(70,130,180));
+        close_button.setForeground(Color.WHITE);
+
+        setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
+
+
+        close_button.addActionListener(e -> {
+            String password = password_field.getText();
+            stopServer(password);
+        });
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
+        // JFormDesigner - Component initialization - DO NOT MODIFY
         label = new JLabel();
         password_field = new JTextField();
         close_button = new JButton();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder
-        ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border
-        .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
-        . Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void
-        propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
-        ;} } );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {356, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
@@ -49,13 +60,28 @@ public class AdminPanel extends JPanel {
         add(close_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+        // JFormDesigner - End of component initialization
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
+    // JFormDesigner - Variables declaration - DO NOT MODIFY
     private JLabel label;
     private JTextField password_field;
     private JButton close_button;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+    // JFormDesigner - End of variables declaration
+
+
+    public void stopServer(String password){
+
+        if(password.equals("1234")) {
+            try {
+                serverSocket.close();
+                JOptionPane.showMessageDialog(this, "SERVER STOPPED");
+                System.out.println("SERVER STOPPED");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            JOptionPane.showMessageDialog(this,"Wrong password");
+        }
+    }
 }
