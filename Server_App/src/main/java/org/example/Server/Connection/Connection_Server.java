@@ -185,7 +185,7 @@ private void savePatientRegistration(String p){
                     loggedDoctor = doctor;
                     loggedPatient = null;
                     userType = UserType.DOCTOR;
-                    loggedDoctor.setPassword(password);
+                    //loggedDoctor.setPassword(password);
                     out.println("OK|LOGIN_SUCCESS_DOCTOR");
                 }else{
                 out.println("ERROR|WRONG_PASSWORD");

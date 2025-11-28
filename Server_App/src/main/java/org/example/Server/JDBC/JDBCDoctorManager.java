@@ -182,10 +182,11 @@ public Doctor getDoctorByEmail(String email){
     }
 
     @Override
-    public boolean checkPassword(String email, String password) {
+    public boolean checkPassword(String email, String encryptedpassword) {
         String sql = "SELECT password FROM Doctors WHERE email = ?";
 
-        try(Connection c=manager.getConnection(); PreparedStatement ps=c.prepareStatement(sql)){
+        try(Connection c=manager.getConnection();
+            PreparedStatement ps=c.prepareStatement(sql)){
             ps.setString(1, email);
 
             try(ResultSet rs = ps.executeQuery()){
@@ -204,14 +205,12 @@ public Doctor getDoctorByEmail(String email){
                     String encryptedPass = sb.toString();
                     */
 
-                    return pass.equalsIgnoreCase(password);
+                    return pass.equalsIgnoreCase(encryptedpassword);
 
                 }
-            } catch(SQLException e){
-            e.printStackTrace();
             }
-        }catch (Exception e2){
-            e2.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return false;
     }

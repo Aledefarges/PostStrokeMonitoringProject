@@ -204,7 +204,7 @@ public class RegisterPanel extends JPanel {
             Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
             String password = password_field.getText().trim();
             //Encrypted contraseña:
-            String encryptedPassword = Connection_Patient.encryptPatientPassword(password);
+            String encryptedPassword = connection.encryptPatientPassword(password);
             String doctor_selected = doctors_box.getSelectedItem().toString();
             int doctot_id = Integer.parseInt(doctor_selected.split(" - ")[0]);
 
