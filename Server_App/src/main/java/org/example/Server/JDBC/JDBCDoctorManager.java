@@ -3,6 +3,7 @@ package org.example.Server.JDBC;
 
 
 import org.example.POJOS.Doctor;
+import org.example.POJOS.Exceptions;
 import org.example.POJOS.Patient;
 import org.example.Server.IFaces.DoctorManager;
 
@@ -81,8 +82,10 @@ public Doctor getDoctorByEmail(String email){
                  doctor = new Doctor(name, surname, phone, email, password);
                  doctor.setDoctor_id(doctor_id);
              }
+         } catch (Exceptions e) {
+             throw new RuntimeException(e);
          }
-     }catch(SQLException e){
+    }catch(SQLException e){
          e.printStackTrace();
      }
      return doctor;
@@ -109,6 +112,8 @@ public Doctor getDoctorByEmail(String email){
                     doctor.setDoctor_id(rs.getInt("doctor_id"));
                 }
 
+            } catch (Exceptions e) {
+                throw new RuntimeException(e);
             }
         }catch(SQLException e){
             e.printStackTrace();

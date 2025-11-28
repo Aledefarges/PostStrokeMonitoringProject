@@ -16,7 +16,20 @@ public class Doctor  {
 
     }
 
-    public Doctor(String name, String surname, int phone, String email, String password, List<Patient> patients) {
+    public Doctor(String name, String surname, int phone, String email, String password, List<Patient> patients) throws Exceptions {
+        if(!checkNameFormat(name)){
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
+        }
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
+        }
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
+        }
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
+        }
+
         this.name = name;
         this.surname = surname;
         this.phone = phone;
@@ -25,7 +38,20 @@ public class Doctor  {
         this.patients = patients;
     }
 
-    public Doctor(String name, String surname, int phone, String email, String password) {
+    public Doctor(String name, String surname, int phone, String email, String password) throws  Exceptions {
+        if(!checkNameFormat(name)){
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
+        }
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
+        }
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
+        }
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
+        }
+
         this.name = name;
         this.surname = surname;
         this.phone=phone;
@@ -36,7 +62,10 @@ public class Doctor  {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws Exceptions {
+        if(!checkNameFormat(name)){
+            throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
+        }
         this.name = name;
     }
 
@@ -44,7 +73,10 @@ public class Doctor  {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public void setSurname(String surname) throws Exceptions {
+        if(!checkSurnameFormat(surname)){
+            throw new Exceptions(ValidationError.INVALID_SURNAME_FORMAT);
+        }
         this.surname = surname;
     }
 
@@ -52,7 +84,10 @@ public class Doctor  {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(int phone) throws Exceptions{
+        if(!checkPhoneFormat(phone)){
+            throw new Exceptions(ValidationError.INVALID_PHONE_NUMBER);
+        }
         this.phone = phone;
     }
 
@@ -76,7 +111,10 @@ public class Doctor  {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws Exceptions {
+        if(!checkEmailFormat(email)){
+            throw new Exceptions(ValidationError.INVALID_EMAIL_FORMAT);
+        }
         this.email = email;
     }
 
@@ -111,5 +149,38 @@ public class Doctor  {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public boolean checkEmailFormat(String email) {
+        if(email == null || email.isEmpty()) {
+            return false;
+        }
+        if (email.contains("@") && email.contains(".")) {
+            return true;
+        }
+        return false;
+    }
+    public boolean checkPhoneFormat(int phone) {
+        if (phone < 600000000 || phone > 799999999) {
+            return false;
+        }
+        else
+            return true;
+    }
+    public boolean checkNameFormat(String name) {
+        for (char character : name.toCharArray()) {
+            if (!Character.isLetter(character) && character != ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean checkSurnameFormat(String surname) {
+        for (char character : surname.toCharArray()) {
+            if (!Character.isLetter(character) && character != ' ') {
+                return false;
+            }
+        }
+        return true;
     }
 }
