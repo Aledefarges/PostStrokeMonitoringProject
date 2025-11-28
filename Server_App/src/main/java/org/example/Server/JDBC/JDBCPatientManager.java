@@ -162,9 +162,9 @@ public class JDBCPatientManager implements PatientManager {
                     Integer phone = rs.getInt("phone");
                     String medicalhistory = rs.getString("medicalHistory");
                     Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+                    String password = rs.getString("password");
+                    patient = new Patient(patient_id, password, name, surname, dob, email, phone, medicalhistory, sex);
 
-
-                    patient = new Patient(patient_id, name, surname, dob, email, phone, medicalhistory, sex);
                 }
             } catch (Exceptions e) {
                 throw new RuntimeException(e);
