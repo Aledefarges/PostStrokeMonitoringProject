@@ -108,7 +108,6 @@ public class Connection_Server implements Runnable{
             throw new RuntimeException(e);
         } finally{
             releaseResourcesServer(out,in,socket);
-            Server.activeConnections.remove(this);
         }
     }
 
