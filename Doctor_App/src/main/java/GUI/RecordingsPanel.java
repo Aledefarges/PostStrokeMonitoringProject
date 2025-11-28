@@ -111,7 +111,7 @@ public class RecordingsPanel extends JPanel {
         recording_list.setFixedCellHeight(80);
 
         if(response.equals("RECORDINGS_LIST|EMPTY")){
-            list.addElement(null);
+            recording_list.setModel(null);
             return;
         }
 
@@ -119,6 +119,7 @@ public class RecordingsPanel extends JPanel {
             try{
                 String data = response.substring("RECORDINGS_LIST|".length());
                 String[] parts = data.split("\\|");
+
                 for(String part:parts){
                     String[] recording = part.split(";");
                     int recording_id = Integer.parseInt(recording[0]);
@@ -128,6 +129,7 @@ public class RecordingsPanel extends JPanel {
                     LocalDateTime dt =  LocalDateTime.parse(dateRecording);
 
                     Recording recordings = new Recording(dt, typeEnum, patient.getPatient_id());
+                    recordings.setId(recording_id);
                     list.addElement(recordings);
                 }
             }catch(Exception e){
