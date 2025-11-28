@@ -83,7 +83,12 @@ public class Connection_Patient {
             String message = "DELETE_ACCOUNT|";
             out.println(message);
             String response = in.readLine();
-            return "OK|PATIENT_DELETED".equals(response);
+            if("OK|PATIENT_DELETED".equals(response)){
+                if(out != null) out.println("LOGOUT|");
+                close();
+                return true;
+            }
+            return false;
         }catch (IOException e){
             e.printStackTrace();
             return false;
