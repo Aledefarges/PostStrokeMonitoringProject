@@ -2,6 +2,7 @@ package org.example.POJOS;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 //bA.KNZ
@@ -10,13 +11,13 @@ public class Recording implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private LocalDate dateRecording;
+    private LocalDateTime dateRecording;
     private final int max_duration = 60;
     private Type type;
     private int patient_id;
     //private List<int[]> frames;
 
-    public Recording(LocalDate dateRecording, Type type, int patient_id) {
+    public Recording(LocalDateTime dateRecording, Type type, int patient_id) {
         this.dateRecording = dateRecording;
         this.type = type;
         this.patient_id = patient_id;
@@ -28,7 +29,7 @@ public class Recording implements Serializable {
         return id;
     }
 
-    public LocalDate getDateRecording() {
+    public LocalDateTime getDateRecording() {
         return dateRecording;
     }
 
@@ -47,7 +48,7 @@ public class Recording implements Serializable {
         this.id = id;
     }
 
-    public void setDateRecording(LocalDate dateRecording) {
+    public void setDateRecording(LocalDateTime dateRecording) {
         this.dateRecording = dateRecording;
     }
 

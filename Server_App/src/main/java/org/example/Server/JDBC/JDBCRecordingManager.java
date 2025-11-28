@@ -7,6 +7,7 @@ import org.example.POJOS.Recording;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,8 @@ public class JDBCRecordingManager implements RecordingManager {
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             ps.setString(1, recording.getType().name());
-            LocalDate d = recording.getDateRecording();
-            java.sql.Date sqlDate = java.sql.Date.valueOf(
-                    d.atStartOfDay(ZoneId.systemDefault()).toLocalDate()
-            );
-            ps.setDate(2, sqlDate);
+            Timestamp ts = Timestamp.valueOf(recording.getDateRecording());
+            ps.setTimestamp(2, ts);
             ps.setInt(3, recording.getPatient_id());
 
             ps.executeUpdate();
@@ -67,7 +65,8 @@ public class JDBCRecordingManager implements RecordingManager {
             ps.setInt(1,recording_id);
             try(ResultSet rs = ps.executeQuery()){
                 if (rs.next()) {
-                    LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
+                    Timestamp ts = rs.getTimestamp("recordingDate");
+                    LocalDateTime dateRecording = ts.toLocalDateTime();
                     Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                     int patient_id = rs.getInt("patient_id");
 
@@ -94,7 +93,8 @@ public class JDBCRecordingManager implements RecordingManager {
         ResultSet rs = ps.executeQuery()){
 
             while(rs.next()){
-                LocalDate dateRecording = rs.getDate("recordingDate").toLocalDate();
+                Timestamp ts = rs.getTimestamp("recordingDate");
+                LocalDateTime dateRecording = ts.toLocalDateTime();
                 int recording_id = rs.getInt("recording_id");
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
                 int patient_id = rs.getInt("patient_id");
