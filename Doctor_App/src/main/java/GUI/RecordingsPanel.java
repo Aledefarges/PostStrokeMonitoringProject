@@ -1,0 +1,144 @@
+/*
+ * Created by JFormDesigner on Fri Nov 28 17:05:40 CET 2025
+ */
+
+package GUI;
+
+import org.example.Connection.Connection_Doctor;
+import org.example.POJOS.Patient;
+import org.example.POJOS.Recording;
+import org.example.Server.Visualization.PlotRecordings;
+
+import java.awt.*;
+import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import javax.swing.*;
+
+public class RecordingsPanel extends JPanel {
+    private Connection_Doctor connection;
+    private AppFrameDoctor appFrame;
+    private Patient patient;
+    
+    public RecordingsPanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
+        this.connection = connection;
+        this.appFrame = appFrame;
+        this.patient = patient;
+        
+        initComponents();
+
+        label1.setFont(new Font("Arial", Font.BOLD, 16));
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(70,130,180),1,true),
+                BorderFactory.createEmptyBorder(40,70,40,40))
+        );
+
+        loadRecordings();
+
+        recording_list.setCellRenderer(new ListCellRenderer<Recording>() {
+            public Component getListCellRendererComponent(JList<? extends Recording> list, Recording recording, int index, boolean selected, boolean focused) {
+                String text = "<html>" + recording.getId() + "| "  + recording.getType() + " | " +
+                        recording.getDateRecording() + "<br>" +
+                        "     -------------------     " + "</html>";
+                JLabel label = new JLabel(text);
+                label.setFont(new Font("Arial", Font.BOLD, 14));
+                label.setOpaque(true);
+                if(selected){
+                    label.setBackground(new Color(70,130,180));
+                    label.setForeground(Color.white);
+                }else{
+                    label.setBackground(Color.white);
+                    label.setForeground(Color.black);
+                }
+                return label;
+            }
+        });
+
+        recording_list.addListSelectionListener(e->{
+            if(!e.getValueIsAdjusting()){
+                Recording recording = recording_list.getSelectedValue();
+                if(recording == null) return;
+
+                String response = connection.requestSpecificRecording(recording.getId());
+
+                String[] parts = response.split("\\|");
+                String part = parts[2];
+                String[] values = part.split(",");
+
+                Double[] data = new Double[values.length];
+                for(int i = 0; i < values.length; i++){
+                    data[i] = Double.parseDouble(values[i]);
+                }
+                PlotRecordings.showChartFromArray(data, "Recording ID " +recording.getId());
+            }
+        });
+    }
+
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
+        label1 = new JLabel();
+        recording_list = new JList();
+
+        //======== this ========
+        setLayout(new GridBagLayout());
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {306, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+        //---- label1 ----
+        label1.setText("Select which recording to observe:");
+        add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+        add(recording_list, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 0), 0, 0));
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
+    private JLabel label1;
+    private JList<Recording> recording_list;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+
+    public void loadRecordings(){
+        DefaultListModel<Recording> list =  new DefaultListModel<>();
+        String response = connection.requestRecordingsByPatient(patient.getPatient_id());
+        recording_list.setVisibleRowCount(6);
+        recording_list.setFixedCellHeight(80);
+
+        if(response.equals("RECORDINGS_LIST|EMPTY")){
+            list.addElement(null);
+            return;
+        }
+
+        if (response.startsWith("RECORDINGS_LIST|")){
+            try{
+                String data = response.substring("RECORDINGS_LIST|".length());
+                String[] parts = data.split("\\|");
+                for(String part:parts){
+                    String[] recording = part.split(";");
+                    int recording_id = Integer.parseInt(recording[0]);
+                    String type = recording[1];
+                    Recording.Type typeEnum = Recording.Type.valueOf(type);
+                    String dateRecording = recording[2];
+                    LocalDateTime dt =  LocalDateTime.parse(dateRecording);
+
+                    Recording recordings = new Recording(dt, typeEnum, patient.getPatient_id());
+                    list.addElement(recordings);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            recording_list.setModel(list);
+
+        }
+    }
+
+
+
+
+}

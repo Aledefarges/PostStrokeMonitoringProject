@@ -84,6 +84,26 @@ public class Connection_Doctor {
         }
     }
 
+    public String requestRecordingsByPatient(int patient_id){
+        try{
+            out.println("VIEW_RECORDINGS_BY_PATIENT|" + patient_id);
+            String response = in.readLine();
+            return response;
+        }catch(IOException e){
+            return null;
+        }
+    }
+
+    public String requestSpecificRecording(int recording_id){
+        try{
+            out.println("GET_RECORDING|" + recording_id);
+            String response = in.readLine();
+            return response;
+        }catch(IOException e){
+            return null;
+        }
+    }
+
 
     public boolean sendPatientHistory(String email, String newMedicalHistory){
         try{

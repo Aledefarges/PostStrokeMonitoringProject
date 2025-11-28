@@ -613,15 +613,27 @@ private void savePatientRegistration(String p){
     }
 
     private void getListRecording(int patient_id){
-        List<Recording> recording_list = recordingManager.getRecordingsByPatient(patient_id);
-        StringBuilder sb = new StringBuilder();
-        for (Recording recording : recording_list) {
-            sb.append(recording.getId()).append(";")
-                    .append(recording.getType()).append(";")
-                    .append(recording.getDateRecording()).append("|");
+        try{
+            List<Recording> recordings = recordingManager.getRecordingsByPatient(patient_id);
+            if(recordings.isEmpty()){
+                out.println("RECORDINGS_LIST|EMPTY");
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("RECORDINGS_LIST|");
+            for (Recording recording : recordings) {
+                sb.append(recording.getId()).append(";")
+                        .append(recording.getType()).append(";")
+                        .append(recording.getDateRecording()).append("|");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            out.println(sb.toString());
+            System.out.println("Sent list of recordings to doctor: " + loggedDoctor.getEmail());
+        } catch (Exception e) {
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR viewing recordings: " + e.getMessage());
         }
-        sb.deleteCharAt(sb.length() - 1);
-        out.println("RECORDINGS|" +sb.toString());
+
     }
 
     enum UserType{PATIENT, DOCTOR}
