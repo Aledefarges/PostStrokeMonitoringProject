@@ -24,6 +24,8 @@ public class HandlePatientPanel extends JPanel {
         label1.setFont(new Font("Arial", Font.BOLD, 16));
         DefaultListModel<Patient> list =  new DefaultListModel<>();
         String response = connection.requestAllPatients();
+        patient_list.setVisibleRowCount(6);
+        patient_list.setFixedCellHeight(80);
         if (response.startsWith("PATIENTS_LIST|")){
             try{
                 String data = response.substring("PATIENTS_LIST|".length());
@@ -71,6 +73,7 @@ public class HandlePatientPanel extends JPanel {
             }
         });
 
+
     }
 
 
@@ -110,4 +113,6 @@ public class HandlePatientPanel extends JPanel {
     private JScrollPane scrollPane1;
     private JList patient_list;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+
+
 }
