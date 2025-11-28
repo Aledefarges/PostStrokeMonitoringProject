@@ -4,7 +4,7 @@
 
 package UI.GUI;
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 import org.example.POJOS.Patient;
 
 import java.awt.*;
@@ -13,9 +13,9 @@ import javax.swing.*;
 
 
 public class RegisterPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Patient connection;
     private AppFrame appFrame;
-    public RegisterPanel(AppFrame appFrame, Connection_With_Server connection) {
+    public RegisterPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
@@ -204,7 +204,7 @@ public class RegisterPanel extends JPanel {
             Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
             String password = password_field.getText().trim();
             //Encrypted contraseña:
-            String encryptedPassword = Connection_With_Server.encryptPatientPassword(password);
+            String encryptedPassword = Connection_Patient.encryptPatientPassword(password);
             String doctor_selected = doctors_box.getSelectedItem().toString();
             int doctot_id = Integer.parseInt(doctor_selected.split(" - ")[0]);
 

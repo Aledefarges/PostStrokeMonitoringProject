@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
 
-public class Connection_With_Server {
+public class Connection_Patient {
 
 
     private Socket socket;

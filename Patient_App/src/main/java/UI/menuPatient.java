@@ -1,25 +1,16 @@
 package UI;
 
 import Bitalino.BITalino;
-import Bitalino.Frame;
-import Connection.Connection_With_Server;
-import org.example.POJOS.Patient;
-import org.example.Server.JDBC.JDBCManager;
-import org.example.Server.Visualization.PlotRecordings;
+import Connection.Connection_Patient;
 
-import javax.bluetooth.RemoteDevice;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.Scanner;
-import java.util.Vector;
 
 
 public class menuPatient {
 
     private static Scanner sc = new Scanner(System.in);
-    private static Connection_With_Server connect = new Connection_With_Server();
+    private static Connection_Patient connect = new Connection_Patient();
 
     public static void main(String[] args) {
 

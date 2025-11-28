@@ -4,16 +4,16 @@
 
 package UI.GUI;
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 
 import java.awt.*;
 import javax.swing.*;
 
 
 public class PasswordPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Patient connection;
     private AppFrame appFrame;
-    public PasswordPanel(AppFrame appFrame, Connection_With_Server connection) {
+    public PasswordPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
@@ -92,8 +92,8 @@ public class PasswordPanel extends JPanel {
             }
 
             //Función de prueba para encryptar la constraseña:
-            String old_enc = Connection_With_Server.encryptPatientPassword(old_password);
-            String new_enc = Connection_With_Server.encryptPatientPassword(new_password);
+            String old_enc = Connection_Patient.encryptPatientPassword(old_password);
+            String new_enc = Connection_Patient.encryptPatientPassword(new_password);
 
             boolean passwordOK = connection.sendChangePassword(old_enc,new_enc);
 

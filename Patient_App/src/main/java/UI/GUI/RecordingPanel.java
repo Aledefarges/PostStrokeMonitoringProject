@@ -5,7 +5,7 @@
 package UI.GUI;
 
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 import Bitalino.Frame;
 import Bitalino.BITalino;
 import org.example.Server.Visualization.PlotRecordings;
@@ -18,9 +18,9 @@ import javax.swing.*;
 
 
 public class RecordingPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Patient connection;
     private AppFrame appFrame;
-    public RecordingPanel(AppFrame appFrame, Connection_With_Server connection) {
+    public RecordingPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         
@@ -148,7 +148,7 @@ public class RecordingPanel extends JPanel {
 
     }
 
-    private static void plotSignalByType(Connection_With_Server connect, int recording_id, String type) throws IOException {
+    private static void plotSignalByType(Connection_Patient connect, int recording_id, String type) throws IOException {
         Double[][] data = connect.requestRecordingData(recording_id, type);
 
         if(type.equalsIgnoreCase("ECG")||type.equalsIgnoreCase("EMG")){

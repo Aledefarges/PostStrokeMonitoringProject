@@ -4,16 +4,16 @@
 
 package UI.GUI;
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 
 import java.awt.*;
 import javax.swing.*;
 
 
 public class LoginPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Patient connection;
     private AppFrame appFrame;
-    public LoginPanel(AppFrame appFrame, Connection_With_Server connection) {
+    public LoginPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
@@ -115,7 +115,7 @@ public class LoginPanel extends JPanel {
             }
 
             //Encryptar contraseña:
-            String encryptedPassword = Connection_With_Server.encryptPatientPassword(password);
+            String encryptedPassword = Connection_Patient.encryptPatientPassword(password);
 
             //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendLogIn(email, encryptedPassword);

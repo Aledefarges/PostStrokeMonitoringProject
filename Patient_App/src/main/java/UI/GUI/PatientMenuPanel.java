@@ -7,15 +7,15 @@ package UI.GUI;
 import java.awt.*;
 import javax.swing.*;
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 
 
 
 public class PatientMenuPanel extends JPanel {
-    private Connection_With_Server connection;
+    private Connection_Patient connection;
     private AppFrame appFrame;
     
-    public PatientMenuPanel(AppFrame appFrame, Connection_With_Server connection) {
+    public PatientMenuPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();

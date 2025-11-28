@@ -1,13 +1,13 @@
 package UI.GUI;
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 
 import javax.swing.*;
 
 public class AppFrame extends JFrame {
-    private Connection_With_Server connection;
+    private Connection_Patient connection;
     public AppFrame() {
-        connection = new Connection_With_Server();
+        connection = new Connection_Patient();
         boolean ok = connection.connection("172.16.205.116",9000);
 
         setTitle("Patient App");

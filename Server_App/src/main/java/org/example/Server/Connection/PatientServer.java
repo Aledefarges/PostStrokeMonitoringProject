@@ -15,7 +15,7 @@ public class PatientServer {
             while(true){
                 Socket socket = serverSocket.accept();
 
-                new Thread(new Connection_with_Patient(socket)).start();
+                new Thread(new Connection_Server(socket)).start();
             }
         }catch(Exception ex){
             ex.printStackTrace();

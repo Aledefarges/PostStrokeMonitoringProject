@@ -9,9 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 //
 
-public class Connection_with_Patient implements Runnable{
+public class Connection_Server implements Runnable{
 
     private final Socket socket;
     private JDBCManager db;
@@ -37,7 +35,7 @@ public class Connection_with_Patient implements Runnable{
     private Doctor loggedDoctor = null;
     private UserType userType = null;
 
-    public Connection_with_Patient(Socket socket) {
+    public Connection_Server(Socket socket) {
         this.socket = socket;
         this.db = new JDBCManager() ;
     }
@@ -581,16 +579,16 @@ private void savePatientRegistration(String p){
             try{
                 out.close();
             }catch(Exception ex){
-                Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
             }
             try{
                 in.close();
             }catch(Exception ex){
-                Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
             }
             socket.close();
         }catch(IOException ex){
-            Logger.getLogger(Connection_with_Patient.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

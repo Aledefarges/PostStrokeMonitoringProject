@@ -118,7 +118,7 @@ public class LoginPanel extends JPanel {
 
             //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendDoctorLogin(email, encryptedPassword);
-            if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
+            if (response.startsWith("OK|LOGIN_SUCCESS_DOCTOR")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
                 appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{

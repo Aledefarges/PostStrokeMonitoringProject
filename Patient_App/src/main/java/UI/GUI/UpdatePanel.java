@@ -4,7 +4,7 @@
 
 package UI.GUI;
 
-import Connection.Connection_With_Server;
+import Connection.Connection_Patient;
 
 import java.awt.*;
 import java.sql.Date;
@@ -12,10 +12,10 @@ import javax.swing.*;
 
 
 public class UpdatePanel extends JPanel {
-    private Connection_With_Server  connection;
+    private Connection_Patient connection;
     private AppFrame appFrame;
 
-    public UpdatePanel(AppFrame appFrame, Connection_With_Server connection) {
+    public UpdatePanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
