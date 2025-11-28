@@ -143,7 +143,7 @@ public class Connection_Patient {
 
             //solo envía los canales activados
             for (int i = 0; i < channelCount; i++) {
-                msg.append(";").append(f.analog[channel[i]]);
+                msg.append(";").append(f.analog[i]);
             }
             //digitales siempre igual
             for (int d = 0; d < 4; d++) {
