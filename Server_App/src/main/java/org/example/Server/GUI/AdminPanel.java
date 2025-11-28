@@ -77,6 +77,11 @@ public class AdminPanel extends JPanel {
                 serverSocket.close();
                 JOptionPane.showMessageDialog(this, "SERVER STOPPED");
                 System.out.println("SERVER STOPPED");
+
+                Window window = SwingUtilities.getWindowAncestor(this);
+                if (window != null) window.dispose();
+
+                System.exit(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
