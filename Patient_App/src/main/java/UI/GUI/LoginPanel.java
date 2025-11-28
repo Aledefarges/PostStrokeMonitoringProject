@@ -115,7 +115,7 @@ public class LoginPanel extends JPanel {
             }
 
             //Encryptar contraseña:
-            String encryptedPassword = Connection_Patient.encryptPatientPassword(password);
+            String encryptedPassword = connection.encryptPatientPassword(password);
 
             //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendLogIn(email, encryptedPassword);

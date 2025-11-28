@@ -25,7 +25,7 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public void addPatient(Patient patient) {
 
-        String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password,doctor_id) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql)) {
@@ -43,20 +43,10 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(5, patient.getSex().toString().trim());
             ps.setInt(6, patient.getPhone());
             ps.setString(7, patient.getMedicalhistory());
-            //ps.setInt(9, patient.getDoctor().getDoctor_id());
+            ps.setInt(9, patient.getDoctor().getDoctor_id());
 
-            /*MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(patient.getPassword().getBytes());
-            byte[] encryptedPassword = md.digest();
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b: encryptedPassword){
-                sb.append(String.format("%02x",b)); //2 digit hexadecimal
-            }
-            String encryptedStringPassword = sb.toString();*/
 
             ps.setString(8, patient.getPassword());
-
             ps.executeUpdate();
 
             try(ResultSet rs = ps.getGeneratedKeys()){
