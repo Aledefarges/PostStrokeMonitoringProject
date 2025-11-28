@@ -94,6 +94,8 @@ public class Connection_Server implements Runnable{
                         break;
                     case "DELETE_RECORDING": handleDeleteRecording(Integer.parseInt(parts[1]));
                         break;
+                    case "VIEW_RECORDINGS_BY_PATIENT": getListRecording(Integer.parseInt(parts[1]));
+                        break;
                     default:
                         out.println("ERROR|Unknown command");
                         break;
@@ -150,7 +152,6 @@ private void savePatientRegistration(String p){
             int phone = Integer.parseInt(parts[2]);
             String email = parts[3];
             String password = parts[4];
-            //List<Patient> patients = patientManager.getListOfPatientsOfDoctor();
 
             Doctor doctor = new Doctor(name, surname, phone, email, password);
             doctorManager.addDoctor(doctor);
@@ -304,19 +305,6 @@ private void savePatientRegistration(String p){
                             userType = null;
                         }else{
                             out.println("ERROR|PATIENT_NOT_FOUND");
-                        }
-                        break;
-                    case DOCTOR:
-                        if(loggedDoctor == null){
-                            out.println("ERROR|NOT_LOGGED_IN");
-                            return;
-                        }
-                        if(doctorManager.deleteDoctor(loggedDoctor.getEmail())){
-                            out.println("OK|DOCTOR_DELETED");
-                            loggedDoctor = null;
-                            userType = null;
-                        }else{
-                            out.println("ERROR|DOCTOR_NOT_FOUND");
                         }
                         break;
                 }
@@ -622,6 +610,18 @@ private void savePatientRegistration(String p){
             out.println("ERROR|EXCEPTION");
             System.out.println("ERROR deleting recording: " + e.getMessage());
         }
+    }
+
+    private void getListRecording(int patient_id){
+        List<Recording> recording_list = recordingManager.getRecordingsByPatient(patient_id);
+        StringBuilder sb = new StringBuilder();
+        for (Recording recording : recording_list) {
+            sb.append(recording.getId()).append(";")
+                    .append(recording.getType()).append(";")
+                    .append(recording.getDateRecording()).append("|");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        out.println("RECORDINGS|" +sb.toString());
     }
 
     enum UserType{PATIENT, DOCTOR}

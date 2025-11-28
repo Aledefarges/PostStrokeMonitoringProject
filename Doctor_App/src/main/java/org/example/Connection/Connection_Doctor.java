@@ -134,23 +134,5 @@ public class Connection_Doctor {
         }
     }
 
-    public boolean deleteDoctorFromServer(){
-        try{
-            String message = "DELETE_ACCOUNT|";
-            out.println(message);
-            String response = in.readLine();
-            if("OK|DOCTOR_DELETED".equals(response)){
-                if(out != null) out.println("LOGOUT|");
-                close();
-                return true;
-            }
-            return false;
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-
-        }
-    }
-
 
 }

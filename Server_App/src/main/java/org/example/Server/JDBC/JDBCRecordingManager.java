@@ -83,21 +83,22 @@ public class JDBCRecordingManager implements RecordingManager {
     }
 
 
-    public List<Recording> getListOfRecordings() {
-        List<Recording> recordings= new ArrayList<Recording>();
+    public List<Recording> getRecordingsByPatient(int patient_id) {
+        List<Recording> recordings= new ArrayList<>();
 
-        String sql = "SELECT * FROM Recordings";
+        String sql = "SELECT * FROM Recordings WHERE patient_id = ? ORDER BY recordingDate DESC";
 
-        try(Connection c = manager.getConnection();
-        PreparedStatement ps = c.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery()){
+        try{
+                Connection c = manager.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setInt(1,patient_id);
+                ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
                 Timestamp ts = rs.getTimestamp("recordingDate");
                 LocalDateTime dateRecording = ts.toLocalDateTime();
                 int recording_id = rs.getInt("recording_id");
                 Recording.Type type = Recording.Type.valueOf(rs.getString("type"));
-                int patient_id = rs.getInt("patient_id");
 
                 Recording recording = new Recording(dateRecording, type, patient_id);
                 recording.setId(recording_id);
@@ -109,6 +110,7 @@ public class JDBCRecordingManager implements RecordingManager {
         }
         return recordings;
     }
+
 
 
 }
