@@ -137,6 +137,7 @@ public class PatientMenuPanel extends JPanel {
     }
     private void goToDelete() {
        connection.deletePatientFromServer();
+        appFrame.switchPanel(new MenuPanel(appFrame, connection));
     }
     private void goToRecording() {
         appFrame.switchPanel(new RecordingPanel(appFrame, connection));

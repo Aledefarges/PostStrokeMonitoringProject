@@ -34,7 +34,6 @@ public class LoginPanel extends JPanel {
 
         show_button.addActionListener(e-> togglePasswordVisible());
         login_button.addActionListener(e-> login());
-
     }
 
     private void initComponents() {
