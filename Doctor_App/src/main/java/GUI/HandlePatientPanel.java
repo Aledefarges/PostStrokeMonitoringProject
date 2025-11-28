@@ -22,10 +22,17 @@ public class HandlePatientPanel extends JPanel {
         initComponents();
 
         label1.setFont(new Font("Arial", Font.BOLD, 16));
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(70,130,180),1,true),
+                BorderFactory.createEmptyBorder(40,70,40,40))
+        );
+
+
         DefaultListModel<Patient> list =  new DefaultListModel<>();
         String response = connection.requestAllPatients();
         patient_list.setVisibleRowCount(6);
         patient_list.setFixedCellHeight(80);
+        patient_list.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         if (response.startsWith("PATIENTS_LIST|")){
             try{
                 String data = response.substring("PATIENTS_LIST|".length());
@@ -58,7 +65,8 @@ public class HandlePatientPanel extends JPanel {
                 String text = "<html>" + patient.getName() + " " + patient.getSurname() + "<br>" +
                         patient.getDob() + " | " + patient.getSex() + "<br>" +
                         "Medical history: " + patient.getMedicalhistory() + "<br>" +
-                        "Contact: " + patient.getEmail() + " | " + patient.getPhone() + "</html>";
+                        "Contact: " + patient.getEmail() + " | " + patient.getPhone() +
+                        "     -------------------     " + "</html>";
                 JLabel label = new JLabel(text);
                 label.setFont(new Font("Arial", Font.BOLD, 14));
                 label.setOpaque(true);
@@ -81,10 +89,10 @@ public class HandlePatientPanel extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
-        scrollPane1 = new JScrollPane();
         patient_list = new JList();
 
         //======== this ========
+
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {331, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
@@ -96,21 +104,15 @@ public class HandlePatientPanel extends JPanel {
         add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
-
-        //======== scrollPane1 ========
-        {
-            scrollPane1.setViewportView(patient_list);
-        }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 3, 0.0, 0.0,
+        add(patient_list, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 0, 0), 0, 0));
+            new Insets(0, 0, 5, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
-    private JScrollPane scrollPane1;
     private JList patient_list;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
