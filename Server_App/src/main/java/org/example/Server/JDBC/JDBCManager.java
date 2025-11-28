@@ -17,7 +17,7 @@ public class JDBCManager {
 
 
 
-    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb0.db";
+    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb1.db";
 
     static {
         try{
