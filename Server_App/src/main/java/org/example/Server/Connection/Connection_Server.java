@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -349,7 +350,7 @@ private void savePatientRegistration(String p){
                 return;
         }
 
-        Recording recording = new Recording(LocalDate.now(), typeEnum, patient_id);
+        Recording recording = new Recording(LocalDateTime.now(), typeEnum, patient_id);
         recordingManager.addRecording(recording);
         currentRecording_id = recording.getId();
         frameCounter = 0;
