@@ -89,10 +89,12 @@ public Doctor getDoctorByEmail(String email){
                  String name = rs.getString("name");
                  String surname = rs.getString("surname");
                  int phone = rs.getInt("phone");
+                 int doctor_id = rs.getInt("doctor_id");
 
                  // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
 
                  doctor = new Doctor(name, surname, phone, email, password);
+                 doctor.setDoctor_id(doctor_id);
              }
          }
      }catch(SQLException e){

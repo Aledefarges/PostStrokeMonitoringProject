@@ -89,7 +89,7 @@ public class EmailPanel extends JPanel {
             boolean emailOK = connection.sendChangeEmail(old_email, new_email);
             if (emailOK) {
                 JOptionPane.showMessageDialog(this, "Email change successful");
-                // appFrame.switchPanel(new DoctorMenu(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email");
             }

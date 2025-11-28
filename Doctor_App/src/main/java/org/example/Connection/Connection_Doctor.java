@@ -94,9 +94,9 @@ public class Connection_Doctor {
         }
     }
 
-    public boolean sendChangeEmail(String oldEmail, String newEmail){
+    public boolean sendChangeEmail(String email, String newEmail){
         try{
-            out.println("CHANGE_EMAIL|" + oldEmail + ";" + newEmail);
+            out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
             String response = in.readLine();
             return response.equals("OK|EMAIL_CHANGED");
 
@@ -104,6 +104,7 @@ public class Connection_Doctor {
             return false;
         }
     }
+
 
     public boolean sendChangePassword(String oldPassword, String newPassword){
         try{
