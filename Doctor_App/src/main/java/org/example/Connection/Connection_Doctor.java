@@ -73,7 +73,7 @@ public class Connection_Doctor {
     }
 
 
-    public String sendAllPatients(){
+    public String requestAllPatients(){
         try{
             out.println("VIEW_ALL_PATIENTS|");
             String response = in.readLine();
