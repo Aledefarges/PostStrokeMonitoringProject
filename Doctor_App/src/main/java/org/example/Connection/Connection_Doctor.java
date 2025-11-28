@@ -115,7 +115,7 @@ public class Connection_Doctor {
         }
     }
 
-    public static String encryptPassword(String password){
+    public static String encryptDoctorPassword(String password){
         try{
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());

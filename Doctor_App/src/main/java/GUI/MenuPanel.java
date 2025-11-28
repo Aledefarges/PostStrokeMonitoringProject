@@ -43,6 +43,7 @@ public class MenuPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
         title = new JLabel();
         separator1 = new JSeparator();
         login_button = new JButton();
@@ -89,7 +90,7 @@ public class MenuPanel extends JPanel {
         appFrame.switchPanel(new LoginPanel(appFrame, connection));
     }
     private void goToRegister(){
-        //appFrame.switchPanel(new RegisterPanel(appFrame,connection));
+        appFrame.switchPanel(new RegisterDoctorPanel(appFrame,connection));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria

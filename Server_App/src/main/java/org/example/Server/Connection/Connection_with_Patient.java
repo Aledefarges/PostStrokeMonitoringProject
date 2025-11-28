@@ -153,7 +153,7 @@ private void savePatientRegistration(String p){
 
             Doctor doctor = new Doctor(name, surname, phone, email, password);
             doctorManager.addDoctor(doctor);
-            out.println("DOCTOR_SAVED");
+            out.println("OK|DOCTOR_SAVED");
             System.out.println(" Doctor saved correctly");
 
         }catch(Exception e){
@@ -187,6 +187,7 @@ private void savePatientRegistration(String p){
                     loggedDoctor = doctor;
                     loggedPatient = null;
                     userType = UserType.DOCTOR;
+                    loggedDoctor.setPassword(password);
                     out.println("OK|LOGIN_SUCCESS_DOCTOR");
                 }else{
                 out.println("ERROR|WRONG_PASSWORD");
