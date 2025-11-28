@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 			"$columnSpecs": "356"
-			"$rowSpecs": "0, 0"
+			"$rowSpecs": "0, 0, 0"
 			"$hGap": 5
 			"$vGap": 5
 			"$alignLeft": true
@@ -20,6 +20,12 @@ new FormModel {
 				name: "password_field"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 1
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "close_button"
+				"text": "CLOSE"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 2
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

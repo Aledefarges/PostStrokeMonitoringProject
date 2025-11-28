@@ -20,18 +20,20 @@ public class AdminPanel extends JPanel {
         // Generated using JFormDesigner Evaluation license - Nerea Leria
         label = new JLabel();
         password_field = new JTextField();
+        close_button = new JButton();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder (
-        0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder
-        . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .
-        red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java .
-        beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder
+        ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border
+        .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
+        . Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void
+        propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+        ;} } );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {356, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label ----
         label.setText("Enter password to close SERVER");
@@ -39,6 +41,12 @@ public class AdminPanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
         add(password_field, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- close_button ----
+        close_button.setText("CLOSE");
+        add(close_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -48,5 +56,6 @@ public class AdminPanel extends JPanel {
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label;
     private JTextField password_field;
+    private JButton close_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
