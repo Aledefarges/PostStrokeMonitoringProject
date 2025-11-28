@@ -55,13 +55,19 @@ public class RecordingsPanel extends JPanel {
         });
 
         recording_list.addListSelectionListener(e->{
-            if(!e.getValueIsAdjusting()){
+
+            if(e.getValueIsAdjusting()) return;
                 Recording recording = recording_list.getSelectedValue();
                 if(recording == null) return;
 
                 String response = connection.requestSpecificRecording(recording.getId());
 
-                String[] parts = response.split("\\|");
+            if (response == null || !response.startsWith("RECORDING_DATA|")) {
+                JOptionPane.showMessageDialog(this, "No data available for this recording.");
+                return;
+            }
+
+            String[] parts = response.split("\\|");
                 String part = parts[2];
                 String[] values = part.split(",");
 
@@ -70,7 +76,6 @@ public class RecordingsPanel extends JPanel {
                     data[i] = Double.parseDouble(values[i]);
                 }
                 PlotRecordings.showChartFromArray(data, "Recording ID " +recording.getId());
-            }
         });
     }
 
