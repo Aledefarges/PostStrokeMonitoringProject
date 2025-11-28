@@ -192,7 +192,7 @@ public Doctor getDoctorByEmail(String email){
                 if(rs.next()){
                     String pass = rs.getString("password");
 
-                    MessageDigest md = MessageDigest.getInstance("MD5");
+                   /* MessageDigest md = MessageDigest.getInstance("MD5");
                     md.update(password.getBytes());
                     byte[] digest = md.digest();
 
@@ -202,8 +202,9 @@ public Doctor getDoctorByEmail(String email){
                         sb.append(String.format("%02x",b));
                     }
                     String encryptedPass = sb.toString();
+                    */
 
-                    return pass.equalsIgnoreCase(encryptedPass);
+                    return pass.equalsIgnoreCase(password);
 
                 }
             } catch(SQLException e){
