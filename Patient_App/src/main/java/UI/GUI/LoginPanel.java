@@ -120,6 +120,7 @@ public class LoginPanel extends JPanel {
             String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
+                connection.startShutdownListener();
                 appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password");

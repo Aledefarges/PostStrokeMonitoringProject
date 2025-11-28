@@ -2,6 +2,7 @@ package org.example.Connection;
 
 import org.example.POJOS.Doctor;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -131,6 +132,23 @@ public class Connection_Doctor {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void startShutdownListener(){
+        new Thread(() -> {
+            try{
+                String msg;
+                while((msg = in.readLine()) != null){
+                    if(msg.equals("SERVER SHUTDOWN")){
+                        JOptionPane.showMessageDialog(null, "The server has been shut down. The application will close.");
+                        close();
+                        System.exit(0);
+                    }
+                }
+            }catch (IOException ex){
+
+            }
+        }).start();
     }
 
 }

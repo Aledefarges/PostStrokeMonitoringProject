@@ -6,10 +6,8 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class PatientServer {
+public class Server {
     public static void main(String[] args){
         try{
             ServerSocket serverSocket = new ServerSocket(9000);
