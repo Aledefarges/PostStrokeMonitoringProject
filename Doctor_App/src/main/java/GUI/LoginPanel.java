@@ -102,6 +102,7 @@ public class LoginPanel extends JPanel {
         }
     }
 
+
     private void login()  {
         try{
             String email = email_field.getText().trim();
@@ -112,9 +113,12 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            String response = connection.sendDoctorLogin(email, password);
+            //Encryptar contraseña:
+            String encryptedPassword = connection.encryptDoctorPassword(password);
 
-            if (response.startsWith("OK|LOGIN_SUCCESS_DOCTOR")) {
+            //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
+            String response = connection.sendDoctorLogin(email, encryptedPassword);
+            if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
                 appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
