@@ -8,7 +8,7 @@ public class AppFrame extends JFrame {
     private Connection_Patient connection;
     public AppFrame() {
         connection = new Connection_Patient();
-        boolean ok = connection.connection("172.16.205.116",9000);
+        boolean ok = connection.connection("10.60.102.67",9000);
 
         setTitle("Patient App");
         setSize(600,500);
