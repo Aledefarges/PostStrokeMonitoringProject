@@ -6,8 +6,11 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
+    public static final List<Connection_Server> activeConnections = new ArrayList<>();
     public static void main(String[] args){
         try{
             ServerSocket serverSocket = new ServerSocket(9000);
@@ -26,7 +29,9 @@ public class Server {
                 try{
                     while(!finalServerSocket.isClosed()){
                         Socket socket = finalServerSocket.accept();
-                        new Thread(new Connection_Server(socket)).start();
+                        Connection_Server c = new Connection_Server(socket);
+                        activeConnections.add(c);
+                        new Thread(c).start();
                     }
                 }catch (IOException e){
                     System.out.println("Server stopped");
@@ -36,16 +41,5 @@ public class Server {
         }catch(Exception ex) {
             ex.printStackTrace();
         }
-//        }finally{
-//            releaseResourcesPatientServer(serverSocket);
-//        }
     }
-
-//    private static void releaseResourcesPatientServer(ServerSocket serverSocket){
-//        try{
-//            serverSocket.close();
-//        }catch(IOException ex){
-//            Logger.getLogger(PatientServer.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }
