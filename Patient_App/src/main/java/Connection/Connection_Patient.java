@@ -70,7 +70,7 @@ public class Connection_Patient {
 
     public String requestAllDoctor(){
         try{
-            out.println("VIEW_ALL_DOCTORS");
+            out.println("VIEW_ALL_DOCTORS|");
             String response = in.readLine();
             return response;
         }catch(IOException e){
