@@ -7,13 +7,11 @@ import javax.swing.*;
 public class AppFrameDoctor extends JFrame{
     private Connection_Doctor connection;
     public AppFrameDoctor() {
-        connection = new Connection_Doctor();
-        boolean ok = connection.connection("10.60.102.67",9000);
 
         setTitle("Doctor App");
         setSize(600,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       setContentPane(new MenuPanel(this,connection));
+       setContentPane(new IP_Panel(this,connection));
         setVisible(true);
     }
 
