@@ -4,6 +4,8 @@
 
 package UI.GUI;
 
+import Connection.Connection_Patient;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -11,9 +13,28 @@ import javax.swing.*;
  * @author nerea
  */
 public class IP_Panel extends JPanel {
-    public IP_Panel() {
+    private Connection_Patient connection;
+    private AppFrame appFrame;
+
+    public IP_Panel(AppFrame appFrame, Connection_Patient connection){
+        this.appFrame = appFrame;
+        this.connection = connection;
         initComponents();
+
+        label1.setFont(new Font("Arial", Font.BOLD, 14));
+        label2.setFont(new Font("Arial", Font.BOLD, 14));
+
+        done_button.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        done_button.setBackground(new Color(70,130,180));
+        done_button.setForeground(Color.WHITE);
+
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+
+        introIP();
     }
+
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -24,13 +45,6 @@ public class IP_Panel extends JPanel {
         done_button = new JButton();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new
-        javax.swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax
-        .swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java
-        .awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt
-        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.
-        PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".
-        equals(e.getPropertyName()))throw new RuntimeException();}});
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {292, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
@@ -58,6 +72,20 @@ public class IP_Panel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+
+    public void  introIP(){
+        String ip = ip_field.getText().trim();
+        connection = new Connection_Patient();
+        done_button.addActionListener(e -> {
+            if (connection.connection(ip, 9000)) {
+                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo conectar al servidor"
+                );
+            }
+        });
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
