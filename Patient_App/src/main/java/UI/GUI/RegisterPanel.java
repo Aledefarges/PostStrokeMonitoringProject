@@ -195,6 +195,7 @@ public class RegisterPanel extends JPanel {
             String name = name_field.getText().trim();  // trim() se encarga de quitar las espacios que el usuario puede dejar al escribir
             String surname = surname_field.getText().trim();
             String dob = dob_field.getText().trim();
+
             Date dob_1 = Date.valueOf(dob);
             String email = email_field.getText().trim();
             String phone = phone_field.getText().trim();

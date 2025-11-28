@@ -30,18 +30,7 @@ public class JDBCDoctorManager implements DoctorManager {
          ps.setString(2, doctor.getSurname());
          ps.setInt(3, doctor.getPhone());
          ps.setString(4, doctor.getEmail());
-
-         MessageDigest md = MessageDigest.getInstance("MD5");
-         md.update(doctor.getPassword().getBytes());
-         byte[] encryptedPassword = md.digest();
-
-         StringBuilder sb = new StringBuilder();
-         for (byte b: encryptedPassword){
-             sb.append(String.format("%02x",b)); //2 digit hexadecimal
-         }
-         String encryptedStringPassword = sb.toString();
-
-         ps.setString(5, encryptedStringPassword);
+         ps.setString(5,doctor.getPassword());
          ps.executeUpdate();
 
      }catch(SQLException e){
@@ -140,26 +129,14 @@ public Doctor getDoctorByEmail(String email){
         return doctor;
     }
 
+
     @Override
     public void updatePassword(int doctor_id, String newPassword){
         String sql = "UPDATE Doctors SET password = ? WHERE doctor_id = ?";
-        try (Connection c=manager.getConnection();
-                PreparedStatement ps = c.prepareStatement(sql)){
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
 
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(newPassword.getBytes());
-            byte[] encryptedPassword = md.digest();
-
-            //Converting byte[] to hexadecimal String so it can be stored in TEXT
-            StringBuilder sb = new StringBuilder();
-            for (byte b: encryptedPassword){
-                sb.append(String.format("%02x",b)); //2 digit hexadecimal
-            }
-            String encryptedStringPassword = sb.toString();
-
-            ps.setString(1, encryptedStringPassword);
+            ps.setString(1, newPassword);
             ps.setInt(2, doctor_id);
-
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,7 +159,7 @@ public Doctor getDoctorByEmail(String email){
     }
 
     @Override
-    public boolean checkPassword(String email, String encryptedpassword) {
+    public boolean checkPassword(String email, String password) {
         String sql = "SELECT password FROM Doctors WHERE email = ?";
 
         try(Connection c=manager.getConnection();
@@ -193,19 +170,7 @@ public Doctor getDoctorByEmail(String email){
                 if(rs.next()){
                     String pass = rs.getString("password");
 
-                   /* MessageDigest md = MessageDigest.getInstance("MD5");
-                    md.update(password.getBytes());
-                    byte[] digest = md.digest();
-
-                    //Converting byte[] to hexadecimal String so it can be compared with the stored password
-                    StringBuilder sb = new StringBuilder();
-                    for (byte b: digest){
-                        sb.append(String.format("%02x",b));
-                    }
-                    String encryptedPass = sb.toString();
-                    */
-
-                    return pass.equalsIgnoreCase(encryptedpassword);
+                    return pass.equalsIgnoreCase(password);
 
                 }
             }
