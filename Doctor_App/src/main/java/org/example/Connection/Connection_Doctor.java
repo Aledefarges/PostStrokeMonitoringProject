@@ -98,7 +98,7 @@ public class Connection_Doctor {
     public boolean sendChangeEmail(String email, String newEmail){
         try{
             out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|EMAIL_CHANGED");
 
         }catch(IOException e){
@@ -134,21 +134,15 @@ public class Connection_Doctor {
         }
     }
 
-    public void startShutdownListener(){
-        new Thread(() -> {
-            try{
-                String msg;
-                while((msg = in.readLine()) != null){
-                    if(msg.equals("SERVER SHUTDOWN")){
-                        JOptionPane.showMessageDialog(null, "The server has been shut down. The application will close.");
-                        close();
-                        System.exit(0);
-                    }
-                }
-            }catch (IOException ex){
+    public String readLineHandlingListener()throws IOException{
+        String response = in.readLine();
 
-            }
-        }).start();
+        if(response == null || response.equals("SERVER SHUTDOWN")){
+            JOptionPane.showMessageDialog(null,"The server has been shut down. The application will close.");
+            close();
+            System.exit(0);
+        }
+        return response;
     }
 
 }
