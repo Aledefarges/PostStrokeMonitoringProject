@@ -59,7 +59,7 @@ public class JDBCManager {
                     + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
-                    + "dob DATE,"
+                    + "dob TEXT,"
                     + "email TEXT NOT NULL UNIQUE,"
                     + "password TEXT NOT NULL,"
                     + "phone INTEGER,"
@@ -96,7 +96,7 @@ public class JDBCManager {
             String sql_recordings = "CREATE TABLE Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
-                    + "recordingDate DATE,"
+                    + "recordingDate TEXT,"
                     + "patient_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE"
                     + ")";
