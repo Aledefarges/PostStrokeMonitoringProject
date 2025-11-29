@@ -30,7 +30,7 @@ public class RecordingsPanel extends JPanel {
         label1.setFont(new Font("Arial", Font.BOLD, 16));
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(70,130,180),1,true),
-                BorderFactory.createEmptyBorder(40,70,40,40))
+                BorderFactory.createEmptyBorder(60,70,40,40))
         );
 
         loadRecordings();

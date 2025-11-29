@@ -19,17 +19,17 @@ public class LoginPanel extends JPanel {
 
         this.add(panel1);
 
-        email_label.setFont(new Font("Arial", Font.BOLD, 16));
-        password_label.setFont(new Font("Arial", Font.BOLD, 16));
-        login_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        show_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        email_label.setFont(new Font("Arial", Font.BOLD, 14));
+        password_label.setFont(new Font("Arial", Font.BOLD, 14));
+        login_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        show_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         login_button.setBackground(new Color(70,130,180));
         login_button.setForeground(Color.WHITE);
         show_button.setBackground(new Color(70,130,180));
         show_button.setForeground(Color.WHITE);
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
 
         show_button.addActionListener(e-> togglePasswordVisible());
         login_button.addActionListener(e-> login());

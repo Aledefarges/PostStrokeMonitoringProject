@@ -22,10 +22,10 @@ public class DoctorMenuPanel extends JPanel {
 
         label1.setFont(new Font("Arial", Font.BOLD, 20));
         select_label.setFont(new Font("Arial", Font.BOLD, 18));
-        patient_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        email_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        password_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        exit_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        patient_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        email_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        password_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        exit_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         patient_button.setBackground(new Color(70,130,180));
         patient_button.setForeground(Color.WHITE);

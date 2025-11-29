@@ -18,7 +18,7 @@ public class PasswordPanel extends JPanel {
         this.connection = connection;
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
         old_label.setFont(new Font("Arial", Font.BOLD, 14));
         new_label.setFont(new Font("Arial", Font.BOLD, 14));
         ok_button.setFont(new Font("Arial", Font.PLAIN, 14));

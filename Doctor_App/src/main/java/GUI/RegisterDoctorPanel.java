@@ -21,7 +21,7 @@ public class RegisterDoctorPanel extends JPanel {
 
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
 
         label1.setFont(new Font("Arial", Font.BOLD, 20));
         name_label.setFont(new Font("Arial", Font.BOLD,14));
