@@ -242,7 +242,23 @@ public class Utilities {
 //    }
 
 
+   /* private void handleAdminShutdown(String password){
+        try{
+            String shutdownPw = "admin123"; //Clave de cierre
 
+            if(password.equals(shutdownPw)){
+                out.println("OK|SERVER_CLOSING");
+                System.out.println("SERVER CLOSING NOW...");
+                System.exit(0);
+            }else{
+                out.println("ERROR|WRONG_PASSWORD");
+            }
+        }catch(Exception ex){
+            out.println("ERROR|EXCEPTION");
+        }
+    }
+
+    */
 
 
 

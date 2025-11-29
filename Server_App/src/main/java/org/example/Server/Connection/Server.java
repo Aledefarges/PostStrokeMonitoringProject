@@ -15,7 +15,7 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(9000);
             ServerSocket finalServerSocket = serverSocket;
 
-            JFrame frame = new JFrame("Admin Panel");
+            JFrame frame = new JFrame("Administrator Server Panel");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(600,400);
             frame.setLocationRelativeTo(null);
