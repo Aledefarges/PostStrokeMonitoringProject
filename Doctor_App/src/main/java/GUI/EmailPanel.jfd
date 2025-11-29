@@ -41,6 +41,13 @@ new FormModel {
 				"text": "OK"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 1
+				"gridy": 3
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "back_button"
+				"text": "BACK TO DOCTOR MENU"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
 				"gridy": 4
 			} )
 		}, new FormLayoutConstraints( null ) {

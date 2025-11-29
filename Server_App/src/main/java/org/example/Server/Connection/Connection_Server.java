@@ -241,6 +241,11 @@ private void savePatientRegistration(String p){
                         out.println("ERROR|NOT_LOGGED_IN");
                         return;
                     }
+                    String storePassword = loggedDoctor.getPassword();
+                    if (!storePassword.equals(oldPassword)) {
+                        out.println("ERROR|WRONG_OLD_PASSWORD");
+                        return;
+                    }
                     doctorManager.updatePassword(loggedDoctor.getDoctor_id(), newPassword);
                     loggedDoctor.setPassword(newPassword);
                     out.println("OK|PASSWORD_CHANGED");

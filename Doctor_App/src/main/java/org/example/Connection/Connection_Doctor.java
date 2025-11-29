@@ -146,11 +146,12 @@ public class Connection_Doctor {
             byte[] digest = md.digest();
 
             StringBuilder sb = new StringBuilder();
-            for(byte b : digest){
+            for (byte b: digest){
                 sb.append(String.format("%02x", b));
+
             }
             return sb.toString();
-        }catch (Exception e){
+        }catch(Exception e){
             e.printStackTrace();
             return null;
         }

@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-			"$columnSpecs": "306"
-			"$rowSpecs": "0, 0"
+			"$columnSpecs": "269, 63"
+			"$rowSpecs": "0, 0, 0"
 			"$hGap": 5
 			"$vGap": 5
 			"$alignLeft": true
@@ -16,6 +16,12 @@ new FormModel {
 				name: "label1"
 				"text": "Select which recording to observe:"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "back_button"
+				"text": "BACK"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+			} )
 			add( new FormComponent( "javax.swing.JList" ) {
 				name: "recording_list"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {

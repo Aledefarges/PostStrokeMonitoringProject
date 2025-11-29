@@ -90,7 +90,13 @@ public class HandlePatientPanel extends JPanel {
                 }
             }
         } );
-
+        
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
+        
+        back_button.addActionListener(e -> backToMenu()); 
+        
 
     }
 
@@ -100,6 +106,7 @@ public class HandlePatientPanel extends JPanel {
         // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         patient_list = new JList();
+        back_button = new JButton();
 
         //======== this ========
         setLayout(new GridBagLayout());
@@ -116,13 +123,24 @@ public class HandlePatientPanel extends JPanel {
         add(patient_list, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- back_button ----
+        back_button.setText("BACK TO DOCTOR MENU");
+        add(back_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+    
+    public void backToMenu(){
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame,connection));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JList patient_list;
+    private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
 

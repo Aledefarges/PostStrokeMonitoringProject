@@ -22,11 +22,17 @@ public class EmailPanel extends JPanel {
         old_label.setFont(new Font("Arial", Font.BOLD, 14));
         new_label.setFont(new Font("Arial", Font.BOLD, 14));
         ok_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
+
 
         ok_button.setBackground(new Color(70,130,180));
         ok_button.setForeground(Color.WHITE);
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
+
 
         ok_button.addActionListener(e -> changeEmail());
+        back_button.addActionListener(e -> backToMenu());
     }
 
     private void initComponents() {
@@ -37,9 +43,9 @@ public class EmailPanel extends JPanel {
         new_label = new JLabel();
         new_field = new JTextField();
         ok_button = new JButton();
+        back_button = new JButton();
 
         //======== this ========
-
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {121, 238, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
@@ -66,7 +72,13 @@ public class EmailPanel extends JPanel {
 
         //---- ok_button ----
         ok_button.setText("OK");
-        add(ok_button, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
+        add(ok_button, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- back_button ----
+        back_button.setText("BACK TO DOCTOR MENU");
+        add(back_button, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -100,6 +112,10 @@ public class EmailPanel extends JPanel {
         
         
     }
+
+    private void backToMenu() {
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+    }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel old_label;
@@ -107,6 +123,7 @@ public class EmailPanel extends JPanel {
     private JLabel new_label;
     private JTextField new_field;
     private JButton ok_button;
+    private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
     }
 

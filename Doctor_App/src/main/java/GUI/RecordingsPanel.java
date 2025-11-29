@@ -28,6 +28,11 @@ public class RecordingsPanel extends JPanel {
         initComponents();
 
         label1.setFont(new Font("Arial", Font.BOLD, 16));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
+
+        back_button.addActionListener(e-> backToMenu());
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(70,130,180),1,true),
                 BorderFactory.createEmptyBorder(60,70,40,40))
@@ -57,7 +62,7 @@ public class RecordingsPanel extends JPanel {
         recording_list.addListSelectionListener(e->{
 
             if(e.getValueIsAdjusting()) return;
-                Recording recording = recording_list.getSelectedValue();
+                Recording recording = (Recording) recording_list.getSelectedValue();
                 if(recording == null) return;
 
                 String response = connection.requestSpecificRecording(recording.getId());
@@ -98,30 +103,38 @@ public class RecordingsPanel extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
+        back_button = new JButton();
         recording_list = new JList();
 
         //======== this ========
         setLayout(new GridBagLayout());
-        ((GridBagLayout)getLayout()).columnWidths = new int[] {306, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {274, 63, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
         label1.setText("Select which recording to observe:");
         add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- back_button ----
+        back_button.setText("BACK");
+        add(back_button, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
         add(recording_list, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 0, 0), 0, 0));
+            new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
-    private JList<Recording> recording_list;
+    private JButton back_button;
+    private JList recording_list;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public void loadRecordings(){
@@ -160,7 +173,9 @@ public class RecordingsPanel extends JPanel {
         }
     }
 
-
+    private void backToMenu() {
+        appFrame.switchPanel(new HandlePatientPanel(appFrame, connection));
+    }
 
 
 }

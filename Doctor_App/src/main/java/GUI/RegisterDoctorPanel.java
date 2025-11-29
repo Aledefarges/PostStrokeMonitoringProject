@@ -30,12 +30,15 @@ public class RegisterDoctorPanel extends JPanel {
         phone_label.setFont(new Font("Arial", Font.BOLD, 14));
         password_label.setFont(new Font("Arial", Font.BOLD, 14));
         register_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         register_button.setBackground(new Color(70,130,180));
         register_button.setForeground(Color.WHITE);
-
-
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
+        
         register_button.addActionListener(e-> registerDoctor());
+        back_button.addActionListener(e-> backToMenu());
     }
 
     private void initComponents() {
@@ -53,13 +56,13 @@ public class RegisterDoctorPanel extends JPanel {
         password_label = new JLabel();
         password_field = new JTextField();
         register_button = new JButton();
+        back_button = new JButton();
 
         //======== this ========
-        setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {139, 252, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {29, 0, 0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {29, 0, 0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
         label1.setText("Complete your doctor information: ");
@@ -116,6 +119,12 @@ public class RegisterDoctorPanel extends JPanel {
         register_button.setText("REGISTER");
         add(register_button, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- back_button ----
+        back_button.setText("BACK");
+        add(back_button, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -151,6 +160,10 @@ public class RegisterDoctorPanel extends JPanel {
         }
     }
 
+    private void backToMenu() {
+        appFrame.switchPanel(new MenuPanel(appFrame, connection));
+    }
+
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
@@ -165,5 +178,6 @@ public class RegisterDoctorPanel extends JPanel {
     private JLabel password_label;
     private JTextField password_field;
     private JButton register_button;
+    private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

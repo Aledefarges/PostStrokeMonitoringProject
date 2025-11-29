@@ -301,17 +301,6 @@ public class JDBCPatientManager implements PatientManager {
         String sql = "UPDATE Patients SET password = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
 
-            /*MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(newPassword.getBytes());
-            byte[] encryptedPassword = md.digest();*/
-
-            //Converting byte[] to hexadecimal String so it can be stored in TEXT
-            /*StringBuilder sb = new StringBuilder();
-            for (byte b: encryptedPassword){
-                sb.append(String.format("%02x",b)); //2 digit hexadecimal
-            }
-            String encryptedStringPassword = sb.toString();*/
-
             ps.setString(1, newPassword);
             ps.setInt(2, patient_id);
             ps.executeUpdate();

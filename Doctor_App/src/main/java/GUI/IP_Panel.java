@@ -17,7 +17,7 @@ public class IP_Panel extends JPanel {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
-        setBorder(BorderFactory.createEmptyBorder(60,100,40,40));
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         label1.setFont(new Font("Arial", Font.BOLD, 14));
         label2.setFont(new Font("Arial", Font.BOLD, 14));
@@ -46,8 +46,8 @@ public class IP_Panel extends JPanel {
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {292, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {1.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
         label1.setText("Indicate the IP of server");
@@ -84,8 +84,6 @@ public class IP_Panel extends JPanel {
 
             if (connection.connection(ip, 9000)) {
 
-                // Aquí se guarda la conexión en AppFrame
-                //appFrame.setConnection(connection);
                 appFrame.switchPanel(new MenuPanel(appFrame, connection));
             } else {
                 JOptionPane.showMessageDialog(this,

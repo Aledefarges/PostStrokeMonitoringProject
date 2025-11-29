@@ -15,17 +15,6 @@ public class AppFrameDoctor extends JFrame{
         setVisible(true);
     }
 
-    /*public void setConnection(Connection_Doctor connection) {
-        this.connection = connection;
-        // Con esta función el AppFrame guarda la conexión para los demás paneles
-    }
-
-    public Connection_Doctor getConnection() {
-        return this.connection;
-        // Sirve para dar la conexión que usa la app, la que se creó al introducir el IP
-    }
-
-     */
 
     public void switchPanel(JPanel newPanel){
         setContentPane(newPanel);

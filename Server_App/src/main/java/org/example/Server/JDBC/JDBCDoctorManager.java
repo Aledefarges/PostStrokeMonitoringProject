@@ -4,11 +4,9 @@ package org.example.Server.JDBC;
 
 import org.example.POJOS.Doctor;
 import org.example.POJOS.Exceptions;
-import org.example.POJOS.Patient;
+
 import org.example.Server.IFaces.DoctorManager;
 
-import javax.xml.transform.Result;
-import java.security.MessageDigest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,12 +148,10 @@ public Doctor getDoctorByEmail(String email){
         }
     }
 
-    @Override
     public boolean checkPassword(String email, String password) {
         String sql = "SELECT password FROM Doctors WHERE email = ?";
-
         try(Connection c=manager.getConnection();
-            PreparedStatement ps=c.prepareStatement(sql)){
+            PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1, email);
 
             try(ResultSet rs = ps.executeQuery()){
@@ -166,8 +162,11 @@ public Doctor getDoctorByEmail(String email){
 
                 }
             }
-        }catch (Exception e){
+        }
+        catch(SQLException e){
             e.printStackTrace();
+        }catch (Exception e2){
+            e2.printStackTrace();
         }
         return false;
     }
@@ -190,6 +189,7 @@ public Doctor getDoctorByEmail(String email){
                 }
                 rs.close();
                 ps.close();
+
             }catch(Exception e){
                 System.out.println("ERROR get list of doctors: "+e.getMessage());
             }

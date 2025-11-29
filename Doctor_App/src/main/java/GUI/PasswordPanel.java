@@ -22,11 +22,15 @@ public class PasswordPanel extends JPanel {
         old_label.setFont(new Font("Arial", Font.BOLD, 14));
         new_label.setFont(new Font("Arial", Font.BOLD, 14));
         ok_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         ok_button.setBackground(new Color(70,130,180));
         ok_button.setForeground(Color.WHITE);
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
 
         ok_button.addActionListener(e -> changePassword());
+        back_button.addActionListener(e -> backToMenu());
     }
 
     private void initComponents() {
@@ -37,9 +41,9 @@ public class PasswordPanel extends JPanel {
         new_label = new JLabel();
         new_field = new JTextField();
         ok_button = new JButton();
+        back_button = new JButton();
 
         //======== this ========
-
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {111, 258, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
@@ -66,7 +70,13 @@ public class PasswordPanel extends JPanel {
 
         //---- ok_button ----
         ok_button.setText("OK");
-        add(ok_button, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
+        add(ok_button, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- back_button ----
+        back_button.setText("BACK TO DOCTOR MENU");
+        add(back_button, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -86,7 +96,12 @@ public class PasswordPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Please enter a different password from the old one");
             }
 
-            boolean passwordOK = connection.sendChangePassword(old_password, new_password);
+            //Función de prueba para encryptar la constraseña:
+            String old_enc = connection.encryptDoctorPassword(old_password);
+            String new_enc = connection.encryptDoctorPassword(new_password);
+
+            boolean passwordOK = connection.sendChangePassword(old_enc,new_enc);
+            
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful");
                 appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
@@ -97,6 +112,10 @@ public class PasswordPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());
         }
     }
+
+    private void backToMenu() {
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+    }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel old_label;
@@ -104,5 +123,6 @@ public class PasswordPanel extends JPanel {
     private JLabel new_label;
     private JTextField new_field;
     private JButton ok_button;
+    private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
