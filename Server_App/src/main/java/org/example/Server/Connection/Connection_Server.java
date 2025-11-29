@@ -112,6 +112,8 @@ public class Connection_Server implements Runnable{
             throw new RuntimeException(e);
         } finally{
             releaseResourcesServer(out,in,socket);
+            org.example.Server.Connection.Server.removeConnection(this);
+            releaseResourcesServer(out,in,socket);
         }
     }
 
@@ -644,6 +646,13 @@ private void savePatientRegistration(String p){
         }
 
     }
+
+    public void sendShutdownMessage(){
+        if(out!= null){
+            out.println("SERVER SHUTDOWN");
+        }
+    }
+
 
     enum UserType{PATIENT, DOCTOR}
 }

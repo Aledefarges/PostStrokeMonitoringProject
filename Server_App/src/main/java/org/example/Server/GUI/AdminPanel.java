@@ -4,6 +4,9 @@
 
 package org.example.Server.GUI;
 
+import org.example.Server.Connection.Server;
+import org.example.Server.JDBC.JDBCManager;
+
 import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -74,16 +77,26 @@ public class AdminPanel extends JPanel {
 
         if(password.equals("1234")) {
             try {
-                serverSocket.close();
+                // Notify clients to close connection
+                Server.broadcastShutdown();
+
+                //Close server socket
+                if(serverSocket != null && !serverSocket.isClosed()){
+                    serverSocket.close();
+                }
+
                 JOptionPane.showMessageDialog(this, "SERVER STOPPED");
                 System.out.println("SERVER STOPPED");
 
                 Window window = SwingUtilities.getWindowAncestor(this);
                 if (window != null) window.dispose();
 
+                //Force shutdown of the Server
                 System.exit(0);
             } catch (IOException e) {
                 e.printStackTrace();
+                //Force exit even w/ error
+                System.exit(0);
             }
         }else {
             JOptionPane.showMessageDialog(this,"Wrong password");

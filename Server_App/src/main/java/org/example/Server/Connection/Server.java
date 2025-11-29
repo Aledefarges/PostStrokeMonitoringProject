@@ -6,11 +6,14 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Server {
-    public static void main(String[] args){
+    private static final List<Connection_Server> activeConnections = Collections.synchronizedList(new ArrayList<>());
 
+    public static void main(String[] args){
         try{
             ServerSocket serverSocket = new ServerSocket(9000);
             ServerSocket finalServerSocket = serverSocket;
@@ -23,20 +26,31 @@ public class Server {
             AdminPanel adminPanel = new AdminPanel(serverSocket);
             frame.setContentPane(adminPanel);
             frame.setVisible(true);
-
-            Thread serverThread = new Thread(() -> {
-                try{
-                    while(!finalServerSocket.isClosed()){
-                        Socket socket = finalServerSocket.accept();
-                        new Thread(new Connection_Server(socket)).start();
-                    }
-                }catch (IOException e){
-                    System.out.println("Server stopped");
-                }
-            });
-            serverThread.start();
+            while(true){
+                Socket socket = serverSocket.accept();
+                Connection_Server connection = new Connection_Server(socket);
+                activeConnections.add(connection);
+                new Thread(connection).start();
+            }
         }catch(Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public static void removeConnection(Connection_Server connection){
+        activeConnections.remove(connection);
+    }
+
+    public static void broadcastShutdown(){
+        synchronized (activeConnections){
+            for(Connection_Server c : activeConnections){
+                c.sendShutdownMessage();
+            }
+            try{
+                Thread.sleep(500);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 

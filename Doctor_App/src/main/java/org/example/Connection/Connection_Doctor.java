@@ -25,7 +25,8 @@ public class Connection_Doctor {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println("SERVER:  " + in.readLine());
+            String response = readLineHandlingListener();
+            System.out.println("SERVER:  " + response);
             return true;
         } catch (IOException ex) {
             System.out.println("Error connecting to server: " + ex.getMessage());
@@ -118,7 +119,7 @@ public class Connection_Doctor {
     public boolean sendChangeEmail(String email, String newEmail){
         try{
             out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|EMAIL_CHANGED");
 
         }catch(IOException e){
@@ -152,6 +153,25 @@ public class Connection_Doctor {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String readLineHandlingListener()throws IOException{
+        String response = in.readLine();
+
+        if (response == null || response.equals("SERVER SHUTDOWN")) {
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "The server has been shut down. The application will close.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                System.exit(0);
+            });
+        close();
+        throw new IOException("Server shutdown");
+        }
+        return response;
     }
 
 
