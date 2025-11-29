@@ -10,12 +10,11 @@ import java.awt.*;
 import javax.swing.*;
 
 public class IP_Panel extends JPanel {
-    private Connection_Patient connection;
     private AppFrame appFrame;
+    private Connection_Patient connection;
 
-    public IP_Panel(AppFrame appFrame, Connection_Patient connection){
+    public IP_Panel(AppFrame appFrame){
         this.appFrame = appFrame;
-        this.connection = connection;
         initComponents();
 
         label1.setFont(new Font("Arial", Font.BOLD, 14));
@@ -82,7 +81,10 @@ public class IP_Panel extends JPanel {
             connection = new Connection_Patient();
 
             if (connection.connection(ip, 9000)) {
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+
+                // Aquí se guarda la conexión en AppFrame
+                appFrame.setConnection(connection);
+                appFrame.switchPanel(new MenuPanel(appFrame));
             } else {
                 JOptionPane.showMessageDialog(this,
                             "Could not connect to server."

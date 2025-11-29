@@ -15,9 +15,9 @@ public class UpdatePanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
 
-    public UpdatePanel(AppFrame appFrame, Connection_Patient connection) {
+    public UpdatePanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
@@ -36,7 +36,7 @@ public class UpdatePanel extends JPanel {
         back_button.setBackground(new Color(62,156,118));
         back_button.setForeground(Color.WHITE);
         update_button.addActionListener(e-> update());
-        back_button.addActionListener(e -> goToPatientMenu());
+        back_button.addActionListener(e -> backToMenu());
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
@@ -62,7 +62,13 @@ public class UpdatePanel extends JPanel {
         back_button = new JButton();
 
         //======== this ========
-
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax .
+        swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border
+        . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog"
+        , java .awt . Font. BOLD ,12 ) ,java . awt. Color .red ) , getBorder
+        () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java
+        . beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException
+        ( ) ;} } );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {131, 310, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -136,14 +142,14 @@ public class UpdatePanel extends JPanel {
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- back_button ----
-        back_button.setText(" BACK TO PATIENT MENU");
+        back_button.setText("BACK TO PATIENT MENU");
         add(back_button, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
-    private void goToPatientMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+    private void backToMenu() {
+        appFrame.switchPanel(new PatientMenuPanel(appFrame));
     }
 
     private void update() {

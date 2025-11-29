@@ -13,20 +13,25 @@ import javax.swing.*;
 public class PasswordPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public PasswordPanel(AppFrame appFrame, Connection_Patient connection) {
+    public PasswordPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
         old_label.setFont(new Font("Arial", Font.BOLD, 14));
         new_label.setFont(new Font("Arial", Font.BOLD, 14));
         ok_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
+
 
         ok_button.setBackground(new Color(70,130,180));
         ok_button.setForeground(Color.WHITE);
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
 
         ok_button.addActionListener(e -> changePassword());
+        back_button.addActionListener(e -> backToMenu());
     }
 
     private void initComponents() {
@@ -37,19 +42,14 @@ public class PasswordPanel extends JPanel {
         new_label = new JLabel();
         new_field = new JTextField();
         ok_button = new JButton();
+        back_button = new JButton();
 
         //======== this ========
-//        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
-//        (0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
-//        .TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt
-//        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
-//        propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException()
-//        ;}});
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {111, 258, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- old_label ----
         old_label.setText("Old password:");
@@ -72,6 +72,12 @@ public class PasswordPanel extends JPanel {
         //---- ok_button ----
         ok_button.setText("OK");
         add(ok_button, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
+        //---- back_button ----
+        back_button.setText("BACK TO PATIENT MENU");
+        add(back_button, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -101,13 +107,17 @@ public class PasswordPanel extends JPanel {
             //boolean passwordOK = connection.sendChangePassword(old_password, new_password);
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new PatientMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid password");
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());
         }
+    }
+
+    public void backToMenu() {
+        appFrame.switchPanel(new PatientMenuPanel(appFrame));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
@@ -116,5 +126,6 @@ public class PasswordPanel extends JPanel {
     private JLabel new_label;
     private JTextField new_field;
     private JButton ok_button;
+    private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

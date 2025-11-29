@@ -99,7 +99,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "back_button"
-				"text": " BACK TO PATIENT MENU"
+				"text": "BACK TO PATIENT MENU"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 8
 				"gridx": 1

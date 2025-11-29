@@ -13,9 +13,9 @@ import javax.swing.*;
 public class LoginPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public LoginPanel(AppFrame appFrame, Connection_Patient connection) {
+    public LoginPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         this.add(panel1);
@@ -24,16 +24,20 @@ public class LoginPanel extends JPanel {
         password_label.setFont(new Font("Arial", Font.BOLD, 14));
         login_button.setFont(new Font("Arial", Font.PLAIN, 14));
         show_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         login_button.setBackground(new Color(70,130,180));
         login_button.setForeground(Color.WHITE);
         show_button.setBackground(new Color(70,130,180));
         show_button.setForeground(Color.WHITE);
+        back_button.setBackground(new Color(62, 156, 118));
+        back_button.setForeground(Color.WHITE);
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         show_button.addActionListener(e-> togglePasswordVisible());
         login_button.addActionListener(e-> login());
+        back_button.addActionListener(e -> backToMenu());
     }
 
     private void initComponents() {
@@ -46,15 +50,15 @@ public class LoginPanel extends JPanel {
         password_field = new JPasswordField();
         show_button = new JButton();
         login_button = new JButton();
+        back_button = new JButton();
 
         //======== panel1 ========
         {
-
             panel1.setLayout(new GridBagLayout());
             ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {105, 214, 64, 0};
-            ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+            ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
             ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
             //---- email_label ----
             email_label.setText("Email:");
@@ -83,6 +87,12 @@ public class LoginPanel extends JPanel {
             //---- login_button ----
             login_button.setText("Log In");
             panel1.add(login_button, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- back_button ----
+            back_button.setText("Back ");
+            panel1.add(back_button, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 5), 0, 0));
         }
@@ -120,7 +130,7 @@ public class LoginPanel extends JPanel {
             String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new PatientMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password");
             }
@@ -131,7 +141,12 @@ public class LoginPanel extends JPanel {
 
     }
 
+    public void backToMenu() {
+        appFrame.switchPanel(new MenuPanel(appFrame));
+    }
+
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JPanel panel1;
     private JLabel email_label;
     private JTextField email_field;
@@ -139,5 +154,6 @@ public class LoginPanel extends JPanel {
     private JPasswordField password_field;
     private JButton show_button;
     private JButton login_button;
+    private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

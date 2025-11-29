@@ -15,9 +15,9 @@ import javax.swing.*;
 public class RegisterPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public RegisterPanel(AppFrame appFrame, Connection_Patient connection) {
+    public RegisterPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         loadDoctorsIntoCombo();
@@ -219,7 +219,7 @@ public class RegisterPanel extends JPanel {
             boolean ok_register = connection.sendPatientToServer(patient, doctot_id);
             if(ok_register){
                 JOptionPane.showMessageDialog(this, "Register successful");
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+                appFrame.switchPanel(new MenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Something went wrong, error register");
             }

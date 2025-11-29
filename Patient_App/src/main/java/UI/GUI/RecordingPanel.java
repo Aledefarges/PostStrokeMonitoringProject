@@ -20,9 +20,9 @@ import javax.swing.*;
 public class RecordingPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public RecordingPanel(AppFrame appFrame, Connection_Patient connection) {
+    public RecordingPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         
         initComponents();
 
@@ -45,7 +45,7 @@ public class RecordingPanel extends JPanel {
         emg_button.addActionListener(e -> startRecording("EMG"));
         ecg_button.addActionListener(e -> startRecording("ECG"));
         both_button.addActionListener(e -> startRecording("BOTH"));
-        back_button.addActionListener(e-> appFrame.switchPanel(new PatientMenuPanel(appFrame, connection)));
+        back_button.addActionListener(e-> backToMenu());
 
     }
 
@@ -59,7 +59,6 @@ public class RecordingPanel extends JPanel {
         back_button = new JButton();
 
         //======== this ========
-
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {224, 0, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
@@ -163,6 +162,10 @@ public class RecordingPanel extends JPanel {
         }
        //
     }
+    public void backToMenu() {
+        appFrame.switchPanel(new PatientMenuPanel(appFrame));
+    }
+
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria

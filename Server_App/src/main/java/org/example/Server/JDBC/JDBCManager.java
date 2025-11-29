@@ -30,8 +30,6 @@ public class JDBCManager {
     public Connection getConnection(){
         try{
             Connection c = DriverManager.getConnection(DB_URL);
-            System.out.println("DB USED → " +
-                    new java.io.File(DB_URL.substring("jdbc:sqlite:".length())).getAbsolutePath());
 
             try(Statement st = c.createStatement()){
                 st.execute("PRAGMA foreign_keys = ON");
