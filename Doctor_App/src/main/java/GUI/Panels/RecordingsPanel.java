@@ -36,7 +36,6 @@ public class RecordingsPanel extends JPanel {
                 BorderFactory.createEmptyBorder(60,70,40,40))
         );
 
-        loadRecordings();
 
         recording_list.setCellRenderer(new ListCellRenderer<Recording>() {
             public Component getListCellRendererComponent(JList<? extends Recording> list, Recording recording, int index, boolean selected, boolean focused) {
@@ -57,58 +56,8 @@ public class RecordingsPanel extends JPanel {
             }
         });
 
-        recording_list.addListSelectionListener(e->{
-
-            if(e.getValueIsAdjusting()) return;
-                Recording recording = (Recording) recording_list.getSelectedValue();
-                if(recording == null) return;
-
-                String response = connection.requestSpecificRecording(recording.getId());
-
-            if (response == null || !response.startsWith("RECORDING_DATA|")) {
-                JOptionPane.showMessageDialog(this, "No data available for this recording.");
-                return;
-            }
-
-
-            String[] parts = response.split("\\|");
-                String part = parts[2];
-                String[] frames = part.split(",");
-
-                String diagnosis = null;
-                if(parts.length >= 4){
-                    diagnosis = parts[3];
-                }
-                // Se pone menos de 4 porque solo analiza la señal ECG
-
-                if (recording.getType() == Recording.Type.ECG ||  recording.getType() ==  Recording.Type.EMG){
-                    Double[] data = new Double[frames.length];
-                    for(int i = 0; i < frames.length; i++){
-                        data[i] = Double.parseDouble(frames[i]);
-                    }
-                    PlotRecordings.showChartFromArray(data, "Recording ID " +recording.getId());
-
-                } else if(recording.getType() == Recording.Type.BOTH){
-                    Double [] emg = new Double[frames.length];
-                    Double [] ecg = new Double[frames.length];
-
-                    for(int i = 0; i < frames.length; i++){
-                        String[] pair = frames[i].split(",");
-                        emg[i] = Double.parseDouble(pair[0]);
-                        ecg[i] = Double.parseDouble(pair[1]);
-
-                    }
-                    PlotRecordings.showChartFromArray(emg, "EMG Recording ID " +recording.getId());
-                    PlotRecordings.showChartFromArray(ecg, "ECG Recording ID " +recording.getId());
-                }
-
-                if(diagnosis != null){
-                    JOptionPane.showMessageDialog(this, diagnosis, "ECG Analysis", JOptionPane.INFORMATION_MESSAGE);
-                }
-
-        }
-
-        );
+        loadRecordings();
+        configureSelectHandle();
     }
 
     private void initComponents() {
@@ -123,7 +72,7 @@ public class RecordingsPanel extends JPanel {
         ((GridBagLayout)getLayout()).columnWidths = new int[] {274, 63, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 1.0};
 
         //---- label1 ----
         label1.setText("Select which recording to observe:");
@@ -136,14 +85,16 @@ public class RecordingsPanel extends JPanel {
         add(back_button, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
-        add(recording_list, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 5), 0, 0));
+
+        JScrollPane scrollPane = new JScrollPane(recording_list);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPane, new GridBagConstraints(0, 1, 2, 1, 1.0, 1.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(10, 0, 10, 0), 0, 0   ));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JButton back_button;
     private JList recording_list;
@@ -183,6 +134,58 @@ public class RecordingsPanel extends JPanel {
             recording_list.setModel(list);
 
         }
+    }
+
+    private void configureSelectHandle(){
+        recording_list.addListSelectionListener(e->{
+
+            if(e.getValueIsAdjusting()) return;
+            Recording recording = (Recording) recording_list.getSelectedValue();
+            if(recording == null) return;
+
+            String response = connection.requestSpecificRecording(recording.getId());
+
+            if (response == null || !response.startsWith("RECORDING_DATA|")) {
+                JOptionPane.showMessageDialog(this, "No data available for this recording.");
+                return;
+            }
+
+            String[] parts = response.split("\\|");
+            String part = parts[2];
+            String[] frames = part.split(",");
+
+            String diagnosis = null;
+            if(parts.length >= 4){
+                diagnosis = parts[3];
+            }
+            // Se pone menos de 4 porque solo analiza la señal ECG
+
+            if (recording.getType() == Recording.Type.ECG ||  recording.getType() ==  Recording.Type.EMG){
+                Double[] data = new Double[frames.length];
+                for(int i = 0; i < frames.length; i++){
+                    data[i] = Double.parseDouble(frames[i]);
+                }
+                PlotRecordings.showChartFromArray(data, "Recording ID " +recording.getId());
+
+            } else if(recording.getType() == Recording.Type.BOTH){
+                Double [] emg = new Double[frames.length];
+                Double [] ecg = new Double[frames.length];
+
+                for(int i = 0; i < frames.length; i++){
+                    String[] pair = frames[i].split(",");
+                    emg[i] = Double.parseDouble(pair[0]);
+                    ecg[i] = Double.parseDouble(pair[1]);
+
+                }
+                PlotRecordings.showChartFromArray(emg, "EMG Recording ID " +recording.getId());
+                PlotRecordings.showChartFromArray(ecg, "ECG Recording ID " +recording.getId());
+            }
+
+            if(diagnosis != null){
+                JOptionPane.showMessageDialog(this, diagnosis, "ECG Analysis", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        });
     }
 
     private void backToMenu() {

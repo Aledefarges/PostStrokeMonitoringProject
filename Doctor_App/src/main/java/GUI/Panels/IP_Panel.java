@@ -17,7 +17,7 @@ public class IP_Panel extends JPanel {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
 
         label1.setFont(new Font("Arial", Font.BOLD, 14));
         label2.setFont(new Font("Arial", Font.BOLD, 14));
@@ -36,7 +36,6 @@ public class IP_Panel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         label2 = new JLabel();
         ip_field = new JTextField();
@@ -46,8 +45,8 @@ public class IP_Panel extends JPanel {
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {292, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {1.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
         label1.setText("Indicate the IP of server");
