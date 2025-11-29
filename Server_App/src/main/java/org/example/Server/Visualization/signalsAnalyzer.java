@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class signalsAnalizer {
+public class signalsAnalyzer {
     public static List<Integer> RPeaksDetector(Double[] data, double fs) {
         List<Integer> rPeaks = new ArrayList<>();
 

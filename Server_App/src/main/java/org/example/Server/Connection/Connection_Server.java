@@ -4,17 +4,15 @@ import org.example.POJOS.Doctor;
 import org.example.POJOS.Recording;
 import org.example.Server.JDBC.*;
 import org.example.POJOS.Patient;
-import org.example.Server.Visualization.signalsAnalizer;
+import org.example.Server.Visualization.signalsAnalyzer;
 
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
@@ -431,7 +429,7 @@ private void savePatientRegistration(String p){
             }
 
             if(userType == UserType.DOCTOR && (type == Recording.Type.ECG || type == Recording.Type.BOTH)){
-                String diagnosis = signalsAnalizer.analizeECGFromFrames(frames, 100.0);
+                String diagnosis = signalsAnalyzer.analizeECGFromFrames(frames, 100.0);
                 out.println("RECORDING_DATA|" + recording_id + "|" + sb.toString() + "|" + diagnosis);
             }
             else{
