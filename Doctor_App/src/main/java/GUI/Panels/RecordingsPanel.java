@@ -65,14 +65,21 @@ public class RecordingsPanel extends JPanel {
         // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         back_button = new JButton();
+        scrollPane1 = new JScrollPane();
         recording_list = new JList();
 
         //======== this ========
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+        (0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder.CENTER,javax.swing.border
+        .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
+        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
+        propertyChange(java.beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
+        ;}});
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {274, 63, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 1.0};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
         label1.setText("Select which recording to observe:");
@@ -86,17 +93,22 @@ public class RecordingsPanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
-        JScrollPane scrollPane = new JScrollPane(recording_list);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scrollPane, new GridBagConstraints(0, 1, 2, 1, 1.0, 1.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(10, 0, 10, 0), 0, 0   ));
+        //======== scrollPane1 ========
+        {
+            scrollPane1.setViewportView(recording_list);
+        }
+        scrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPane1, new GridBagConstraints(0, 1, 2, 1, 1.0, 1.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JButton back_button;
+    private JScrollPane scrollPane1;
     private JList recording_list;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
@@ -172,7 +184,7 @@ public class RecordingsPanel extends JPanel {
                 Double [] ecg = new Double[frames.length];
 
                 for(int i = 0; i < frames.length; i++){
-                    String[] pair = frames[i].split(",");
+                    String[] pair = frames[i].split(";");
                     emg[i] = Double.parseDouble(pair[0]);
                     ecg[i] = Double.parseDouble(pair[1]);
 

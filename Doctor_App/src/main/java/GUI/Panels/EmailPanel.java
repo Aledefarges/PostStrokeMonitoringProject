@@ -7,6 +7,7 @@ package GUI.Panels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 import org.example.Connection.Connection_Doctor;
 
@@ -113,8 +114,9 @@ public class EmailPanel extends JPanel {
         
     }
 
-    private void backToMenu() {
+    private void backToMenu() throws IOException {
         appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
