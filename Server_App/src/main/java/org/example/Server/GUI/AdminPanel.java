@@ -15,7 +15,6 @@ import javax.swing.*;
 public class AdminPanel extends JPanel {
 
     private ServerSocket serverSocket;
-    private JPasswordField passwordField;
 
 
     public AdminPanel(ServerSocket serverSocket) {
@@ -39,7 +38,7 @@ public class AdminPanel extends JPanel {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         label = new JLabel();
-        password_field = new JTextField();
+        password_field = new JPasswordField();
         close_button = new JButton();
 
         //======== this ========
@@ -68,7 +67,7 @@ public class AdminPanel extends JPanel {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY
     private JLabel label;
-    private JTextField password_field;
+    private JPasswordField password_field;
     private JButton close_button;
     // JFormDesigner - End of variables declaration
 
@@ -113,6 +112,6 @@ public class AdminPanel extends JPanel {
     }
 
     public String getPassword(){
-        return new String(passwordField.getText());
+        return new String(password_field.getText());
     }
 }
