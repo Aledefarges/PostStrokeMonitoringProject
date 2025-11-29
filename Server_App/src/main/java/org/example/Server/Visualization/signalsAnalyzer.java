@@ -56,11 +56,11 @@ public class signalsAnalyzer {
         return rPeaks;
     }
 
-    public static String analizeECG(Double[] data, double fs) {
+    public static String analyzeECG(Double[] data, double fs) {
         List<Integer> rPeaks = RPeaksDetector(data, fs);
 
         if (rPeaks.size() < 2) {
-            return "Señal demasiado corta o sin picos R claros para analizar.";
+            return "The signal is too short or has no clear R peaks. It cannot be analysed.";
         }
 
         // Calcular intervalos RR en segundos
@@ -75,7 +75,7 @@ public class signalsAnalyzer {
         }
 
         if (countRR == 0) {
-            return "No se han podido calcular intervalos R-R válidos.";
+            return "Valid R-R intervals could not be calculated.";
         }
 
         double meanRR = sumRR / countRR;      // segundos
@@ -85,15 +85,18 @@ public class signalsAnalyzer {
         String hrStr = String.format(Locale.US, "%.1f", heartRate);
 
         if (heartRate > 100.0) {
-            return "Paciente con posible taquicardia (FC ≈ " + hrStr + " lpm).";
-        } else {
-            return "Frecuencia cardiaca dentro de rango (FC ≈ " + hrStr + " lpm).";
+            return "Patient may have a possible tachycardia (HR ≈ " + hrStr + " bpm).";
+        }else if (heartRate < 60.0) {
+            return "Patient may have a possible bradycardia (HR ≈ " + hrStr + " bpm).";
+        }else {
+            return "Heart rate within range (HR ≈ " + hrStr + " bpm).";
         }
+
     }
 
-    public static String analizeECGFromFrames(List<int[]> frames, double fs) {
+    public static String analyzeECGFromFrames(List<int[]> frames, double fs) {
         if (frames == null || frames.isEmpty()) {
-            return "No hay frames para analizar.";
+            return "There are no frames to analyze.";
         }
 
         Double[] data = new Double[frames.size()];
@@ -101,7 +104,7 @@ public class signalsAnalyzer {
             data[i] = (double) frames.get(i)[2];
         }
 
-        return analizeECG(data, fs);
+        return analyzeECG(data, fs);
     }
 
 

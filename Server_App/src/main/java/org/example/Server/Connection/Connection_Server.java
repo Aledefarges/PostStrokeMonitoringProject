@@ -434,7 +434,7 @@ private void savePatientRegistration(String p){
             }
 
             if(userType == UserType.DOCTOR && (type == Recording.Type.ECG || type == Recording.Type.BOTH)){
-                String diagnosis = signalsAnalyzer.analizeECGFromFrames(frames, 100.0);
+                String diagnosis = signalsAnalyzer.analyzeECGFromFrames(frames, 100.0);
                 out.println("RECORDING_DATA|" + recording_id + "|" + sb.toString() + "|" + diagnosis);
             }
             else{
