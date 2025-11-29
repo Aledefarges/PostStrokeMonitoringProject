@@ -47,13 +47,19 @@ public class Server {
     public static void broadcastShutdown(){
         synchronized (activeConnections){
             for(Connection_Server c : activeConnections){
-                c.sendShutdownMessage();
+                try{
+                    c.sendShutdownMessage();
+                    c.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
-            try{
-                Thread.sleep(500);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
+        }
+    }
+
+    public static int getActiveClientCount(){
+        synchronized (activeConnections){
+            return activeConnections.size();
         }
     }
 

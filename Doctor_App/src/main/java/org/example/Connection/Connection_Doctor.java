@@ -3,6 +3,7 @@ package org.example.Connection;
 import org.example.POJOS.Doctor;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,7 +57,7 @@ public class Connection_Doctor {
                             doctor.getPassword();
 
             out.println(message);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|DOCTOR_SAVED");
 
 
@@ -70,7 +71,7 @@ public class Connection_Doctor {
         // Enviar comando
         out.println("LOGIN|" + email + ";" + password);
         // Leer respuesta
-        String response = in.readLine();
+        String response = readLineHandlingListener();
         return response;
     }
 
@@ -78,7 +79,7 @@ public class Connection_Doctor {
     public String requestAllPatients(){
         try{
             out.println("VIEW_ALL_PATIENTS|");
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response;
         }catch(IOException e){
             return null;
@@ -88,7 +89,7 @@ public class Connection_Doctor {
     public String requestRecordingsByPatient(int patient_id){
         try{
             out.println("VIEW_RECORDINGS_BY_PATIENT|" + patient_id);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response;
         }catch(IOException e){
             return null;
@@ -98,7 +99,7 @@ public class Connection_Doctor {
     public String requestSpecificRecording(int recording_id){
         try{
             out.println("GET_RECORDING|" + recording_id);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response;
         }catch(IOException e){
             return null;
@@ -109,7 +110,7 @@ public class Connection_Doctor {
     public boolean sendPatientHistory(String email, String newMedicalHistory){
         try{
             out.println("UPDATE_PATIENT_HISTORY|" + email + ";" + newMedicalHistory);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|MEDICAL_HISTORY_UPDATED");
         }catch(IOException e){
             return false;
@@ -131,7 +132,7 @@ public class Connection_Doctor {
     public boolean sendChangePassword(String oldPassword, String newPassword){
         try{
             out.println("CHANGE_PASSWORD|" + oldPassword + ";" + newPassword);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|PASSWORD_CHANGED");
         }catch(IOException e){
             return false;
@@ -159,6 +160,7 @@ public class Connection_Doctor {
         String response = in.readLine();
 
         if (response == null || response.equals("SERVER SHUTDOWN")) {
+            close();
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(
                         null,
@@ -166,9 +168,11 @@ public class Connection_Doctor {
                         "Warning",
                         JOptionPane.WARNING_MESSAGE
                 );
+                for(Window window : Window.getWindows()){
+                    window.dispose();
+                }
                 System.exit(0);
             });
-        close();
         throw new IOException("Server shutdown");
         }
         return response;

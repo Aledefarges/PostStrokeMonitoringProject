@@ -653,6 +653,14 @@ private void savePatientRegistration(String p){
         }
     }
 
+    public void close() {
+        try {
+            if (out != null) out.close();  // Stop sending data to server
+            if (in != null) in.close();   // Stop receiving data to server
+            if (socket != null) socket.close(); // close connection
+        } catch (IOException e) {}
+    }
+
 
     enum UserType{PATIENT, DOCTOR}
 }

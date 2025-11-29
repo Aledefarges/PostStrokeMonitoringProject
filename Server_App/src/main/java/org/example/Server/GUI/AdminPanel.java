@@ -15,7 +15,8 @@ import javax.swing.*;
 public class AdminPanel extends JPanel {
 
     private ServerSocket serverSocket;
-    private boolean running = true;
+    private JPasswordField passwordField;
+
 
     public AdminPanel(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
@@ -31,8 +32,7 @@ public class AdminPanel extends JPanel {
 
 
         close_button.addActionListener(e -> {
-            String password = password_field.getText();
-            stopServer(password);
+            stopServer();
         });
     }
 
@@ -73,33 +73,46 @@ public class AdminPanel extends JPanel {
     // JFormDesigner - End of variables declaration
 
 
-    public void stopServer(String password){
-
-        if(password.equals("1234")) {
-            try {
-                // Notify clients to close connection
-                Server.broadcastShutdown();
-
-                //Close server socket
-                if(serverSocket != null && !serverSocket.isClosed()){
-                    serverSocket.close();
-                }
-
-                JOptionPane.showMessageDialog(this, "SERVER STOPPED");
-                System.out.println("SERVER STOPPED");
-
-                Window window = SwingUtilities.getWindowAncestor(this);
-                if (window != null) window.dispose();
-
-                //Force shutdown of the Server
-                System.exit(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-                //Force exit even w/ error
-                System.exit(0);
-            }
-        }else {
+    public void stopServer(){
+        String password = getPassword();
+        if(!password.equals("1234")){
             JOptionPane.showMessageDialog(this,"Wrong password");
+            return;
         }
+
+        int clients = Server.getActiveClientCount();
+        if(clients > 0){
+            int r = JOptionPane.showConfirmDialog(
+                    this,
+                    "There are "+clients+" clients connected.\n" +
+                    "Do you want to close the server?",
+                    "Warning",
+                    JOptionPane.YES_NO_OPTION);
+            if(r != JOptionPane.YES_OPTION) return;
+        }
+        try {
+            // Notify clients to close connection
+            Server.broadcastShutdown();
+            Thread.sleep(300);
+
+            //Close server socket
+            if(serverSocket != null && !serverSocket.isClosed()){
+                serverSocket.close();
+            }
+            SwingUtilities.getWindowAncestor(this).dispose();
+
+            //Force shutdown of the Server
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+            //Force exit even w/ error
+            System.exit(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getPassword(){
+        return new String(passwordField.getText());
     }
 }
