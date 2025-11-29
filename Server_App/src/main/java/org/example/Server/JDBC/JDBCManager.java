@@ -7,17 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCManager {
-    //changed from private to rpotected to be able to access for tests
-//    protected Connection c;
-//    private DoctorManager dMan;
-//    private PatientManager pMan;
-//    private AdministratorManager aMan;
-//    private RecordingManager rMan;
-//    private RecordingFramesManager rfrMan;
 
-
-
-    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb2.db";
+    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb3.db";
 
     static {
         try{
@@ -54,6 +45,17 @@ public class JDBCManager {
         Statement st = c.createStatement()){
             st.execute("PRAGMA foreign_keys = ON");
 
+            //Table doctors
+            String sql_doctor = "CREATE TABLE Doctors ("
+                    + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "name TEXT,"
+                    + "surname TEXT,"
+                    + "phone INTEGER,"
+                    + "email TEXT NOT NULL UNIQUE,"
+                    + "password TEXT NOT NULL"
+                    + ")";
+            st.executeUpdate(sql_doctor);
+
             //Table Patients
             String sql_patient = "CREATE TABLE Patients ("
                     + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -69,28 +71,6 @@ public class JDBCManager {
                     + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL"//si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
             st.executeUpdate(sql_patient);
-
-            //Table doctors
-            String sql_doctor = "CREATE TABLE Doctors ("
-                    + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "name TEXT,"
-                    + "surname TEXT,"
-                    + "phone INTEGER,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL"
-                    + ")";
-            st.executeUpdate(sql_doctor);
-
-            //Table Administrators
-            String sql_administrator = "CREATE TABLE Administrators ("
-                    + "admin_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "name TEXT NOT NULL,"
-                    + "surname TEXT NOT NULL,"
-                    + "phone INTEGER,"
-                    + "email TEXT NOT NULL UNIQUE,"
-                    + "password TEXT NOT NULL"
-                    +")";
-            st.executeUpdate(sql_administrator);
 
             //Table recordings
             String sql_recordings = "CREATE TABLE Recordings ("
