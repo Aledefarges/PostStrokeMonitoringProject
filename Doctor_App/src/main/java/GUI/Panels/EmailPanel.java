@@ -114,9 +114,8 @@ public class EmailPanel extends JPanel {
         
     }
 
-    private void backToMenu() throws IOException {
+    private void backToMenu(){
         appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
-
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
