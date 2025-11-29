@@ -13,9 +13,9 @@ import javax.swing.*;
 public class LoginPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public LoginPanel(AppFrame appFrame) {
+    public LoginPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         initComponents();
 
         this.add(panel1);
@@ -130,7 +130,7 @@ public class LoginPanel extends JPanel {
             String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame));
+                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password");
             }
@@ -142,7 +142,7 @@ public class LoginPanel extends JPanel {
     }
 
     public void backToMenu() {
-        appFrame.switchPanel(new MenuPanel(appFrame));
+        appFrame.switchPanel(new MenuPanel(appFrame, connection));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

@@ -13,9 +13,9 @@ import javax.swing.*;
 public class PasswordPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public PasswordPanel(AppFrame appFrame) {
+    public PasswordPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
@@ -107,7 +107,7 @@ public class PasswordPanel extends JPanel {
             //boolean passwordOK = connection.sendChangePassword(old_password, new_password);
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful");
-                appFrame.switchPanel(new PatientMenuPanel(appFrame));
+                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid password");
             }
@@ -117,7 +117,7 @@ public class PasswordPanel extends JPanel {
     }
 
     public void backToMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame));
+        appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria

@@ -20,9 +20,9 @@ import javax.swing.*;
 public class RecordingPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public RecordingPanel(AppFrame appFrame) {
+    public RecordingPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         
         initComponents();
 
@@ -163,7 +163,7 @@ public class RecordingPanel extends JPanel {
        //
     }
     public void backToMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame));
+        appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
     }
 
 

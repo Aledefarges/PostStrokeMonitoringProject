@@ -15,9 +15,9 @@ public class UpdatePanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
 
-    public UpdatePanel(AppFrame appFrame) {
+    public UpdatePanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
@@ -149,7 +149,7 @@ public class UpdatePanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
     private void backToMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame));
+        appFrame.switchPanel(new PatientMenuPanel(appFrame,connection));
     }
 
     private void update() {

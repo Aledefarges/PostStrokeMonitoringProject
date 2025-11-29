@@ -13,8 +13,9 @@ public class IP_Panel extends JPanel {
     private AppFrame appFrame;
     private Connection_Patient connection;
 
-    public IP_Panel(AppFrame appFrame){
+    public IP_Panel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
+        this.connection = connection;
         initComponents();
 
         label1.setFont(new Font("Arial", Font.BOLD, 14));
@@ -82,9 +83,7 @@ public class IP_Panel extends JPanel {
 
             if (connection.connection(ip, 9000)) {
 
-                // Aquí se guarda la conexión en AppFrame
-                appFrame.setConnection(connection);
-                appFrame.switchPanel(new MenuPanel(appFrame));
+                appFrame.switchPanel(new MenuPanel(appFrame, connection));
             } else {
                 JOptionPane.showMessageDialog(this,
                             "Could not connect to server."
