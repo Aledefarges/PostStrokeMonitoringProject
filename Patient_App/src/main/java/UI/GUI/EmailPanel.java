@@ -113,7 +113,7 @@ public class EmailPanel extends JPanel {
     }
 
     public void backToMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame));
+        appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
