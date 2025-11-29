@@ -13,8 +13,9 @@ public class IP_Panel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public IP_Panel(AppFrameDoctor appFrame){
+    public IP_Panel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.appFrame = appFrame;
+        this.connection = connection;
         initComponents();
         setBorder(BorderFactory.createEmptyBorder(60,100,40,40));
 
@@ -84,8 +85,8 @@ public class IP_Panel extends JPanel {
             if (connection.connection(ip, 9000)) {
 
                 // Aquí se guarda la conexión en AppFrame
-                appFrame.setConnection(connection);
-                appFrame.switchPanel(new MenuPanel(appFrame));
+                //appFrame.setConnection(connection);
+                appFrame.switchPanel(new MenuPanel(appFrame, connection));
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Could not connect to server."

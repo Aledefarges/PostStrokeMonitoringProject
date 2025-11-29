@@ -12,9 +12,9 @@ import java.awt.*;
 public class LoginPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public LoginPanel(AppFrameDoctor appFrame) {
+    public LoginPanel(AppFrameDoctor appFrame,  Connection_Doctor connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         initComponents();
 
         this.add(panel1);
@@ -120,7 +120,7 @@ public class LoginPanel extends JPanel {
             String response = connection.sendDoctorLogin(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_DOCTOR")) {
                 JOptionPane.showMessageDialog(this, "Log In successful");
-                appFrame.switchPanel(new DoctorMenuPanel(appFrame));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password");
             }

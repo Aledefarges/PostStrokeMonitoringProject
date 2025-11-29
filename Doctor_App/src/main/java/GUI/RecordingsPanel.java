@@ -20,8 +20,8 @@ public class RecordingsPanel extends JPanel {
     private AppFrameDoctor appFrame;
     private Patient patient;
     
-    public RecordingsPanel(AppFrameDoctor appFrame, Patient patient) {
-        this.connection = appFrame.getConnection();
+    public RecordingsPanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
+        this.connection = connection;
         this.appFrame = appFrame;
         this.patient = patient;
         

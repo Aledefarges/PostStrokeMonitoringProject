@@ -177,6 +177,8 @@ public class RegisterPanel extends JPanel {
                 return;
             }
 
+
+
             String[] parts = response.split("\\|");
             doctors_box.removeAllItems();
             for(int i=1; i<parts.length; i++){

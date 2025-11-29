@@ -16,9 +16,9 @@ public class MenuPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public MenuPanel(AppFrameDoctor appFrame) {
+    public MenuPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         initComponents();
         
         title.setFont(new Font("Arial", Font.BOLD, 20));
@@ -87,10 +87,10 @@ public class MenuPanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
     private void goToLogin(){
-        appFrame.switchPanel(new LoginPanel(appFrame));
+        appFrame.switchPanel(new LoginPanel(appFrame, connection));
     }
     private void goToRegister(){
-        appFrame.switchPanel(new RegisterDoctorPanel(appFrame));
+        appFrame.switchPanel(new RegisterDoctorPanel(appFrame, connection));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria

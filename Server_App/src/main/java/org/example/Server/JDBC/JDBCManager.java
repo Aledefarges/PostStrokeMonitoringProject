@@ -31,6 +31,7 @@ public class JDBCManager {
         try{
             Connection c = DriverManager.getConnection(DB_URL);
 
+
             try(Statement st = c.createStatement()){
                 st.execute("PRAGMA foreign_keys = ON");
             }

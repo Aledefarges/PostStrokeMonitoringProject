@@ -14,9 +14,9 @@ public class DoctorMenuPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public DoctorMenuPanel(AppFrameDoctor appFrame) {
+    public DoctorMenuPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.appFrame = appFrame;
-        this.connection = appFrame.getConnection();
+        this.connection = connection;
         initComponents();
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
@@ -104,13 +104,13 @@ public class DoctorMenuPanel extends JPanel {
     }
 
     private void goToHandlePatient() {
-        appFrame.switchPanel(new HandlePatientPanel(appFrame));
+        appFrame.switchPanel(new HandlePatientPanel(appFrame, connection));
     }
     private void changeEmail() {
-        appFrame.switchPanel(new EmailPanel(appFrame));
+        appFrame.switchPanel(new EmailPanel(appFrame, connection));
     }
     private void changePassword() {
-        appFrame.switchPanel(new PasswordPanel(appFrame));
+        appFrame.switchPanel(new PasswordPanel(appFrame, connection));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
