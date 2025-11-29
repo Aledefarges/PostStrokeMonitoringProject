@@ -15,8 +15,8 @@ import javax.swing.*;
 public class RegisterDoctorPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public RegisterDoctorPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
-        this.connection = connection;
+    public RegisterDoctorPanel(AppFrameDoctor appFrame) {
+        this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
 
         initComponents();
@@ -141,7 +141,7 @@ public class RegisterDoctorPanel extends JPanel {
             boolean ok_register = connection.sendRegisterDoctor(doctor);
             if(ok_register){
                 JOptionPane.showMessageDialog(this, "Register successful");
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+                appFrame.switchPanel(new MenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Something went wrong, error register");
             }

@@ -13,9 +13,9 @@ public class EmailPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     
-    public EmailPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
+    public EmailPanel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
@@ -89,7 +89,7 @@ public class EmailPanel extends JPanel {
             boolean emailOK = connection.sendChangeEmail(old_email, new_email);
             if (emailOK) {
                 JOptionPane.showMessageDialog(this, "Email change successful");
-                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email");
             }

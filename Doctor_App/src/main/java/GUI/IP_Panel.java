@@ -13,9 +13,8 @@ public class IP_Panel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public IP_Panel(AppFrameDoctor appFrame, Connection_Doctor connection){
+    public IP_Panel(AppFrameDoctor appFrame){
         this.appFrame = appFrame;
-        this.connection = connection;
         initComponents();
         setBorder(BorderFactory.createEmptyBorder(60,100,40,40));
 
@@ -83,13 +82,16 @@ public class IP_Panel extends JPanel {
             connection = new Connection_Doctor();
 
             if (connection.connection(ip, 9000)) {
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+
+                // Aquí se guarda la conexión en AppFrame
+                appFrame.setConnection(connection);
+                appFrame.switchPanel(new MenuPanel(appFrame));
             } else {
                 JOptionPane.showMessageDialog(this,
-                            "Could not connect to server."
-                    );
-                }
-            });
+                        "Could not connect to server."
+                );
+            }
+        });
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

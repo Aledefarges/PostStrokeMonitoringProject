@@ -13,9 +13,9 @@ import java.awt.*;
 public class PasswordPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public PasswordPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
+    public PasswordPanel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
@@ -89,7 +89,7 @@ public class PasswordPanel extends JPanel {
             boolean passwordOK = connection.sendChangePassword(old_password, new_password);
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful");
-                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid password");
             }

@@ -17,8 +17,8 @@ public class HandlePatientPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public HandlePatientPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
-        this.connection = connection;
+    public HandlePatientPanel(AppFrameDoctor appFrame) {
+        this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
         initComponents();
 
@@ -86,7 +86,7 @@ public class HandlePatientPanel extends JPanel {
             if(!e.getValueIsAdjusting()){ // indica que se ha terminado de selecionar un elemento de la lista
                 Patient selected = (Patient) patient_list.getSelectedValue();
                 if(selected!=null){
-                    appFrame.switchPanel(new RecordingsPanel(appFrame, connection,selected));
+                    appFrame.switchPanel(new RecordingsPanel(appFrame,selected));
                 }
             }
         } );
