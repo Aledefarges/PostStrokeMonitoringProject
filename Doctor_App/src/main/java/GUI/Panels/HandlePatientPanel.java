@@ -102,7 +102,6 @@ public class HandlePatientPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         patient_list = new JList();
         back_button = new JButton();
