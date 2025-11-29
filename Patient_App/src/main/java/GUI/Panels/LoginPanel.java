@@ -145,8 +145,7 @@ public class LoginPanel extends JPanel {
         appFrame.switchPanel(new MenuPanel(appFrame, connection));
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
+    // JFormDesigner - Variables declaration - DO NOT MODIFY
     private JPanel panel1;
     private JLabel email_label;
     private JTextField email_field;

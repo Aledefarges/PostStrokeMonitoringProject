@@ -5,6 +5,7 @@
 package GUI.Panels;
 
 
+import Bitalino.BITalinoException;
 import Connection.Connection_Patient;
 import Bitalino.Frame;
 import Bitalino.BITalino;
@@ -33,6 +34,8 @@ public class RecordingPanel extends JPanel {
         ecg_button.setFont(new Font("Arial", Font.PLAIN, 16));
         both_button.setFont(new Font("Arial", Font.PLAIN, 16));
         back_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        MAC_field.setFont(new Font("Arial", Font.PLAIN, 16));
+        done_button.setFont(new Font("Arial", Font.PLAIN, 16));
 
         emg_button.setBackground(new Color(70,130,180));
         emg_button.setForeground(Color.WHITE);
@@ -41,11 +44,16 @@ public class RecordingPanel extends JPanel {
         both_button.setBackground(new Color(70,130,180));
         both_button.setForeground(Color.WHITE);
         back_button.setBackground(new Color(62,156, 118));
-        
+        MAC_field.setBackground(new Color(70,130,180));
+        MAC_field.setForeground(Color.WHITE);
+        done_button.setBackground(new Color(62,156, 118));
+        done_button.setForeground(Color.WHITE);
+
         emg_button.addActionListener(e -> startRecording("EMG"));
         ecg_button.addActionListener(e -> startRecording("ECG"));
         both_button.addActionListener(e -> startRecording("BOTH"));
         back_button.addActionListener(e-> backToMenu());
+        done_button.addActionListener(e-> macAddressCheck());
 
     }
 
@@ -53,17 +61,21 @@ public class RecordingPanel extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
+        label2 = new JLabel();
         emg_button = new JButton();
         ecg_button = new JButton();
         both_button = new JButton();
         back_button = new JButton();
+        MAC_field = new JTextField();
+        done_button = new JButton();
 
         //======== this ========
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {224, 0, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1e-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+
 
         //---- label1 ----
         label1.setText("Select type of recording");
@@ -94,6 +106,23 @@ public class RecordingPanel extends JPanel {
         add(back_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 5), 0, 0));
+
+        //---- label2 ----
+        label2.setText("Introduce the BITalino MAC address:");
+        add(label2, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- MAC_field ----
+        add(MAC_field, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+        //---- done_button ----
+        done_button.setText("DONE");
+        add(done_button, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
@@ -111,7 +140,7 @@ public class RecordingPanel extends JPanel {
 
                 // Start BITalino
                 BITalino bita = new BITalino();
-                String mac = "20:17:11:20:50:77";
+                String mac = MAC_field.getText().trim();
                 bita.open(mac,100);
                 bita.start(channel);
 
@@ -166,13 +195,50 @@ public class RecordingPanel extends JPanel {
         appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
     }
 
+    private void macAddressCheck() {
+        String mac = MAC_field.getText().trim().replace(":", "");
 
+        if(!mac.matches("^[0-9A-Fa-f]{12}$")){
+            JOptionPane.showMessageDialog(this, "Invalid MAC address format.",
+                    "MAC Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        final String mac_final = mac;
+        new Thread(() -> {
+            try{
+                BITalino bita = new BITalino();
+                bita.open(mac_final, 100);
+                bita.close();
+
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
+                        this,
+                        "BITalino detected successfully.",
+                        "MAC OK",
+                        JOptionPane.INFORMATION_MESSAGE));
+                SwingUtilities.invokeLater(() -> MAC_field.setText(mac_final));
+            }catch (Exception e){
+                SwingUtilities.invokeLater(() ->
+                                JOptionPane.showMessageDialog(this,
+                            "BITalino not found or cannot connect.\n" +
+                                    "Check that it is ON and paired.\n" +
+                                    "Error: "+ e.getMessage(),
+                            "CONNECTION ERROR",
+                                        JOptionPane.ERROR_MESSAGE
+                                )
+                        );
+            }
+        }).start();
+    }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
+    private JLabel label2;
     private JButton emg_button;
     private JButton ecg_button;
     private JButton both_button;
     private JButton back_button;
+    private JTextField MAC_field;
+    private JButton done_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
