@@ -21,8 +21,9 @@ public class RegisterPanel extends JPanel {
         initComponents();
 
         loadDoctorsIntoCombo();
+        setBorder(BorderFactory.createEmptyBorder(40,110,30,30));
 
-        title.setFont(new Font("Arial", Font.BOLD, 20));
+        title.setFont(new Font("Arial", Font.BOLD, 18));
         name_label.setFont(new Font("Arial", Font.BOLD,14));
         surname_label.setFont(new Font("Arial", Font.BOLD,14));
         dob_label.setFont(new Font("Arial", Font.BOLD,14));
@@ -37,7 +38,6 @@ public class RegisterPanel extends JPanel {
         register_button.setBackground(new Color(70,130,180));
         register_button.setForeground(Color.WHITE);
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         register_button.addActionListener(e-> registerPatient());
 

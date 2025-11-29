@@ -19,6 +19,7 @@ public class LoginPanel extends JPanel {
         initComponents();
 
         this.add(panel1);
+        setBorder(BorderFactory.createEmptyBorder(80,110,30,30));
 
         email_label.setFont(new Font("Arial", Font.BOLD, 14));
         password_label.setFont(new Font("Arial", Font.BOLD, 14));
@@ -32,8 +33,6 @@ public class LoginPanel extends JPanel {
         show_button.setForeground(Color.WHITE);
         back_button.setBackground(new Color(62, 156, 118));
         back_button.setForeground(Color.WHITE);
-
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         show_button.addActionListener(e-> togglePasswordVisible());
         login_button.addActionListener(e-> login());
