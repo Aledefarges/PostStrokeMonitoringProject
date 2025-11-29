@@ -63,7 +63,7 @@ public class UpdatePanel extends JPanel {
 
         //======== this ========
         setLayout(new GridBagLayout());
-        ((GridBagLayout)getLayout()).columnWidths = new int[] {131, 310, 0};
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {131, 239, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
         ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
@@ -111,7 +111,7 @@ public class UpdatePanel extends JPanel {
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- dob_label ----
-        dob_label.setText("Date of birh:");
+        dob_label.setText("Date of birth:");
         add(dob_label, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));

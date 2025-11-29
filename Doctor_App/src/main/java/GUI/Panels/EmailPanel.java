@@ -97,6 +97,7 @@ public class EmailPanel extends JPanel {
             }
             if(new_email.equals(old_email)){
                 JOptionPane.showMessageDialog(null, "Please enter a different email from the old one");
+                return;
             }
 
             boolean emailOK = connection.sendChangeEmail(old_email, new_email);
@@ -109,8 +110,6 @@ public class EmailPanel extends JPanel {
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());
         }
-
-        
         
     }
 
