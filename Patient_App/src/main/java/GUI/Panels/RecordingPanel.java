@@ -124,7 +124,7 @@ public class RecordingPanel extends JPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
-    }
+    }//
 
     private void startRecording(String type) {
     // Desactivar botones mientras graba
