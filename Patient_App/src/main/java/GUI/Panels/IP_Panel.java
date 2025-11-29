@@ -26,7 +26,7 @@ public class IP_Panel extends JPanel {
         done_button.setBackground(new Color(70,130,180));
         done_button.setForeground(Color.WHITE);
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(80,110,30,30));
 
         introIP();
     }

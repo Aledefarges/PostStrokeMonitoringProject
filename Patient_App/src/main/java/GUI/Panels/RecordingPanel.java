@@ -27,15 +27,15 @@ public class RecordingPanel extends JPanel {
         
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(40,110,30,30));
         
-        label1.setFont(new Font("Arial", Font.BOLD, 20));
-        label2.setFont(new Font("Arial", Font.BOLD, 20));
-        emg_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        ecg_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        both_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        back_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        done_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        label1.setFont(new Font("Arial", Font.BOLD, 18));
+        label2.setFont(new Font("Arial", Font.BOLD, 18));
+        emg_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        ecg_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        both_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        done_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         emg_button.setBackground(new Color(70,130,180));
         emg_button.setForeground(Color.WHITE);

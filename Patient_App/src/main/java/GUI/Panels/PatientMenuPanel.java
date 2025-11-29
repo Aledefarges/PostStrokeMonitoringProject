@@ -20,7 +20,7 @@ public class PatientMenuPanel extends JPanel {
         this.connection = connection;
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        setBorder(BorderFactory.createEmptyBorder(40, 110, 30, 30));
 
         title1.setText("Patient Menu");
         title1.setFont(new Font("Arial", Font.BOLD, 20)); 

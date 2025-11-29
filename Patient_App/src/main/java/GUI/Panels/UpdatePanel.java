@@ -21,15 +21,15 @@ public class UpdatePanel extends JPanel {
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
-        label.setFont(new Font("Arial", Font.BOLD, 20));
-        name_label.setFont(new Font("Arial", Font.PLAIN, 16));
-        surname_label.setFont(new Font("Arial", Font.PLAIN, 16));
-        phone_label.setFont(new Font("Arial", Font.PLAIN, 16));
-        mh_label.setFont(new Font("Arial", Font.PLAIN, 16));
-        dob_label.setFont(new Font("Arial", Font.PLAIN, 16));
-        sex_label.setFont(new Font("Arial", Font.PLAIN, 16));
-        update_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        back_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        label.setFont(new Font("Arial", Font.BOLD, 18));
+        name_label.setFont(new Font("Arial", Font.PLAIN, 14));
+        surname_label.setFont(new Font("Arial", Font.PLAIN, 14));
+        phone_label.setFont(new Font("Arial", Font.PLAIN, 14));
+        mh_label.setFont(new Font("Arial", Font.PLAIN, 14));
+        dob_label.setFont(new Font("Arial", Font.PLAIN, 14));
+        sex_label.setFont(new Font("Arial", Font.PLAIN, 14));
+        update_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        back_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
         update_button.setBackground(new Color(70,130,180));
         update_button.setForeground(Color.WHITE);
@@ -38,13 +38,11 @@ public class UpdatePanel extends JPanel {
         update_button.addActionListener(e-> update());
         back_button.addActionListener(e -> backToMenu());
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label = new JLabel();
         name_label = new JLabel();
         name_field = new JTextField();

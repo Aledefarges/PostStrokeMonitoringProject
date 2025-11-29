@@ -21,6 +21,8 @@ public class MenuPanel extends JPanel {
         this.connection = connection;
         initComponents();
 
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+
         title.setFont(new Font("Arial", Font.BOLD, 20));
         login_button.setFont(new Font("Arial", Font.PLAIN, 16));
         register_button.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -34,7 +36,6 @@ public class MenuPanel extends JPanel {
         exit_button.setForeground(Color.WHITE);
         separator1.setForeground(new Color(70,130,180));
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         login_button.addActionListener(e-> goToLogin());
         register_button.addActionListener(e-> goToRegister());
