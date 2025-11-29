@@ -17,7 +17,7 @@ public class IP_Panel extends JPanel {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
-        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
+        setBorder(BorderFactory.createEmptyBorder(60,100,40,40));
 
         label1.setFont(new Font("Arial", Font.BOLD, 14));
         label2.setFont(new Font("Arial", Font.BOLD, 14));
