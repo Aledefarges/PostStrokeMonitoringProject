@@ -2,15 +2,13 @@
  * Created by JFormDesigner on Fri Nov 28 08:58:27 CET 2025
  */
 
-package GUI;
+package GUI.Panels;
 
 import org.example.Connection.Connection_Doctor;
 import org.example.POJOS.Doctor;
-import org.example.POJOS.Patient;
 
-import java.awt.*;
-import java.sql.Date;
 import javax.swing.*;
+import java.awt.*;
 
 public class RegisterDoctorPanel extends JPanel {
     private Connection_Doctor connection;
@@ -21,7 +19,7 @@ public class RegisterDoctorPanel extends JPanel {
 
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
+        setBorder(BorderFactory.createEmptyBorder(40,110,30,30));
 
         label1.setFont(new Font("Arial", Font.BOLD, 20));
         name_label.setFont(new Font("Arial", Font.BOLD,14));
@@ -43,7 +41,6 @@ public class RegisterDoctorPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         name_label = new JLabel();
         name_field = new JTextField();
@@ -59,6 +56,7 @@ public class RegisterDoctorPanel extends JPanel {
         back_button = new JButton();
 
         //======== this ========
+        setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {139, 252, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {29, 0, 0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};

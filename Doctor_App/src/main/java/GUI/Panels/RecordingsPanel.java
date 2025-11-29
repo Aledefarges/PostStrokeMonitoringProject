@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Fri Nov 28 17:05:40 CET 2025
  */
 
-package GUI;
+package GUI.Panels;
 
 import org.example.Connection.Connection_Doctor;
 import org.example.POJOS.Patient;
@@ -10,8 +10,6 @@ import org.example.POJOS.Recording;
 import org.example.Server.Visualization.PlotRecordings;
 
 import java.awt.*;
-import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import javax.swing.*;
 
@@ -72,9 +70,16 @@ public class RecordingsPanel extends JPanel {
                 return;
             }
 
+
             String[] parts = response.split("\\|");
                 String part = parts[2];
                 String[] frames = part.split(",");
+
+                String diagnosis = null;
+                if(parts.length >= 4){
+                    diagnosis = parts[3];
+                }
+                // Se pone menos de 4 porque solo analiza la señal ECG
 
                 if (recording.getType() == Recording.Type.ECG ||  recording.getType() ==  Recording.Type.EMG){
                     Double[] data = new Double[frames.length];
@@ -96,7 +101,14 @@ public class RecordingsPanel extends JPanel {
                     PlotRecordings.showChartFromArray(emg, "EMG Recording ID " +recording.getId());
                     PlotRecordings.showChartFromArray(ecg, "ECG Recording ID " +recording.getId());
                 }
-        });
+
+                if(diagnosis != null){
+                    JOptionPane.showMessageDialog(this, diagnosis, "ECG Analysis", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+        }
+
+        );
     }
 
     private void initComponents() {

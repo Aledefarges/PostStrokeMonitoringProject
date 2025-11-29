@@ -2,11 +2,9 @@ package GUI;
 
 
 
-import org.example.POJOS.Patient;
+import GUI.Panels.AppFrameDoctor;
 
 import javax.swing.*;
-import java.awt.*;
-import java.sql.Date;
 
 public class DoctorMenu {
     public static void main(String[] args) {

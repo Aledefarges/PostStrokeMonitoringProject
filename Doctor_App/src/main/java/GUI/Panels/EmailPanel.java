@@ -2,11 +2,12 @@
  * Created by JFormDesigner on Wed Nov 26 09:56:34 CET 2025
  */
 
-package GUI;
+package GUI.Panels;
 
 
 import javax.swing.*;
 import java.awt.*;
+
 import org.example.Connection.Connection_Doctor;
 
 public class EmailPanel extends JPanel {

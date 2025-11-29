@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Thu Nov 27 15:51:20 CET 2025
  */
 
-package GUI;
+package GUI.Panels;
 
 import org.example.Connection.Connection_Doctor;
 import org.example.POJOS.Patient;
@@ -10,7 +10,6 @@ import org.example.POJOS.Patient;
 import java.awt.*;
 import java.sql.Date;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 
 
 public class HandlePatientPanel extends JPanel {

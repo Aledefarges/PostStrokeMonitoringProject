@@ -322,17 +322,6 @@ public class JDBCPatientManager implements PatientManager {
                 if(rs.next()){
                     String pass = rs.getString("password");
 
-                    /*MessageDigest md = MessageDigest.getInstance("MD5");
-                    md.update(password.getBytes());
-                    byte[] digest = md.digest();
-
-                    //Converting byte[] to hexadecimal String so it can be compared with the stored password
-                    StringBuilder sb = new StringBuilder();
-                    for (byte b: digest){
-                        sb.append(String.format("%02x",b));
-                    }
-                    String encryptedPass = sb.toString();*/
-
                     return pass.equalsIgnoreCase(password);
 
                 }

@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Panels;
 
 import org.example.Connection.Connection_Doctor;
 
