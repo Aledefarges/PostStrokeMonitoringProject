@@ -92,7 +92,9 @@ public class AdminPanel extends JPanel {
         try {
             // Notify clients to close connection
             Server.broadcastShutdown();
-            Thread.sleep(300);
+            try{
+                Thread.sleep(200);
+            }catch (InterruptedException e){}
 
             //Close server socket
             if(serverSocket != null && !serverSocket.isClosed()){
@@ -106,12 +108,10 @@ public class AdminPanel extends JPanel {
             e.printStackTrace();
             //Force exit even w/ error
             System.exit(0);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
     public String getPassword(){
-        return new String(password_field.getText());
+        return new String(password_field.getPassword());
     }
 }

@@ -4,6 +4,7 @@ import Bitalino.Frame;
 import org.example.POJOS.Patient;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
@@ -22,7 +23,7 @@ public class Connection_Patient {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            String response = in.readLine();  // Response of the server
+            String response = readLineHandlingListener();  // Response of the server
             System.out.println("Server: " +response);
             return true;
 
@@ -59,7 +60,7 @@ public class Connection_Patient {
 
                 out.println(message);
 
-                String response = in.readLine();
+                String response = readLineHandlingListener();
                 return "PATIENT_SAVED".equals(response); // It confirms the connection with server
 
             } catch (IOException e) {
@@ -72,7 +73,7 @@ public class Connection_Patient {
     public String requestAllDoctor(){
         try{
             out.println("VIEW_ALL_DOCTORS|");
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response;
         }catch(IOException e){
             e.printStackTrace();
@@ -83,7 +84,7 @@ public class Connection_Patient {
         try{
             String message = "DELETE_ACCOUNT|";
             out.println(message);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             if("OK|PATIENT_DELETED".equals(response)){
                 if(out != null) out.println("LOGOUT|");
                 close();
@@ -116,7 +117,7 @@ public class Connection_Patient {
 
         int recording_id = -1;
         try{
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             if(!response.startsWith("OK|RECORDING_STARTED")){
                 System.out.println("Server error to start recording");
             }else{
@@ -156,7 +157,7 @@ public class Connection_Patient {
 
     public void endRecording() throws IOException {
         out.println("END_RECORDING");
-        in.readLine();
+        readLineHandlingListener();
     }
 
 
@@ -165,7 +166,7 @@ public class Connection_Patient {
         out.println("GET_RECORDING|" + recording_id);
 
         //Leer la respuesta
-        String response = in.readLine();
+        String response = readLineHandlingListener();
 
         if(response == null || !response.startsWith("RECORDING_DATA|")){
             System.out.println("invalid server response: "+response);
@@ -204,14 +205,14 @@ public class Connection_Patient {
             out.println("LOGIN|" + email + ";" + password);
 
             // Leer respuesta
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response;
     }
 
     public boolean sendChangePassword(String oldPassword, String newPassword){
         try{
             out.println("CHANGE_PASSWORD|" + oldPassword + ";" + newPassword);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|PASSWORD_CHANGED");
         } catch (IOException e) {
             e.printStackTrace();
@@ -223,7 +224,7 @@ public class Connection_Patient {
         try {
             out.println("CHANGE_EMAIL|" + email + ";" + newEmail);
 
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return response.equals("OK|EMAIL_CHANGED");
 
         } catch (IOException e) {
@@ -235,7 +236,7 @@ public class Connection_Patient {
         try{
             String message = "UPDATE_PATIENT|"  + p + ";" + value;
             out.println(message);
-            String response = in.readLine();
+            String response = readLineHandlingListener();
             return "OK|PATIENT_UPDATED".equals(response);
         }
         catch(IOException e){
@@ -263,16 +264,29 @@ public class Connection_Patient {
         }
     }
 
+
     public String readLineHandlingListener()throws IOException{
         String response = in.readLine();
 
-        if(response == null || response.equals("SERVER SHUTDOWN")){
-            JOptionPane.showMessageDialog(null,"The server has been shut down. The application will close.");
+        if (response == null || response.equals("SERVER SHUTDOWN")) {
             close();
-            System.exit(0);
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "The server has been shut down. The application will close.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                for(Window window : Window.getWindows()){
+                    window.dispose();
+                }
+                System.exit(0);
+            });
+            throw new IOException("Server shutdown");
         }
         return response;
     }
+
 
 }
 
