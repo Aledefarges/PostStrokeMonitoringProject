@@ -15,6 +15,9 @@ public class Server {
 
     public static void main(String[] args){
         try{
+            System.out.println("Server Started");
+            System.out.println("DB USED → " +
+                    new java.io.File("Server_App/db/PostStrokedb3.db").getAbsolutePath());
             ServerSocket serverSocket = new ServerSocket(9000);
             ServerSocket finalServerSocket = serverSocket;
 

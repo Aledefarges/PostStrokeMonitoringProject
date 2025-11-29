@@ -181,13 +181,11 @@ public Doctor getDoctorByEmail(String email){
                 ResultSet rs = ps.executeQuery();
 
                 while(rs.next()){
-                    Doctor doctor = new Doctor(
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            0,
-                            null, null
-                    );
+                    Doctor doctor = new Doctor();
+
                     doctor.setDoctor_id(rs.getInt("doctor_id"));
+                    doctor.setName(rs.getString("name"));
+                    doctor.setSurname(rs.getString("surname"));
                     doctorList.add(doctor);
                 }
                 rs.close();
