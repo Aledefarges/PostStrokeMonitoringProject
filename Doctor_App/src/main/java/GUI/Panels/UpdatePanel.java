@@ -22,6 +22,8 @@ public class UpdatePanel extends JPanel {
         this.patient = patient;
         initComponents();
 
+        setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
+
         label1.setFont(new Font("Arial", Font.BOLD, 16));
         update_button.setFont(new Font("Arial", Font.PLAIN, 14));
         back_button.setFont(new Font("Arial", Font.PLAIN, 14));

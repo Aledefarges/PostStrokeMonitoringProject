@@ -90,8 +90,13 @@ public class Connection_Server implements Runnable{
                         break;
                     case "VIEW_ALL_PATIENTS": getListOfPatients();
                         break;
-                    case "UPDATE_PATIENT_HISTORY": updatePatientHistory(parts[1], parts[2]);
+                    case "UPDATE_PATIENT_HISTORY": {
+                        String load = parts[1];
+                        String[] info = load.split(";",2);
+                        updatePatientHistory(info[1], info[2]);
                         break;
+
+                    }
                     case "DELETE_RECORDING": handleDeleteRecording(Integer.parseInt(parts[1]));
                         break;
                     case "VIEW_RECORDINGS_BY_PATIENT": getListRecording(Integer.parseInt(parts[1]));
