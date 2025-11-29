@@ -1,4 +1,4 @@
-package UI.GUI;
+package GUI.Panels;
 
 import Connection.Connection_Patient;
 

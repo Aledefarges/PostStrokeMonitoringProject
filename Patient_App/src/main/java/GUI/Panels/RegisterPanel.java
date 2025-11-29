@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Tue Nov 25 23:48:45 CET 2025
  */
 
-package UI.GUI;
+package GUI.Panels;
 
 import Connection.Connection_Patient;
 import org.example.POJOS.Patient;

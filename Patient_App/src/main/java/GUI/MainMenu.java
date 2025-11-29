@@ -1,6 +1,6 @@
-package UI;
+package GUI;
 
-import UI.GUI.AppFrame;
+import GUI.Panels.AppFrame;
 
 import javax.swing.*;
 

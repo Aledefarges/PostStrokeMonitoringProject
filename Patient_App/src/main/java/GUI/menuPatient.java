@@ -1,4 +1,4 @@
-package UI;
+package GUI;
 
 import Bitalino.BITalino;
 import Connection.Connection_Patient;

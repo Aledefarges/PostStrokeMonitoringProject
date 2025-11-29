@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Wed Nov 26 08:50:21 CET 2025
  */
 
-package UI.GUI;
+package GUI.Panels;
 
 import java.awt.*;
 import javax.swing.*;

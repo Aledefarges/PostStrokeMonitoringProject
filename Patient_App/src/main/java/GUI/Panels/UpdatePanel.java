@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Wed Nov 26 11:07:32 CET 2025
  */
 
-package UI.GUI;
+package GUI.Panels;
 
 import Connection.Connection_Patient;
 
