@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +31,16 @@ public class Server {
             frame.setContentPane(adminPanel);
             frame.setVisible(true);
             while(true){
-                Socket socket = serverSocket.accept();
-                Connection_Server connection = new Connection_Server(socket);
-                activeConnections.add(connection);
-                new Thread(connection).start();
+                try {
+                    Socket socket = serverSocket.accept();
+                    Connection_Server connection = new Connection_Server(socket);
+                    activeConnections.add(connection);
+                    new Thread(connection).start();
+                }catch (SocketException e){
+                    break;
+                }
             }
+
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -47,12 +53,15 @@ public class Server {
     public static void broadcastShutdown(){
         synchronized (activeConnections){
             for(Connection_Server c : activeConnections){
-                try{
-                    c.sendShutdownMessage();
-                    c.close();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                c.sendShutdownMessage();
+            }
+
+            try{
+                Thread.sleep(150);
+            }catch (InterruptedException e){}
+
+            for(Connection_Server c : activeConnections){
+                c.onServerShutdown();
             }
         }
     }
@@ -64,3 +73,5 @@ public class Server {
     }
 
 }
+
+

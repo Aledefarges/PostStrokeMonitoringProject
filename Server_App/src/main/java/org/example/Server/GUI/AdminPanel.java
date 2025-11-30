@@ -92,9 +92,6 @@ public class AdminPanel extends JPanel {
         try {
             // Notify clients to close connection
             Server.broadcastShutdown();
-            try{
-                Thread.sleep(200);
-            }catch (InterruptedException e){}
 
             //Close server socket
             if(serverSocket != null && !serverSocket.isClosed()){
@@ -107,7 +104,7 @@ public class AdminPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
             //Force exit even w/ error
-            System.exit(0);
+            System.exit(1);
         }
     }
 

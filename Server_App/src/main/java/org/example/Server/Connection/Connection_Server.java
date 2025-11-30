@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//
-
 public class Connection_Server implements Runnable{
 
     private final Socket socket;
@@ -34,6 +32,7 @@ public class Connection_Server implements Runnable{
     private Patient loggedPatient = null;
     private Doctor loggedDoctor = null;
     private UserType userType = null;
+    private volatile boolean running = true;
 
     public Connection_Server(Socket socket) {
         this.socket = socket;
@@ -61,7 +60,7 @@ public class Connection_Server implements Runnable{
                 String command = parts[0];
 
                 switch (command) {
-                    case "ADD_PATIENT": savePatientRegistration(parts[1]); //Funcion ya creada por nerea, se puede cambiar el nombre a handleAddPatients
+                    case "ADD_PATIENT": savePatientRegistration(parts[1]);
                         break;
                     case "ADD_DOCTOR": saveDoctorRegistration(parts[1]);
                         break;
@@ -667,17 +666,25 @@ private void savePatientRegistration(String p){
     }
 
     public void sendShutdownMessage(){
-        if(out!= null){
+        try{
             out.println("SERVER SHUTDOWN");
-        }
+            out.flush();
+        }catch(Exception e){}
+    }
+
+    public void onServerShutdown(){
+        running = false;
+        close();
     }
 
     public void close() {
+       running = false;
         try {
             if (out != null) out.close();  // Stop sending data to server
             if (in != null) in.close();   // Stop receiving data to server
-            if (socket != null) socket.close(); // close connection
+            if (socket != null && !socket.isClosed()) socket.close(); // close connection
         } catch (IOException e) {}
+        Server.removeConnection(this);
     }
 
 

@@ -92,9 +92,7 @@ public class JDBCPatientManager implements PatientManager {
                 String password = rs.getString("password");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
-                String dobStr = rs.getString("dob");
-                LocalDate date = LocalDate.parse(dobStr);
-                Date dob = Date.valueOf(date);
+                Date dob = new Date(rs.getLong("dob"));
                 String email = rs.getString("email");
                 int phone = rs.getInt("phone");
                 String medicalHistory = rs.getString("medicalHistory");
@@ -130,9 +128,7 @@ public class JDBCPatientManager implements PatientManager {
                     String password = rs.getString("password");
                     String name = rs.getString("name");
                     String surname = rs.getString("surname");
-                    String dobStr = rs.getString("dob");
-                    LocalDate date = LocalDate.parse(dobStr);
-                    Date dob = Date.valueOf(date);
+                    Date dob = new Date(rs.getLong("dob"));
 
                     int phone = rs.getInt("phone");
                     String medicalHistory = rs.getString("medicalHistory");
@@ -164,9 +160,7 @@ public class JDBCPatientManager implements PatientManager {
                     Integer patient_id = rs.getInt("patient_id");
                     String name = rs.getString("name");
                     String surname = rs.getString("surname");
-                    String dobStr = rs.getString("dob");
-                    LocalDate date = LocalDate.parse(dobStr);
-                    Date dob = Date.valueOf(date);
+                    Date dob = new Date(rs.getLong("dob"));
                     Integer phone = rs.getInt("phone");
                     String medicalhistory = rs.getString("medicalHistory");
                     Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
@@ -284,9 +278,7 @@ public class JDBCPatientManager implements PatientManager {
                    String password = rs.getString("password");
                    String name = rs.getString("name");
                    String surname = rs.getString("surname");
-                   String dobStr = rs.getString("dob");
-                   LocalDate date = LocalDate.parse(dobStr);
-                   Date dob = Date.valueOf(date);
+                   Date dob = new Date(rs.getLong("dob"));
                    String email = rs.getString("email");
                    Integer phone = rs.getInt("phone");
                    String medicalHistory = rs.getString("medicalHistory");

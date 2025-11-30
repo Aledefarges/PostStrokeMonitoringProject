@@ -286,7 +286,7 @@ public class Connection_Patient {
                 }
                 System.exit(0);
             });
-            throw new IOException("Server shutdown");
+            return null;
         }
         return response;
     }
