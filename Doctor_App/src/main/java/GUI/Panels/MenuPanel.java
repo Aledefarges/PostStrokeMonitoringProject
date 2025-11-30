@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Tue Nov 25 23:16:23 CET 2025
- */
 
 package GUI.Panels;
 
@@ -15,9 +12,9 @@ public class MenuPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
-    public MenuPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
+    public MenuPanel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
         
         title.setFont(new Font("Arial", Font.BOLD, 20));
@@ -98,10 +95,10 @@ public class MenuPanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
     private void goToLogin(){
-        appFrame.switchPanel(new LoginPanel(appFrame, connection));
+        appFrame.switchPanel(new LoginPanel(appFrame));
     }
     private void goToRegister(){
-        appFrame.switchPanel(new RegisterDoctorPanel(appFrame, connection));
+        appFrame.switchPanel(new RegisterDoctorPanel(appFrame));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
 

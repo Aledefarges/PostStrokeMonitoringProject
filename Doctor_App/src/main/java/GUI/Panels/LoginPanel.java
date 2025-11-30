@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Tue Nov 25 23:28:01 CET 2025
- */
 
 package GUI.Panels;
 
@@ -12,9 +9,9 @@ import java.awt.*;
 public class LoginPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public LoginPanel(AppFrameDoctor appFrame,  Connection_Doctor connection) {
+    public LoginPanel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         this.add(panel1);
@@ -42,7 +39,6 @@ public class LoginPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         panel1 = new JPanel();
         email_label = new JLabel();
         email_field = new JTextField();
@@ -102,7 +98,7 @@ public class LoginPanel extends JPanel {
 
     private void togglePasswordVisible() {
         if(!passwordVisble) {
-            // Enseñar la contraseña
+            // Show password
             password_field.setEchoChar((char)0);
             show_button.setText("Hide");
             passwordVisble = true;
@@ -125,15 +121,14 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            //Encryptar contraseña:
+            //Encrypt password:
             String encryptedPassword = connection.encryptDoctorPassword(password);
 
-            //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendDoctorLogin(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_DOCTOR")) {
                 JOptionPane.showMessageDialog(this, "Log In successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
-                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
@@ -146,11 +141,11 @@ public class LoginPanel extends JPanel {
     }
 
     private void backToMenu() {
-        appFrame.switchPanel(new MenuPanel(appFrame, connection));
+        appFrame.switchPanel(new MenuPanel(appFrame));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
+
     private JPanel panel1;
     private JLabel email_label;
     private JTextField email_field;

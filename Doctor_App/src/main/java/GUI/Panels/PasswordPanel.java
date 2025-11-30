@@ -13,9 +13,9 @@ import java.awt.*;
 public class PasswordPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public PasswordPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
+    public PasswordPanel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
@@ -108,7 +108,7 @@ public class PasswordPanel extends JPanel {
             if (passwordOK) {
                 JOptionPane.showMessageDialog(this, "Password change successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
-                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid password", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
@@ -119,10 +119,9 @@ public class PasswordPanel extends JPanel {
     }
 
     private void backToMenu() {
-        appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel old_label;
     private JTextField old_field;
     private JLabel new_label;

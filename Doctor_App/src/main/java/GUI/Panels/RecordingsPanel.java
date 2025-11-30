@@ -16,8 +16,8 @@ public class RecordingsPanel extends JPanel {
     private JList<Recording> recording_list;
     private volatile boolean running = true;
     
-    public RecordingsPanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
-        this.connection = connection;
+    public RecordingsPanel(AppFrameDoctor appFrame, Patient patient) {
+        this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
         this.patient = patient;
         
@@ -177,7 +177,7 @@ public class RecordingsPanel extends JPanel {
 
     private void backToMenu() {
         running = false;
-        appFrame.switchPanel(new PatientOptionPanel(appFrame, connection,patient));
+        appFrame.switchPanel(new PatientOptionPanel(appFrame, patient));
     }
 
     private void startAutoRefresh(){

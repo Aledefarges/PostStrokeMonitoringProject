@@ -11,8 +11,16 @@ public class AppFrameDoctor extends JFrame{
         setTitle("Doctor App");
         setSize(600,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       setContentPane(new IP_Panel(this, connection));
+        //setContentPane(new IP_Panel(this, connection));
+        setContentPane(new IP_Panel(this));
         setVisible(true);
+    }
+
+    public Connection_Doctor getConnection(){
+        return connection;
+    }
+    public void setConnection(Connection_Doctor connection){
+        this.connection = connection;
     }
 
 

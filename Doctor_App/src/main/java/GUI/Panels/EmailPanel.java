@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Wed Nov 26 09:56:34 CET 2025
- */
 
 package GUI.Panels;
 
@@ -15,9 +12,9 @@ public class EmailPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     
-    public EmailPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
+    public EmailPanel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
@@ -107,7 +104,7 @@ public class EmailPanel extends JPanel {
             if (emailOK) {
                 JOptionPane.showMessageDialog(this, "Email change successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
-                appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new DoctorMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
@@ -119,10 +116,10 @@ public class EmailPanel extends JPanel {
     }
 
     private void backToMenu(){
-        appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
+
     private JLabel old_label;
     private JTextField old_field;
     private JLabel new_label;

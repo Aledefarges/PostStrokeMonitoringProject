@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Thu Nov 27 15:51:20 CET 2025
- */
 
 package GUI.Panels;
 
@@ -19,8 +16,8 @@ public class HandlePatientPanel extends JPanel {
     private JList<Patient> patient_list;
     private volatile boolean running = true;
 
-    public HandlePatientPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
-        this.connection = connection;
+    public HandlePatientPanel(AppFrameDoctor appFrame) {
+        this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
         initComponents();
 
@@ -103,7 +100,7 @@ public class HandlePatientPanel extends JPanel {
     
     public void backToMenu(){
         running = false;
-        appFrame.switchPanel(new DoctorMenuPanel(appFrame,connection));
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame));
     }
 
     private void loadPatientList(){
@@ -131,7 +128,7 @@ public class HandlePatientPanel extends JPanel {
             if(!e.getValueIsAdjusting()){ // indica que se ha terminado de selecionar un elemento de la lista
                 Patient selected = patient_list.getSelectedValue();
                 if(selected!=null){
-                    appFrame.switchPanel(new PatientOptionPanel(appFrame,connection,selected));
+                    appFrame.switchPanel(new PatientOptionPanel(appFrame,selected));
                 }
             }
         } );
@@ -164,7 +161,6 @@ public class HandlePatientPanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JScrollPane scrollPane1;
     private JButton back_button;

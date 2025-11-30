@@ -13,9 +13,10 @@ import java.awt.*;
 public class RegisterDoctorPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
-    public RegisterDoctorPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
-        this.connection = connection;
+    public RegisterDoctorPanel(AppFrameDoctor appFrame) {
+        //this.connection = connection;
         this.appFrame = appFrame;
+        this.connection = appFrame.getConnection();
 
         initComponents();
 
@@ -149,7 +150,7 @@ public class RegisterDoctorPanel extends JPanel {
             if(ok_register){
                 JOptionPane.showMessageDialog(this, "Register successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+                appFrame.switchPanel(new MenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Something went wrong, error register",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -161,7 +162,7 @@ public class RegisterDoctorPanel extends JPanel {
     }
 
     private void backToMenu() {
-        appFrame.switchPanel(new MenuPanel(appFrame, connection));
+        appFrame.switchPanel(new MenuPanel(appFrame));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

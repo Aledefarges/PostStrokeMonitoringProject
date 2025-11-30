@@ -16,8 +16,8 @@ public class UpdatePanel extends JPanel {
     private AppFrameDoctor appFrame;
     private Patient patient;
 
-    public UpdatePanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
-        this.connection = connection;
+    public UpdatePanel(AppFrameDoctor appFrame, Patient patient) {
+        this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
         this.patient = patient;
         initComponents();
@@ -40,7 +40,6 @@ public class UpdatePanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         text_field = new JTextPane();
         update_button = new JButton();
@@ -89,7 +88,7 @@ public class UpdatePanel extends JPanel {
             patient.setMedicalhistory(newHistory);
             JOptionPane.showMessageDialog(this, "The medical history updated successfully",
                     "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-            appFrame.switchPanel(new PatientOptionPanel(appFrame, connection, patient));
+            appFrame.switchPanel(new PatientOptionPanel(appFrame, patient));
         }else{
             JOptionPane.showMessageDialog(this, "Medical history not updated", "ERROR",
                     JOptionPane.ERROR_MESSAGE);
@@ -97,11 +96,10 @@ public class UpdatePanel extends JPanel {
 
     }
     private void backToMenu() {
-        appFrame.switchPanel(new PatientOptionPanel(appFrame, connection,patient));
+        appFrame.switchPanel(new PatientOptionPanel(appFrame, patient));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JTextPane text_field;
     private JButton update_button;

@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Sat Nov 29 19:18:49 CET 2025
- */
 
 package GUI.Panels;
 
@@ -15,8 +12,8 @@ public class PatientOptionPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     private Patient patient;
-    public PatientOptionPanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
-        this.connection = connection;
+    public PatientOptionPanel(AppFrameDoctor appFrame, Patient patient) {
+        this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
         this.patient = patient;
         initComponents();
@@ -43,7 +40,6 @@ public class PatientOptionPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         recordings_button = new JButton();
         update_button = new JButton();
@@ -86,16 +82,16 @@ public class PatientOptionPanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
     private void goToRecordings() {
-        appFrame.switchPanel(new RecordingsPanel(appFrame, connection, patient));
+        appFrame.switchPanel(new RecordingsPanel(appFrame, patient));
     }
     private void goToUpdate() {
-        appFrame.switchPanel(new UpdatePanel(appFrame, connection, patient));
+        appFrame.switchPanel(new UpdatePanel(appFrame, patient));
     }
     private void backToMenu() {
-        appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
+        appFrame.switchPanel(new DoctorMenuPanel(appFrame));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
+
     private JLabel label1;
     private JButton recordings_button;
     private JButton update_button;
