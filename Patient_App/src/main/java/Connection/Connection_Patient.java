@@ -87,7 +87,6 @@ public class Connection_Patient {
             String response = readLineHandlingListener();
             if("OK|PATIENT_DELETED".equals(response)){
                 if(out != null) out.println("LOGOUT|");
-                close();
                 return true;
             }
             return false;

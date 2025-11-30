@@ -245,13 +245,22 @@ public class RegisterPanel extends JPanel {
                         if(response == null || !response.startsWith("DOCTORS_LIST")){
                             return;
                         }
+                        Object previous_selected = doctors_box.getSelectedItem();
+
                         String[] parts = response.split("\\|");
-                        doctors_box.removeAllItems();
+                        DefaultComboBoxModel<String> newModel = new DefaultComboBoxModel<>();
+
                         for(int i=1; i<parts.length; i++){
                             String[] doctor = parts[i].split(";");
                             int doctor_id = Integer.parseInt(doctor[0]);
                             String doctor_name = doctor[1] + " " + doctor[2];
-                            doctors_box.addItem(doctor_id + " - " + doctor_name);
+                            newModel.addElement(doctor_id + " - " + doctor_name);
+                        }
+                        doctors_box.setModel(newModel);
+
+                        // It restores the selection before the refresh
+                        if(previous_selected != null) {
+                            doctors_box.setSelectedItem(previous_selected);
                         }
                     });
 
@@ -266,7 +275,6 @@ public class RegisterPanel extends JPanel {
 
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel title;
     private JLabel name_label;
     private JTextField name_field;
