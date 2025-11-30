@@ -20,9 +20,9 @@ public class RegisterPanel extends JPanel {
     private JComboBox<String> doctors_box;
     private volatile boolean running = true;
 
-    public RegisterPanel(AppFrame appFrame, Connection_Patient connection) {
+    public RegisterPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,60,30,30));
@@ -228,7 +228,7 @@ public class RegisterPanel extends JPanel {
             if(ok_register){
                 JOptionPane.showMessageDialog(this, "Register successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+                appFrame.switchPanel(new MenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Something went wrong, error register", "ERROR",
                         JOptionPane.ERROR_MESSAGE);

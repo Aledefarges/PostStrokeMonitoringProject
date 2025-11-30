@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Tue Nov 25 23:16:23 CET 2025
- */
 
 package GUI.Panels;
 
@@ -16,9 +13,9 @@ public class MenuPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
 
-    public MenuPanel(AppFrame appFrame, Connection_Patient connection) {
+    public MenuPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
@@ -99,13 +96,13 @@ public class MenuPanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
     private void goToLogin(){
-        appFrame.switchPanel(new LoginPanel(appFrame, connection));
+        appFrame.switchPanel(new LoginPanel(appFrame));
     }
     private void goToRegister(){
-        appFrame.switchPanel(new RegisterPanel(appFrame, connection));
+        appFrame.switchPanel(new RegisterPanel(appFrame));
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
+
     private JLabel title;
     private JLabel label1;
     private JSeparator separator1;

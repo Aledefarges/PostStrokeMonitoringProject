@@ -15,9 +15,9 @@ public class PatientMenuPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
     
-    public PatientMenuPanel(AppFrame appFrame, Connection_Patient connection) {
+    public PatientMenuPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40, 110, 30, 30));
@@ -130,24 +130,23 @@ public class PatientMenuPanel extends JPanel {
     }
 
     private void goToChangeEmail() {
-        appFrame.switchPanel(new EmailPanel(appFrame, connection));
+        appFrame.switchPanel(new EmailPanel(appFrame));
     }
     private void goToChangePassword() {
-       appFrame.switchPanel(new PasswordPanel(appFrame, connection));
+       appFrame.switchPanel(new PasswordPanel(appFrame));
     }
     private void goToUpdate() {
-       appFrame.switchPanel(new UpdatePanel(appFrame, connection));
+       appFrame.switchPanel(new UpdatePanel(appFrame));
     }
     private void goToDelete() {
        connection.deletePatientFromServer();
-        appFrame.switchPanel(new MenuPanel(appFrame, connection));
+        appFrame.switchPanel(new MenuPanel(appFrame));
     }
     private void goToRecording() {
-        appFrame.switchPanel(new RecordingPanel(appFrame, connection));
+        appFrame.switchPanel(new RecordingPanel(appFrame));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel title1;
     private JComponent separator1;
     private JLabel select_label;

@@ -15,9 +15,9 @@ public class UpdatePanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
 
-    public UpdatePanel(AppFrame appFrame, Connection_Patient connection) {
+    public UpdatePanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
@@ -43,7 +43,6 @@ public class UpdatePanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label = new JLabel();
         name_label = new JLabel();
         name_field = new JTextField();
@@ -141,7 +140,7 @@ public class UpdatePanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
     private void backToMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame,connection));
+        appFrame.switchPanel(new PatientMenuPanel(appFrame));
     }
 
     private void update() {

@@ -21,9 +21,9 @@ import javax.swing.*;
 public class RecordingPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public RecordingPanel(AppFrame appFrame, Connection_Patient connection) {
+    public RecordingPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         
         initComponents();
 
@@ -204,7 +204,7 @@ public class RecordingPanel extends JPanel {
        //
     }
     public void backToMenu() {
-        appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+        appFrame.switchPanel(new PatientMenuPanel(appFrame));
     }
 
     private void macAddressCheck() {
@@ -243,7 +243,6 @@ public class RecordingPanel extends JPanel {
         }).start();
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label2;
     private JTextField MAC_field;
     private JButton done_button;

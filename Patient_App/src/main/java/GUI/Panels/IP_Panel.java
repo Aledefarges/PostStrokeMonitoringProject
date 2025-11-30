@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Fri Nov 28 17:53:58 CET 2025
- */
 
 package GUI.Panels;
 
@@ -11,11 +8,9 @@ import javax.swing.*;
 
 public class IP_Panel extends JPanel {
     private AppFrame appFrame;
-    private Connection_Patient connection;
 
-    public IP_Panel(AppFrame appFrame, Connection_Patient connection) {
+    public IP_Panel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
         initComponents();
 
         label1.setFont(new Font("Arial", Font.BOLD, 14));
@@ -80,20 +75,19 @@ public class IP_Panel extends JPanel {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            connection = new Connection_Patient();
+            Connection_Patient connection = new Connection_Patient();
 
             if (connection.connection(ip, 9000)) {
-
-                appFrame.switchPanel(new MenuPanel(appFrame, connection));
+                appFrame.setConnection(connection); // saves connection in App Frame
+                appFrame.switchPanel(new MenuPanel(appFrame));
             } else {
-                JOptionPane.showMessageDialog(this, "Could not connect to server.", "ERROR",
-                        JOptionPane.ERROR_MESSAGE);
-                }
+                JOptionPane.showMessageDialog(this,
+                        "Could not connect to server.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
             });
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JLabel label2;
     private JTextField ip_field;

@@ -13,9 +13,9 @@ import javax.swing.*;
 public class LoginPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public LoginPanel(AppFrame appFrame, Connection_Patient connection) {
+    public LoginPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.connection = connection;
+        this.connection = appFrame.getConnection();
         initComponents();
 
         this.add(panel1);
@@ -101,7 +101,7 @@ public class LoginPanel extends JPanel {
 
     private void togglePasswordVisible() {
         if(!passwordVisble) {
-            // Enseñar la contraseña
+            // Show password
             password_field.setEchoChar((char)0);
             show_button.setText("Hide");
             passwordVisble = true;
@@ -123,15 +123,14 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            //Encryptar contraseña:
+            //Encrypt password:
             String encryptedPassword = connection.encryptPatientPassword(password);
 
-            //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
                 JOptionPane.showMessageDialog(this, "Log In successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
-                appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
+                appFrame.switchPanel(new PatientMenuPanel(appFrame));
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid email or password", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
@@ -144,7 +143,7 @@ public class LoginPanel extends JPanel {
     }
 
     public void backToMenu() {
-        appFrame.switchPanel(new MenuPanel(appFrame, connection));
+        appFrame.switchPanel(new MenuPanel(appFrame));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY
