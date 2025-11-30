@@ -245,7 +245,6 @@ public class Connection_Doctor {
                 }
                 System.exit(0);
             });
-            throw new IOException("Server shutdown");
         }
         return response;
     }

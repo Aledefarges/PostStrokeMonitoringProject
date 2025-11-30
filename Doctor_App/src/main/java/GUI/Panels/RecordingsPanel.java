@@ -61,11 +61,11 @@ public class RecordingsPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         back_button = new JButton();
-        recording_list = new JList<Recording>();
         scrollPane1 = new JScrollPane();
-
+        recording_list = new JList();
 
         //======== this ========
         setLayout(new GridBagLayout());
@@ -90,7 +90,7 @@ public class RecordingsPanel extends JPanel {
         {
             scrollPane1.setViewportView(recording_list);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on

@@ -11,6 +11,7 @@ import Connection.Connection_Patient;
 
 
 
+
 public class PatientMenuPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
@@ -72,7 +73,6 @@ public class PatientMenuPanel extends JPanel {
         exit_button = new JButton();
 
         //======== this ========
-
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {327, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 25, 0};
@@ -147,6 +147,7 @@ public class PatientMenuPanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel title1;
     private JComponent separator1;
     private JLabel select_label;
