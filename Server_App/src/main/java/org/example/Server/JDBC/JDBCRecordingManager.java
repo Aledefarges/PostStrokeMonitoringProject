@@ -49,7 +49,7 @@ public class JDBCRecordingManager implements RecordingManager {
             PreparedStatement ps = c.prepareStatement(sql)){
             ps.setInt(1, recording_id);
             int rows = ps.executeUpdate();
-            return rows > 0;
+            return rows == 1;
         }catch (SQLException e){
             e.printStackTrace();
             return false;

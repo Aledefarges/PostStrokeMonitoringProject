@@ -5,10 +5,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class Patient implements Serializable {
+public class Patient {
 
-    private static final long serialVersionUID = 1L;
-    // Acts as an ID identification
     private int patient_id;
     private String name;
     private String surname;
