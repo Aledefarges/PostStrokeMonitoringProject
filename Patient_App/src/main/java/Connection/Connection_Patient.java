@@ -137,16 +137,17 @@ public class Connection_Patient {
 
     // It sends each BITalino frame as a text to the server
     public void sendFrames(Frame[] frames, int[] channel){
+        if(frames == null || frames.length == 0) return;
         int channelCount = channel.length;
         for (Frame f : frames) {
             StringBuilder msg = new StringBuilder("FRAME|");
             msg.append(f.seq);
 
-            //solo envía los canales activados
+            // send only active channels
             for (int i = 0; i < channelCount; i++) {
                 msg.append(";").append(f.analog[i]);
             }
-            //digitales siempre igual
+            //digital channels (always 4)
             for (int d = 0; d < 4; d++) {
                 msg.append(";").append(f.digital[d]);
             }
