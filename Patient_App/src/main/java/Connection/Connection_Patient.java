@@ -12,8 +12,8 @@ import java.security.MessageDigest;
 public class Connection_Patient {
 
 
-    private Socket socket;
-    private PrintWriter out;
+    public Socket socket;
+    public PrintWriter out;
     public BufferedReader in;
 
     public boolean connection(String ip_host, int port){
