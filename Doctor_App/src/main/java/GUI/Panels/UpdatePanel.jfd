@@ -16,8 +16,8 @@ new FormModel {
 				name: "label1"
 				"text": "Insert the new and updated medical history "
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
-			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "mh_button"
+			add( new FormComponent( "javax.swing.JTextPane" ) {
+				name: "text_field"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 1
 			} )
