@@ -10,13 +10,14 @@ import org.example.POJOS.Recording;
 import org.example.Server.Visualization.PlotRecordings;
 
 import java.awt.*;
-import java.time.LocalDateTime;
+import java.util.List;
 import javax.swing.*;
 
 public class RecordingsPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     private Patient patient;
+    private JList<Recording> recording_list;
     
     public RecordingsPanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
         this.connection = connection;
@@ -58,23 +59,18 @@ public class RecordingsPanel extends JPanel {
 
         loadRecordings();
         configureSelectHandle();
+        SwingUtilities.invokeLater(this::startAutoRefresh);
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         back_button = new JButton();
+        recording_list = new JList<Recording>();
         scrollPane1 = new JScrollPane();
-        recording_list = new JList();
+
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER
-        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font
-        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
-        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order"
-        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {274, 63, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
@@ -97,61 +93,42 @@ public class RecordingsPanel extends JPanel {
         {
             scrollPane1.setViewportView(recording_list);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JButton back_button;
     private JScrollPane scrollPane1;
-    private JList recording_list;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public void loadRecordings(){
-        DefaultListModel<Recording> list =  new DefaultListModel<>();
-        String response = connection.requestRecordingsByPatient(patient.getPatient_id());
+        DefaultListModel<Recording> recording_model =  new DefaultListModel<>();
+        List<Recording> recordings = connection.requestRecordingsByPatient(patient.getPatient_id());
         recording_list.setVisibleRowCount(6);
         recording_list.setFixedCellHeight(80);
 
-        if(response.equals("RECORDINGS_LIST|EMPTY")){
-            recording_list.setModel(null);
-            return;
-        }
-
-        if (response.startsWith("RECORDINGS_LIST|")){
-            try{
-                String data = response.substring("RECORDINGS_LIST|".length());
-                String[] parts = data.split("\\|");
-
-                for(String part:parts){
-                    String[] recording = part.split(";");
-                    int recording_id = Integer.parseInt(recording[0]);
-                    String type = recording[1];
-                    Recording.Type typeEnum = Recording.Type.valueOf(type);
-                    String dateRecording = recording[2];
-                    LocalDateTime dt =  LocalDateTime.parse(dateRecording);
-
-                    Recording recordings = new Recording(dt, typeEnum, patient.getPatient_id());
-                    recordings.setId(recording_id);
-                    list.addElement(recordings);
-                }
-            }catch(Exception e){
-                e.printStackTrace();
+        if(recordings == null){
+            JOptionPane.showMessageDialog(this, "No recordings found");
+        }else if(recordings.isEmpty()){
+            JOptionPane.showMessageDialog(this, "No recordings created yet",
+                    "NO RECORDINGS", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            for(Recording recording : recordings){
+                recording_model.addElement(recording);
             }
-            recording_list.setModel(list);
-
         }
+        recording_list.setModel(recording_model);
     }
 
     private void configureSelectHandle(){
         recording_list.addListSelectionListener(e->{
 
             if(e.getValueIsAdjusting()) return;
-            Recording recording = (Recording) recording_list.getSelectedValue();
+            Recording recording = recording_list.getSelectedValue();
             if(recording == null) return;
 
             String response = connection.requestSpecificRecording(recording.getId());
@@ -201,6 +178,31 @@ public class RecordingsPanel extends JPanel {
 
     private void backToMenu() {
         appFrame.switchPanel(new PatientOptionPanel(appFrame, connection,patient));
+    }
+
+    private void startAutoRefresh(){
+        new Thread(()->{
+            while(true){
+                try{
+                    List<Recording> updated_list = connection.requestRecordingsByPatient(patient.getPatient_id());
+                    SwingUtilities.invokeLater(()->{
+                        DefaultListModel<Recording> recording_model =  (DefaultListModel<Recording>) recording_list.getModel();
+                        recording_model.clear();
+                        if(updated_list != null){
+                            for (Recording recording: updated_list){
+                                recording_model.addElement(recording);
+                            }
+                        }
+
+                    });
+
+                    Thread.sleep(5000);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        }).start();
     }
 
 

@@ -6,21 +6,23 @@ package GUI.Panels;
 
 import Connection.Connection_Patient;
 import org.example.POJOS.Patient;
+import org.example.POJOS.Recording;
 
 import java.awt.*;
 import java.sql.Date;
+import java.util.List;
 import javax.swing.*;
 
 
 public class RegisterPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
+    private JComboBox<String> doctors_box;
     public RegisterPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
 
-        loadDoctorsIntoCombo();
         setBorder(BorderFactory.createEmptyBorder(40,60,30,30));
 
         title.setFont(new Font("Arial", Font.BOLD, 18));
@@ -40,6 +42,9 @@ public class RegisterPanel extends JPanel {
 
 
         register_button.addActionListener(e-> registerPatient());
+
+        loadDoctorsIntoCombo();
+        startAutoRefreshDoctor();
 
     }
 
@@ -63,7 +68,7 @@ public class RegisterPanel extends JPanel {
         password_label = new JLabel();
         password_field = new JTextField();
         doctor_label = new JLabel();
-        doctors_box = new JComboBox();
+        doctors_box = new JComboBox<String>();
         register_button = new JButton();
 
         //======== this ========
@@ -231,6 +236,35 @@ public class RegisterPanel extends JPanel {
         }
     }
 
+    private void startAutoRefreshDoctor(){
+        new Thread(()->{
+            while(true){
+                try{
+                    String response = connection.requestAllDoctor();
+                    SwingUtilities.invokeLater(()->{
+                        if(response == null || !response.startsWith("DOCTORS_LIST")){
+                            return;
+                        }
+                        String[] parts = response.split("\\|");
+                        doctors_box.removeAllItems();
+                        for(int i=1; i<parts.length; i++){
+                            String[] doctor = parts[i].split(";");
+                            int doctor_id = Integer.parseInt(doctor[0]);
+                            String doctor_name = doctor[1] + " " + doctor[2];
+                            doctors_box.addItem(doctor_id + " - " + doctor_name);
+                        }
+                    });
+
+                    Thread.sleep(5000);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        }).start();
+    }
+
+
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel title;
@@ -251,7 +285,6 @@ public class RegisterPanel extends JPanel {
     private JLabel password_label;
     private JTextField password_field;
     private JLabel doctor_label;
-    private JComboBox doctors_box;
     private JButton register_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

@@ -38,7 +38,11 @@ public class MenuPanel extends JPanel {
 
         login_button.addActionListener(e-> goToLogin());
         register_button.addActionListener(e-> goToRegister());
-        exit_button.addActionListener(e-> System.exit(0));
+        exit_button.addActionListener(e->
+        {
+            connection.close();
+            System.exit(0);
+        });
     }
 
     private void initComponents() {

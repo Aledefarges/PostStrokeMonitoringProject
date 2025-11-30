@@ -51,7 +51,10 @@ public class PatientMenuPanel extends JPanel {
         update_button.addActionListener(e-> goToUpdate());
         delete_button.addActionListener(e-> goToDelete());
         recording_button.addActionListener(e-> goToRecording());
-        exit_button.addActionListener(e-> System.exit(0));
+        exit_button.addActionListener(e->{
+            connection.close();
+            System.exit(0);
+        } );
         
     }
 

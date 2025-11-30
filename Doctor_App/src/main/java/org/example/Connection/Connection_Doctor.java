@@ -2,12 +2,14 @@ package org.example.Connection;
 
 import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
+import org.example.POJOS.Recording;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 import java.sql.Date;
@@ -123,14 +125,45 @@ public class Connection_Doctor {
         }
     }
 
-    public String requestRecordingsByPatient(int patient_id){
-        try{
-            out.println("VIEW_RECORDINGS_BY_PATIENT|" + patient_id);
-            String response = readLineHandlingListener();
-            return response;
-        }catch(IOException e){
-            return null;
-        }
+    public List<Recording> requestRecordingsByPatient(int patient_id){
+            try{
+                out.println("VIEW_RECORDINGS_BY_PATIENT|" + patient_id);
+                out.flush();
+
+                String response = readLineHandlingListener();
+                if(response == null){
+                    System.out.println("ERROR: returned list error");
+                    return null;
+                }
+
+                if(response.equals("RECORDINGS_LIST|EMPTY")){
+                    return new ArrayList<>();
+                }
+                if(!response.startsWith("RECORDINGS_LIST|")){
+                    System.out.println("Error" + response);
+                    return null;
+                }
+
+                String data = response.substring("RECORDINGS_LIST|".length());
+                String[] parts = data.split("\\|");
+                List<Recording> recording_list = new ArrayList<>();
+                for(String part:parts){
+                        String[] recording = part.split(";");
+                        int recording_id = Integer.parseInt(recording[0]);
+                        String type = recording[1];
+                        Recording.Type typeEnum = Recording.Type.valueOf(type);
+                        String dateRecording = recording[2];
+                        LocalDateTime dt =  LocalDateTime.parse(dateRecording);
+
+                        Recording recordings = new Recording(dt, typeEnum, patient_id);
+                        recordings.setId(recording_id);
+                        recording_list.add(recordings);
+                }
+                return recording_list;
+            }catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }
     }
 
     public String requestSpecificRecording(int recording_id){

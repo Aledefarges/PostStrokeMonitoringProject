@@ -29,27 +29,6 @@ public class HandlePatientPanel extends JPanel {
                 BorderFactory.createEmptyBorder(40,70,40,40))
         );
 
-
-        DefaultListModel<Patient> patient_model =  new DefaultListModel<>();
-        patient_list.setVisibleRowCount(6);
-        patient_list.setFixedCellHeight(80);
-        patient_list.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        List<Patient> patients = connection.requestAllPatients();
-
-        if(patients == null){
-            JOptionPane.showMessageDialog(this,"No patients found");
-        } else if(patients.isEmpty()){
-            JOptionPane.showMessageDialog(this,"No patients assigned yet", "INFORMATION",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            for(Patient patient: patients){
-                patient_model.addElement(patient);
-            }
-        }
-
-        patient_list.setModel(patient_model);
-
         patient_list.setCellRenderer(new ListCellRenderer<Patient>() {
             public Component getListCellRendererComponent(JList<? extends Patient> list, Patient patient, int index, boolean selected, boolean focused) {
                 String text = "<html>" + patient.getName() + " " + patient.getSurname() + "<br>" +
@@ -70,22 +49,15 @@ public class HandlePatientPanel extends JPanel {
                 return label;
             }
         });
-
-        patient_list.addListSelectionListener( e-> {
-            if(!e.getValueIsAdjusting()){ // indica que se ha terminado de selecionar un elemento de la lista
-                Patient selected = patient_list.getSelectedValue();
-                if(selected!=null){
-                    appFrame.switchPanel(new PatientOptionPanel(appFrame,connection,selected));
-                }
-            }
-        } );
         
         back_button.setFont(new Font("Arial", Font.PLAIN, 14));
         back_button.setBackground(new Color(62, 156, 118));
         back_button.setForeground(Color.WHITE);
         
-        back_button.addActionListener(e -> backToMenu()); 
+        back_button.addActionListener(e -> backToMenu());
 
+        loadPatientList();
+        configureHandleSelect();
         SwingUtilities.invokeLater(this::startAutoRefresh);
 
     }
@@ -130,6 +102,37 @@ public class HandlePatientPanel extends JPanel {
     
     public void backToMenu(){
         appFrame.switchPanel(new DoctorMenuPanel(appFrame,connection));
+    }
+
+    private void loadPatientList(){
+        DefaultListModel<Patient> patient_model =  new DefaultListModel<>();
+        patient_list.setVisibleRowCount(6);
+        patient_list.setFixedCellHeight(80);
+        patient_list.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
+        List<Patient> patients = connection.requestAllPatients();
+
+        if(patients == null){
+            JOptionPane.showMessageDialog(this,"No patients found");
+        } else if(patients.isEmpty()){
+            JOptionPane.showMessageDialog(this,"No patients assigned yet", "INFORMATION",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            for(Patient patient: patients){
+                patient_model.addElement(patient);
+            }
+        }
+        patient_list.setModel(patient_model);
+    }
+    private void configureHandleSelect(){
+        patient_list.addListSelectionListener( e-> {
+            if(!e.getValueIsAdjusting()){ // indica que se ha terminado de selecionar un elemento de la lista
+                Patient selected = patient_list.getSelectedValue();
+                if(selected!=null){
+                    appFrame.switchPanel(new PatientOptionPanel(appFrame,connection,selected));
+                }
+            }
+        } );
     }
     private void startAutoRefresh(){
         new Thread(()->{
