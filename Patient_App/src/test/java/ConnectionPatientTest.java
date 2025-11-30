@@ -45,10 +45,9 @@ public class ConnectionPatientTest {
         MockitoAnnotations.openMocks(this);
         conn = Mockito.spy(new Connection_Patient());
 
-        conn.socket = socketMock;
-        conn.out = out;
-        conn.in = in;
-
+        conn.setSocket(socketMock);
+        conn.setPrintWriter(out);
+        conn.setBufferedReader(in);
 
         //Add the patient we are going to test
         Date dob = Date.valueOf(LocalDate.of(2020, 1, 1));

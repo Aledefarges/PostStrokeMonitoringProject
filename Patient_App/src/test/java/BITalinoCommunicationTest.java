@@ -1,4 +1,5 @@
-package Bitalino;
+import Bitalino.BITalino;
+import Bitalino.Frame;
 
 import javax.bluetooth.RemoteDevice;
 import java.util.Vector;

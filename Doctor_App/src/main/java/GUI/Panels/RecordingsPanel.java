@@ -1,6 +1,6 @@
 package GUI.Panels;
 
-import org.example.Connection.Connection_Doctor;
+import Connection.Connection_Doctor;
 import org.example.POJOS.Patient;
 import org.example.POJOS.Recording;
 import org.example.Server.Visualization.PlotRecordings;
@@ -61,13 +61,14 @@ public class RecordingsPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
+
         label1 = new JLabel();
         back_button = new JButton();
         scrollPane1 = new JScrollPane();
-        recording_list = new JList();
+        recording_list = new JList<Recording>();
 
         //======== this ========
+
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {274, 63, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
@@ -90,13 +91,14 @@ public class RecordingsPanel extends JPanel {
         {
             scrollPane1.setViewportView(recording_list);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+
     private JLabel label1;
     private JButton back_button;
     private JScrollPane scrollPane1;

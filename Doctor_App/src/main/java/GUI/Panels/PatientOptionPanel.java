@@ -1,7 +1,7 @@
 
 package GUI.Panels;
 
-import org.example.Connection.Connection_Doctor;
+import Connection.Connection_Doctor;
 import org.example.POJOS.Patient;
 
 import java.awt.*;

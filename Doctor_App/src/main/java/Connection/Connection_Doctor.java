@@ -1,4 +1,4 @@
-package org.example.Connection;
+package Connection;
 
 import org.example.POJOS.Doctor;
 import org.example.POJOS.Patient;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.sql.Date;
 
 public class Connection_Doctor {
+
 
     private Socket socket;
     private BufferedReader in;
@@ -248,5 +249,13 @@ public class Connection_Doctor {
         }
         return response;
     }
+
+    public Socket getSocket(){return socket;}
+    public PrintWriter getPrintWriter(){return out;}
+    public BufferedReader getBufferedReader(){return in;}
+    public void setSocket(Socket s){ this.socket = s;}
+    public void setPrintWriter(PrintWriter pw_out){ this.out = pw_out;}
+    public void setBufferedReader(BufferedReader br_in){ this.in = br_in;}
+
 
 }

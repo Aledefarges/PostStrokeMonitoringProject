@@ -1,6 +1,6 @@
 package GUI.Panels;
 
-import org.example.Connection.Connection_Doctor;
+import Connection.Connection_Doctor;
 
 import javax.swing.*;
 

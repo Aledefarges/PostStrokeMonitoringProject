@@ -4,9 +4,8 @@ package GUI.Panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
-import org.example.Connection.Connection_Doctor;
+import Connection.Connection_Doctor;
 
 public class EmailPanel extends JPanel {
     private Connection_Doctor connection;

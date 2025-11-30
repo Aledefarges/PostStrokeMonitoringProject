@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Wed Nov 26 08:50:21 CET 2025
- */
 
 package GUI.Panels;
 
@@ -61,7 +58,6 @@ public class PatientMenuPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-
         title1 = new JLabel();
         separator1 = new JSeparator();
         select_label = new JLabel();

@@ -12,9 +12,9 @@ import java.security.MessageDigest;
 public class Connection_Patient {
 
 
-    public Socket socket;
-    public PrintWriter out;
-    public BufferedReader in;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
     public boolean connection(String ip_host, int port){
         // The function is boolean because it indicates whether the connection has succeeded or not
@@ -290,6 +290,14 @@ public class Connection_Patient {
         }
         return response;
     }
+
+    public Socket getSocket(){return socket;}
+    public PrintWriter getPrintWriter(){return out;}
+    public BufferedReader getBufferedReader(){return in;}
+    public void setSocket(Socket s){ this.socket = s;}
+    public void setPrintWriter(PrintWriter pw_out){ this.out = pw_out;}
+    public void setBufferedReader(BufferedReader br_in){ this.in = br_in;}
+
 
 
 }
