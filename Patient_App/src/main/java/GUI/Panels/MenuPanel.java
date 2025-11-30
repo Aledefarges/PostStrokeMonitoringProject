@@ -8,7 +8,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import Connection.Connection_Patient;
-import com.jgoodies.forms.factories.*;
 
 
 
@@ -106,7 +105,7 @@ public class MenuPanel extends JPanel {
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel title;
     private JLabel label1;
-    private JComponent separator1;
+    private JSeparator separator1;
     private JButton login_button;
     private JButton register_button;
     private JButton exit_button;
