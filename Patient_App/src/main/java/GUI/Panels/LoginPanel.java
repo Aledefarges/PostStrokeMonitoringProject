@@ -118,7 +118,8 @@ public class LoginPanel extends JPanel {
             String password = password_field.getText().trim();
 
             if(email.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please fill all the fields");
+                JOptionPane.showMessageDialog(this, "Please fill all the fields.",
+                        "FIELD EMPTY", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -128,10 +129,12 @@ public class LoginPanel extends JPanel {
             //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
-                JOptionPane.showMessageDialog(this, "Log In successful");
+                JOptionPane.showMessageDialog(this, "Log In successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Invalid email or password");
+                JOptionPane.showMessageDialog(this, "Invalid email or password", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }catch (Exception e){
             JOptionPane.showMessageDialog(this, "Invalid data: " +e.getMessage());

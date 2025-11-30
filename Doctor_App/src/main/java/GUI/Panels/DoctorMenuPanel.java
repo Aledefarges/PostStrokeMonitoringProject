@@ -18,7 +18,8 @@ public class DoctorMenuPanel extends JPanel {
         this.appFrame = appFrame;
         this.connection = connection;
         initComponents();
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+
+        setBorder(BorderFactory.createEmptyBorder(40, 110, 30, 30));
 
         label1.setFont(new Font("Arial", Font.BOLD, 20));
         select_label.setFont(new Font("Arial", Font.BOLD, 18));

@@ -21,7 +21,7 @@ public class RegisterPanel extends JPanel {
         initComponents();
 
         loadDoctorsIntoCombo();
-        setBorder(BorderFactory.createEmptyBorder(40,110,30,30));
+        setBorder(BorderFactory.createEmptyBorder(40,60,30,30));
 
         title.setFont(new Font("Arial", Font.BOLD, 18));
         name_label.setFont(new Font("Arial", Font.BOLD,14));
@@ -45,7 +45,6 @@ public class RegisterPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         title = new JLabel();
         name_label = new JLabel();
         name_field = new JTextField();
@@ -173,11 +172,10 @@ public class RegisterPanel extends JPanel {
         try{
             String response = connection.requestAllDoctor();
             if (response == null || !response.startsWith("DOCTORS_LIST")){
-                JOptionPane.showMessageDialog(this, "DOCTOR LIST NOT FOUND");
+                JOptionPane.showMessageDialog(this, "DOCTOR LIST NOT FOUND",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-
 
             String[] parts = response.split("\\|");
             doctors_box.removeAllItems();
@@ -212,18 +210,20 @@ public class RegisterPanel extends JPanel {
             int doctot_id = Integer.parseInt(doctor_selected.split(" - ")[0]);
 
             if(name.isEmpty() || surname.isEmpty() || dob.isEmpty() || email.isEmpty()||phone.isEmpty() || sex.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please fill all the fields");
+                JOptionPane.showMessageDialog(this, "Please fill all the fields",
+                        "FIELD EMPTY", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            //En el paciente, ahora va encryptedPassword donde antes para Nerea iba password
             Patient patient = new Patient(name,surname, dob_1,email,sexEnum,medicalHistory,phone_1,encryptedPassword);
             boolean ok_register = connection.sendPatientToServer(patient, doctot_id);
             if(ok_register){
-                JOptionPane.showMessageDialog(this, "Register successful");
+                JOptionPane.showMessageDialog(this, "Register successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new MenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Something went wrong, error register");
+                JOptionPane.showMessageDialog(this, "Something went wrong, error register", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
         }catch(Exception e){

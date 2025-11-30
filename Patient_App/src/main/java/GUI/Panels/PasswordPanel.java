@@ -18,7 +18,7 @@ public class PasswordPanel extends JPanel {
         this.connection = connection;
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(80,110,30,30));
+        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
         old_label.setFont(new Font("Arial", Font.BOLD, 14));
         new_label.setFont(new Font("Arial", Font.BOLD, 14));
         ok_button.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -90,11 +90,13 @@ public class PasswordPanel extends JPanel {
             String new_password = new_field.getText().trim();
 
             if(old_password.isEmpty() || new_password.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Please fill all the fields");
+                JOptionPane.showMessageDialog(null, "Please fill all the fields.", "FIELD EMPTY",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if(new_password.equals(old_password)){
-                JOptionPane.showMessageDialog(null, "Please enter a different password from the old one");
+                JOptionPane.showMessageDialog(null, "Please enter a different password from the old one",
+                        "WARNING", JOptionPane.WARNING_MESSAGE);
             }
 
             //Función de prueba para encryptar la constraseña:
@@ -103,13 +105,13 @@ public class PasswordPanel extends JPanel {
 
             boolean passwordOK = connection.sendChangePassword(old_enc,new_enc);
 
-            //Nerea antes de meter la encryptación:
-            //boolean passwordOK = connection.sendChangePassword(old_password, new_password);
             if (passwordOK) {
-                JOptionPane.showMessageDialog(this, "Password change successful");
+                JOptionPane.showMessageDialog(this, "Password change successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new PatientMenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Invalid password");
+                JOptionPane.showMessageDialog(this, "Invalid password", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());

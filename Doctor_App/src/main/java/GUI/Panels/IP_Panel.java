@@ -76,7 +76,8 @@ public class IP_Panel extends JPanel {
             String ip = ip_field.getText().trim();
 
             if(ip.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please enter IP address");
+                JOptionPane.showMessageDialog(this, "Please enter IP address", "FIELD EMPTY",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
             connection = new Connection_Doctor();
@@ -86,8 +87,7 @@ public class IP_Panel extends JPanel {
                 appFrame.switchPanel(new MenuPanel(appFrame, connection));
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Could not connect to server."
-                );
+                        "Could not connect to server.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

@@ -102,7 +102,9 @@ public class HandlePatientPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
+        scrollPane1 = new JScrollPane();
         patient_list = new JList();
         back_button = new JButton();
 
@@ -114,11 +116,17 @@ public class HandlePatientPanel extends JPanel {
         ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
-        label1.setText("List of patients (click one the one of interest)");
+        label1.setText("List of patients (click the one of interest)");
         add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
-        add(patient_list, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+
+        //======== scrollPane1 ========
+        {
+            scrollPane1.setViewportView(patient_list);
+            scrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        }
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
@@ -137,6 +145,7 @@ public class HandlePatientPanel extends JPanel {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
+    private JScrollPane scrollPane1;
     private JList patient_list;
     private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on

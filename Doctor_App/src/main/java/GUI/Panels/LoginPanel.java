@@ -32,7 +32,7 @@ public class LoginPanel extends JPanel {
         back_button.setBackground(new Color(62, 156, 118));
         back_button.setForeground(Color.WHITE);
 
-        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
+        setBorder(BorderFactory.createEmptyBorder(60,60,40,40));
 
         show_button.addActionListener(e-> togglePasswordVisible());
         login_button.addActionListener(e-> login());
@@ -120,7 +120,8 @@ public class LoginPanel extends JPanel {
             String password = password_field.getText().trim();
 
             if(email.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please fill all the fields");
+                JOptionPane.showMessageDialog(this, "Please fill all the fields",
+                        "FIELD EMPTY", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -130,10 +131,12 @@ public class LoginPanel extends JPanel {
             //En esta función antes iba password de Nerea, y ahora va encryptedPassword por si acaso no funciona
             String response = connection.sendDoctorLogin(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_DOCTOR")) {
-                JOptionPane.showMessageDialog(this, "Log In successful");
+                JOptionPane.showMessageDialog(this, "Log In successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Invalid email or password");
+                JOptionPane.showMessageDialog(this, "Invalid email or password", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }catch (Exception e){
             JOptionPane.showMessageDialog(this, "Invalid data: " +e.getMessage());

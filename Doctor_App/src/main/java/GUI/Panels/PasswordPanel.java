@@ -89,11 +89,13 @@ public class PasswordPanel extends JPanel {
             String new_password = new_field.getText().trim();
 
             if(old_password.isEmpty() || new_password.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Please fill all the fields");
+                JOptionPane.showMessageDialog(null, "Please fill all the fields", "FIELD EMPTY",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if(new_password.equals(old_password)){
-                JOptionPane.showMessageDialog(null, "Please enter a different password from the old one");
+                JOptionPane.showMessageDialog(null, "Please enter a different password from the old one",
+                        "SAME PASSWORD", JOptionPane.WARNING_MESSAGE);
             }
 
             //Función de prueba para encryptar la constraseña:
@@ -103,10 +105,12 @@ public class PasswordPanel extends JPanel {
             boolean passwordOK = connection.sendChangePassword(old_enc,new_enc);
             
             if (passwordOK) {
-                JOptionPane.showMessageDialog(this, "Password change successful");
+                JOptionPane.showMessageDialog(this, "Password change successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Invalid password");
+                JOptionPane.showMessageDialog(this, "Invalid password", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());

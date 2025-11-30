@@ -8,6 +8,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Connection.Connection_Patient;
+import com.jgoodies.forms.factories.*;
 
 
 
@@ -24,6 +25,7 @@ public class MenuPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         title.setFont(new Font("Arial", Font.BOLD, 20));
+        label1.setFont(new Font("Arial", Font.BOLD, 16));
         login_button.setFont(new Font("Arial", Font.PLAIN, 16));
         register_button.setFont(new Font("Arial", Font.PLAIN, 16));
         exit_button.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -44,45 +46,52 @@ public class MenuPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-
         title = new JLabel();
-        separator1 = new JSeparator() {};
+        label1 = new JLabel();
+        separator1 = new JSeparator();
         login_button = new JButton();
         register_button = new JButton();
         exit_button = new JButton();
 
         //======== this ========
-
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {404, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- title ----
-        title.setText("WELCOME TO POST-STROKE MONITORING APP");
+        title.setText("WELCOME PATIENT ");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         add(title, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 5, 0), 0, 0));
-        add(separator1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+
+        //---- label1 ----
+        label1.setText("POST-STROKE MONITORING APP");
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
+        add(label1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            new Insets(0, 0, 5, 0), 0, 0));
+        add(separator1, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- login_button ----
         login_button.setText("1. LOG IN");
-        add(login_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+        add(login_button, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- register_button ----
         register_button.setText("2. REGISTER");
-        add(register_button, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+        add(register_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- exit_button ----
         exit_button.setText("3. EXIT");
-        add(exit_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+        add(exit_button, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -96,6 +105,7 @@ public class MenuPanel extends JPanel {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel title;
+    private JLabel label1;
     private JComponent separator1;
     private JButton login_button;
     private JButton register_button;

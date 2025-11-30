@@ -139,18 +139,20 @@ public class RegisterDoctorPanel extends JPanel {
             String encryptedPassword = connection.encryptDoctorPassword(password);
 
             if(name.isEmpty() || surname.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please fill all the fields");
+                JOptionPane.showMessageDialog(this, "Please fill all the fields",
+                        "FIELD EMPTY", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            //En el paciente, ahora va encryptedPassword donde antes para Nerea iba password
             Doctor doctor = new Doctor(name,surname, phone_1, email,encryptedPassword);
             boolean ok_register = connection.sendRegisterDoctor(doctor);
             if(ok_register){
-                JOptionPane.showMessageDialog(this, "Register successful");
+                JOptionPane.showMessageDialog(this, "Register successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new MenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Something went wrong, error register");
+                JOptionPane.showMessageDialog(this, "Something went wrong, error register",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
         }catch(Exception e){
@@ -163,7 +165,6 @@ public class RegisterDoctorPanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JLabel name_label;
     private JTextField name_field;

@@ -20,7 +20,7 @@ public class EmailPanel extends JPanel {
         this.connection = connection;
         initComponents();
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(60,80,40,40));
         old_label.setFont(new Font("Arial", Font.BOLD, 14));
         new_label.setFont(new Font("Arial", Font.BOLD, 14));
         ok_button.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -93,20 +93,24 @@ public class EmailPanel extends JPanel {
             String new_email = new_field.getText().trim();
 
             if(old_email.isEmpty() || new_email.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Please fill all the fields");
+                JOptionPane.showMessageDialog(null, "Please fill all the fields",
+                        "FIELD EMPTY",  JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if(new_email.equals(old_email)){
-                JOptionPane.showMessageDialog(null, "Please enter a different email from the old one");
+                JOptionPane.showMessageDialog(null, "Please enter a different email from the old one",
+                        "SAME PASSWORD",  JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             boolean emailOK = connection.sendChangeEmail(old_email, new_email);
             if (emailOK) {
-                JOptionPane.showMessageDialog(this, "Email change successful");
+                JOptionPane.showMessageDialog(this, "Email change successful", "SUCCESS",
+                        JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new DoctorMenuPanel(appFrame, connection));
             }else{
-                JOptionPane.showMessageDialog(this, "Invalid email");
+                JOptionPane.showMessageDialog(this, "Invalid email", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error" +e.getMessage());

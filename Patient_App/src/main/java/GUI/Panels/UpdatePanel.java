@@ -43,6 +43,7 @@ public class UpdatePanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label = new JLabel();
         name_label = new JLabel();
         name_field = new JTextField();
@@ -60,14 +61,19 @@ public class UpdatePanel extends JPanel {
         back_button = new JButton();
 
         //======== this ========
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0
+        ,0,0,0), "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e",javax.swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM
+        ,new java.awt.Font("Dialo\u0067",java.awt.Font.BOLD,12),java.awt.Color.red),
+         getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
+        ){if("borde\u0072".equals(e.getPropertyName()))throw new RuntimeException();}});
         setLayout(new GridBagLayout());
-        ((GridBagLayout)getLayout()).columnWidths = new int[] {131, 239, 0};
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {131, 190, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
         ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label ----
-        label.setText("Update your information (leave any field blank to keep it unchanged)");
+        label.setText("Update your data (leave any field blank to keep it unchaged)");
         add(label, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
@@ -109,7 +115,7 @@ public class UpdatePanel extends JPanel {
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- dob_label ----
-        dob_label.setText("Date of birth:");
+        dob_label.setText("Date of birh:");
         add(dob_label, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
@@ -173,14 +179,16 @@ public class UpdatePanel extends JPanel {
                     connection.sendUpdateToServer("dob",dob);
                     update = true;
                 }catch(IllegalArgumentException e){
-                    JOptionPane.showMessageDialog(this, "Use format: yyyy-mm-dd");
+                    JOptionPane.showMessageDialog(this, "Use format: yyyy-mm-dd", "WARNING", 
+                            JOptionPane.WARNING_MESSAGE);
                     return;
                 }
             }
             String sex = sex_field.getText().trim().toUpperCase();
             if (!sex.isEmpty()) {
                 if(!sex.equals("M")&& !sex.equals("F")){
-                    JOptionPane.showMessageDialog(this, "Use M or F");
+                    JOptionPane.showMessageDialog(this, "Use M or F", "WARNING",
+                            JOptionPane.WARNING_MESSAGE);
                     return;
                 }
                 connection.sendUpdateToServer("sex",sex);
@@ -188,13 +196,16 @@ public class UpdatePanel extends JPanel {
             }
 
             if(!update){
-                JOptionPane.showMessageDialog(this, "No updates");
+                JOptionPane.showMessageDialog(this, "No updates", "OK", 
+                        JOptionPane.INFORMATION_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(this, "Your information is updated");
+                JOptionPane.showMessageDialog(this, "Your information is updated", "OK",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
 
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Please enter a valid data");
+            JOptionPane.showMessageDialog(this, "Please enter a valid data", "ERROR", 
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
