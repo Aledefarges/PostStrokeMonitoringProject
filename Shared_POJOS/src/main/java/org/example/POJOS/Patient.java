@@ -1,10 +1,14 @@
 package org.example.POJOS;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class Patient {
+public class Patient implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    // Acts as an ID identification
     private int patient_id;
     private String name;
     private String surname;

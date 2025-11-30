@@ -7,10 +7,7 @@ import org.example.POJOS.Patient;
 import org.example.Server.Visualization.signalsAnalyzer;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -46,9 +43,9 @@ public class Connection_Server implements Runnable{
     @Override
     public void run() {
         try {
+
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
-
             out.println("Server connected");
 
             patientManager = new JDBCPatientManager(db);
@@ -534,6 +531,7 @@ private void savePatientRegistration(String p){
                 out.println("PATIENTS_LIST|EMPTY");
                 return;
             }
+
             StringBuilder sb = new StringBuilder();
             sb.append("PATIENTS_LIST|");
             for (Patient p : patients) {

@@ -91,7 +91,7 @@ public class RecordingsPanel extends JPanel {
         {
             scrollPane1.setViewportView(recording_list);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -194,7 +194,7 @@ public class RecordingsPanel extends JPanel {
     }
 
     private void backToMenu() {
-        appFrame.switchPanel(new HandlePatientPanel(appFrame, connection));
+        appFrame.switchPanel(new PatientOptionPanel(appFrame, connection,patient));
     }
 
 

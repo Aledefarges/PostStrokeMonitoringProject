@@ -8,13 +8,15 @@ import org.example.Connection.Connection_Doctor;
 import org.example.POJOS.Patient;
 
 import java.awt.*;
-import java.sql.Date;
 import javax.swing.*;
+import java.util.List;
+
 
 
 public class HandlePatientPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
+    private JList<Patient> patient_list;
 
     public HandlePatientPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.connection = connection;
@@ -28,37 +30,25 @@ public class HandlePatientPanel extends JPanel {
         );
 
 
-        DefaultListModel<Patient> list =  new DefaultListModel<>();
-        String response = connection.requestAllPatients();
+        DefaultListModel<Patient> patient_model =  new DefaultListModel<>();
         patient_list.setVisibleRowCount(6);
         patient_list.setFixedCellHeight(80);
         patient_list.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        if (response.startsWith("PATIENTS_LIST|")){
-            try{
-                String data = response.substring("PATIENTS_LIST|".length());
-                String[] parts = data.split("\\|");
-                for(String part:parts){
-                    String[] patient = part.split(";");
-                    int patient_id = Integer.parseInt(patient[0]);
-                    String name = patient[1];
-                    String surname = patient[2];
-                    String dob = patient[3];
-                    Date dob1 = Date.valueOf(dob);
-                    String email = patient[4];
-                    int phone = Integer.parseInt(patient[5]);
-                    String medical_history = patient[6];
-                    String sex = patient[7];
-                    Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
 
-                    Patient patients = new Patient(patient_id, "", name, surname, dob1, email, phone, medical_history, sexEnum);
-                    list.addElement(patients);
-                }
-            }catch(Exception e){
-                e.printStackTrace();
+        List<Patient> patients = connection.requestAllPatients();
+
+        if(patients == null){
+            JOptionPane.showMessageDialog(this,"No patients found");
+        } else if(patients.isEmpty()){
+            JOptionPane.showMessageDialog(this,"No patients assigned yet", "INFORMATION",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            for(Patient patient: patients){
+                patient_model.addElement(patient);
             }
-
         }
-        patient_list.setModel(list);
+
+        patient_list.setModel(patient_model);
 
         patient_list.setCellRenderer(new ListCellRenderer<Patient>() {
             public Component getListCellRendererComponent(JList<? extends Patient> list, Patient patient, int index, boolean selected, boolean focused) {
@@ -83,7 +73,7 @@ public class HandlePatientPanel extends JPanel {
 
         patient_list.addListSelectionListener( e-> {
             if(!e.getValueIsAdjusting()){ // indica que se ha terminado de selecionar un elemento de la lista
-                Patient selected = (Patient) patient_list.getSelectedValue();
+                Patient selected = patient_list.getSelectedValue();
                 if(selected!=null){
                     appFrame.switchPanel(new PatientOptionPanel(appFrame,connection,selected));
                 }
@@ -95,7 +85,8 @@ public class HandlePatientPanel extends JPanel {
         back_button.setForeground(Color.WHITE);
         
         back_button.addActionListener(e -> backToMenu()); 
-        
+
+        SwingUtilities.invokeLater(this::startAutoRefresh);
 
     }
 
@@ -104,7 +95,7 @@ public class HandlePatientPanel extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
-        patient_list = new JList();
+        patient_list = new JList<>();
         back_button = new JButton();
 
         //======== this ========
@@ -140,12 +131,35 @@ public class HandlePatientPanel extends JPanel {
     public void backToMenu(){
         appFrame.switchPanel(new DoctorMenuPanel(appFrame,connection));
     }
+    private void startAutoRefresh(){
+        new Thread(()->{
+            while(true){
+                try{
+                    List<Patient> updated_list = connection.requestAllPatients();
+                    SwingUtilities.invokeLater(()->{
+                        DefaultListModel<Patient> patient_model =  (DefaultListModel<Patient>) patient_list.getModel();
+                        patient_model.clear();
+                        if(updated_list != null){
+                            for (Patient patient: updated_list){
+                                patient_model.addElement(patient);
+                            }
+                        }
+
+                    });
+
+                    Thread.sleep(5000);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        }).start();
+    }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JScrollPane scrollPane1;
-    private JList patient_list;
     private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 

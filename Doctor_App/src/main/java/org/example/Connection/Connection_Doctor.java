@@ -1,15 +1,16 @@
 package org.example.Connection;
 
 import org.example.POJOS.Doctor;
+import org.example.POJOS.Patient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.util.*;
+import java.util.List;
+import java.sql.Date;
 
 public class Connection_Doctor {
 
@@ -17,12 +18,13 @@ public class Connection_Doctor {
     private BufferedReader in;
     private PrintWriter out;
 
-    boolean loggedIn=false;
+    boolean loggedIn = false;
 
 
     public boolean connection(String ip, int port) {
         try {
             socket = new Socket(ip, port);
+
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -76,12 +78,47 @@ public class Connection_Doctor {
     }
 
 
-    public String requestAllPatients(){
+    public List<Patient> requestAllPatients(){
         try{
             out.println("VIEW_ALL_PATIENTS|");
+            out.flush();
+
             String response = readLineHandlingListener();
-            return response;
-        }catch(IOException e){
+            if(response == null){
+                System.out.println("ERROR: returned list error");
+                return null;
+            }
+
+            if(response.equals("PATIENTS_LIST|EMPTY")){
+                return new ArrayList<>();
+            }
+            if(!response.startsWith("PATIENTS_LIST|")){
+                System.out.println("Error" + response);
+                return null;
+            }
+
+                String data = response.substring("PATIENTS_LIST|".length());
+                String[] parts = data.split("\\|");
+                List<Patient> patient_list = new ArrayList<>();
+                for(String part:parts){
+                    String[] patient = part.split(";");
+                    int patient_id = Integer.parseInt(patient[0]);
+                    String name = patient[1];
+                    String surname = patient[2];
+                    String dob = patient[3];
+                    Date dob1 = Date.valueOf(dob);
+                    String email = patient[4];
+                    int phone = Integer.parseInt(patient[5]);
+                    String medical_history = patient[6];
+                    String sex = patient[7];
+                    Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
+
+                    Patient patients = new Patient(patient_id, "", name, surname, dob1, email, phone, medical_history, sexEnum);
+                    patient_list.add(patients);
+                }
+                return patient_list;
+        }catch(Exception e){
+            e.printStackTrace();
             return null;
         }
     }
