@@ -57,7 +57,7 @@ public class JDBCManager {
             st.executeUpdate(sql_doctor);
 
             //Table Patients
-            String sql_patient = "CREATE TABLE IF NOT EXISTSPatients ("
+            String sql_patient = "CREATE TABLE IF NOT EXISTS Patients ("
                     + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
