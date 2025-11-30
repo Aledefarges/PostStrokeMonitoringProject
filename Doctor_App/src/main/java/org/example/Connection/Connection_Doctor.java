@@ -229,22 +229,10 @@ public class Connection_Doctor {
     }
 
     public String readLineHandlingListener()throws IOException{
-        String response = null;
+        String response = in.readLine();
 
-        try{
-            response = in.readLine();
-        }catch(SocketException e){
-            shutdownApp();
-            throw e;
-        }
-
-        if(response == null){
-            shutdownApp();
-            throw new IOException("Server shutdown");
-        }
-
-
-        if (response.equals("SERVER SHUTDOWN")) {
+        if (response == null || response.equals("SERVER SHUTDOWN")) {
+            close();
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(
                         null,
@@ -252,21 +240,14 @@ public class Connection_Doctor {
                         "Warning",
                         JOptionPane.WARNING_MESSAGE
                 );
-//                for(Window window : Window.getWindows()){
-//                    window.dispose();
-//                }
+                for(Window window : Window.getWindows()){
+                    window.dispose();
+                }
                 System.exit(0);
             });
+            throw new IOException("Server shutdown");
         }
         return response;
-    }
-
-    private void shutdownApp(){
-        try{
-            socket.close();
-        }catch (Exception e){
-            System.exit(0);
-        }
     }
 
 }

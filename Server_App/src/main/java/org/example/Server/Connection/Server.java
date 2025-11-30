@@ -52,15 +52,17 @@ public class Server {
     }
 
     public static void broadcastShutdown(){
-        List<Connection_Server> snapshot;
-        synchronized (activeConnections) {
-            snapshot = new ArrayList<>(activeConnections);
-        }
+        synchronized (activeConnections){
+            for(Connection_Server c : activeConnections){
+                c.sendShutdownMessage();
+            }
 
-        for(Connection_Server c : snapshot) {
-            try {
-               c.sendShutdownMessage();
-            } catch (Exception ignored) {
+            try{
+                Thread.sleep(150);
+            }catch (InterruptedException e){}
+
+            for(Connection_Server c : activeConnections){
+                c.onServerShutdown();
             }
         }
     }
