@@ -19,7 +19,7 @@ public class LoginPanel extends JPanel {
         initComponents();
 
         this.add(panel1);
-        setBorder(BorderFactory.createEmptyBorder(80,110,30,30));
+        setBorder(BorderFactory.createEmptyBorder(80,80,30,30));
 
         email_label.setFont(new Font("Arial", Font.BOLD, 14));
         password_label.setFont(new Font("Arial", Font.BOLD, 14));

@@ -24,10 +24,10 @@ public class MenuPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         title.setFont(new Font("Arial", Font.BOLD, 20));
-        label1.setFont(new Font("Arial", Font.BOLD, 16));
-        login_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        register_button.setFont(new Font("Arial", Font.PLAIN, 16));
-        exit_button.setFont(new Font("Arial", Font.PLAIN, 16));
+        label1.setFont(new Font("Arial", Font.BOLD, 18));
+        login_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        register_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        exit_button.setFont(new Font("Arial", Font.PLAIN, 14));
         
         login_button.setBackground(new Color(70,130,180));
         login_button.setForeground(Color.WHITE);

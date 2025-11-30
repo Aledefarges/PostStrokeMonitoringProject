@@ -34,7 +34,7 @@ public class MenuPanel extends JPanel {
         exit_button.setForeground(Color.WHITE);
         separator1.setForeground(new Color(70,130,180));
 
-        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
+        setBorder(BorderFactory.createEmptyBorder(40,80,40,40));
 
         login_button.addActionListener(e-> goToLogin());
         register_button.addActionListener(e-> goToRegister());

@@ -1,15 +1,22 @@
 package GUI;
 
-import GUI.Panels.AppFrame;
+
+
+import GUI.Panels.AppFrameDoctor;
 
 import javax.swing.*;
 
-public class MainMenu {
+public class RunnableDoctor {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new AppFrame();
+                new AppFrameDoctor();
             }
         });
     }
 }
+
+
+
+
+

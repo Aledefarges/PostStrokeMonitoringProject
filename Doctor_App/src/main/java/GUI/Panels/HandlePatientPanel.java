@@ -102,7 +102,6 @@ public class HandlePatientPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
         patient_list = new JList();
@@ -126,7 +125,7 @@ public class HandlePatientPanel extends JPanel {
             scrollPane1.setViewportView(patient_list);
             scrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
