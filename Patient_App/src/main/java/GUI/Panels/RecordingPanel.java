@@ -153,8 +153,19 @@ public class RecordingPanel extends JPanel {
 
                 bita.stop();
                 bita.close();
-                connection.endRecording();
 
+                String endResponse = connection.endRecordingAndGetResponse();
+
+                if(endResponse != null && endResponse.startsWith("ERROR|EMPTY_RECORDING")){
+                    SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Recording cancelled. \n No data was being received from BITalino. \nPlease check the connection and try again.",
+                                "Empty Recording",
+                                JOptionPane.WARNING_MESSAGE);
+                    });
+                    return;
+                }
                 SwingUtilities.invokeLater(() -> {
                     try{
                         plotSignalByType(connection,recording_id,type);

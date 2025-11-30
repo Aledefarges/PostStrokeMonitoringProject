@@ -156,9 +156,13 @@ public class Connection_Patient {
         }
     }
 
-    public void endRecording() throws IOException {
-        out.println("END_RECORDING");
-        readLineHandlingListener();
+    public String endRecordingAndGetResponse() throws IOException {
+        try{
+            out.println("END_RECORDING");
+            return readLineHandlingListener();
+        }catch(Exception e){
+            return "ERROR|EXCEPTION";
+        }
     }
 
 

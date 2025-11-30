@@ -391,9 +391,23 @@ private void savePatientRegistration(String p){
 
 
     private void handleEndRecording() {
-        recordingActive = false;
-        out.println("OK|RECORDING_SAVED");
-        System.out.println("Recording finished. Total frames: " + frameCounter);
+        try{
+            if(frameCounter == 0){
+                recordingManager.deleteRecording(currentRecording_id);
+                out.println("ERROR|EMPTY_RECORDING");
+                System.out.println("Deleted empty recording with ID: " + currentRecording_id);
+                return;
+            }else {
+                recordingActive = false;
+                out.println("OK|RECORDING_SAVED");
+                System.out.println("Recording finished. Total frames: " + frameCounter);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR ending recording: " + e.getMessage());
+        }
+
     }
 
     private void handleGetRecording(int recording_id){
