@@ -107,11 +107,10 @@ public class Connection_Server implements Runnable{
                 recordingActive = false;
             }
         }catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Connction closed: " + e.getMessage());
         } finally{
             releaseResourcesServer(out,in,socket);
             org.example.Server.Connection.Server.removeConnection(this);
-            releaseResourcesServer(out,in,socket);
         }
     }
 
@@ -684,7 +683,6 @@ private void savePatientRegistration(String p){
             if (in != null) in.close();   // Stop receiving data to server
             if (socket != null && !socket.isClosed()) socket.close(); // close connection
         } catch (IOException e) {}
-        Server.removeConnection(this);
     }
 
 

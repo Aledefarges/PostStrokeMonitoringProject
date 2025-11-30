@@ -1,5 +1,6 @@
 package org.example.Server.Connection;
 
+import com.sun.jdi.connect.spi.Connection;
 import org.example.Server.GUI.AdminPanel;
 
 import javax.swing.*;
@@ -51,17 +52,15 @@ public class Server {
     }
 
     public static void broadcastShutdown(){
-        synchronized (activeConnections){
-            for(Connection_Server c : activeConnections){
-                c.sendShutdownMessage();
-            }
+        List<Connection_Server> snapshot;
+        synchronized (activeConnections) {
+            snapshot = new ArrayList<>(activeConnections);
+        }
 
-            try{
-                Thread.sleep(150);
-            }catch (InterruptedException e){}
-
-            for(Connection_Server c : activeConnections){
-                c.onServerShutdown();
+        for(Connection_Server c : snapshot) {
+            try {
+               c.sendShutdownMessage();
+            } catch (Exception ignored) {
             }
         }
     }
