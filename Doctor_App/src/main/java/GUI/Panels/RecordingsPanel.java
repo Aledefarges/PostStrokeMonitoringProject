@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Fri Nov 28 17:05:40 CET 2025
- */
-//
 package GUI.Panels;
 
 import org.example.Connection.Connection_Doctor;
@@ -18,6 +14,7 @@ public class RecordingsPanel extends JPanel {
     private AppFrameDoctor appFrame;
     private Patient patient;
     private JList<Recording> recording_list;
+    private volatile boolean running = true;
     
     public RecordingsPanel(AppFrameDoctor appFrame, Connection_Doctor connection, Patient patient) {
         this.connection = connection;
@@ -143,10 +140,9 @@ public class RecordingsPanel extends JPanel {
             String[] frames = part.split(",");
 
             String diagnosis = null;
-            if(parts.length >= 4){
-                diagnosis = parts[3];
+            if(parts.length >= 4 && parts[3] != null && !parts[3].trim().isEmpty()){
+                diagnosis = parts[3].trim();
             }
-            // Se pone menos de 4 porque solo analiza la señal ECG
 
             if (recording.getType() == Recording.Type.ECG ||  recording.getType() ==  Recording.Type.EMG){
                 Double[] data = new Double[frames.length];
@@ -168,21 +164,26 @@ public class RecordingsPanel extends JPanel {
                 PlotRecordings.showChartFromArray(emg, "EMG Recording ID " +recording.getId());
                 PlotRecordings.showChartFromArray(ecg, "ECG Recording ID " +recording.getId());
             }
-
-            if(diagnosis != null){
-                JOptionPane.showMessageDialog(this, diagnosis, "ECG Analysis", JOptionPane.INFORMATION_MESSAGE);
+            if(diagnosis != null && (recording.getType() == Recording.Type.ECG || recording.getType() == Recording.Type.BOTH)){
+                JOptionPane.showMessageDialog(this,
+                        diagnosis,
+                        "ECG Analysis",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
+
 
         });
     }
 
     private void backToMenu() {
+        running = false;
         appFrame.switchPanel(new PatientOptionPanel(appFrame, connection,patient));
     }
 
     private void startAutoRefresh(){
+        running = true;
         new Thread(()->{
-            while(true){
+            while(running){
                 try{
                     List<Recording> updated_list = connection.requestRecordingsByPatient(patient.getPatient_id());
                     SwingUtilities.invokeLater(()->{
@@ -199,6 +200,7 @@ public class RecordingsPanel extends JPanel {
                     Thread.sleep(5000);
                 }catch(Exception e){
                     e.printStackTrace();
+                    running = false;
                     break;
                 }
             }

@@ -96,6 +96,7 @@ public class PasswordPanel extends JPanel {
             if(new_password.equals(old_password)){
                 JOptionPane.showMessageDialog(null, "Please enter a different password from the old one",
                         "SAME PASSWORD", JOptionPane.WARNING_MESSAGE);
+                return;
             }
 
             //Función de prueba para encryptar la constraseña:

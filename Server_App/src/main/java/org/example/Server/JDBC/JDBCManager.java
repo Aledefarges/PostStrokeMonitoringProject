@@ -30,8 +30,6 @@ public class JDBCManager {
     public Connection getConnection(){
         try{
             Connection c = DriverManager.getConnection(DB_URL);
-
-
             try(Statement st = c.createStatement()){
                 st.execute("PRAGMA foreign_keys = ON");
             }
@@ -48,7 +46,7 @@ public class JDBCManager {
             st.execute("PRAGMA foreign_keys = ON");
 
             //Table doctors
-            String sql_doctor = "CREATE TABLE Doctors ("
+            String sql_doctor = "CREATE TABLE IF NOT EXISTS Doctors ("
                     + "doctor_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT,"
                     + "surname TEXT,"
@@ -59,7 +57,7 @@ public class JDBCManager {
             st.executeUpdate(sql_doctor);
 
             //Table Patients
-            String sql_patient = "CREATE TABLE Patients ("
+            String sql_patient = "CREATE TABLE IF NOT EXISTSPatients ("
                     + "patient_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "name TEXT NOT NULL,"
                     + "surname TEXT NOT NULL,"
@@ -75,7 +73,7 @@ public class JDBCManager {
             st.executeUpdate(sql_patient);
 
             //Table recordings
-            String sql_recordings = "CREATE TABLE Recordings ("
+            String sql_recordings = "CREATE TABLE IF NOT EXISTS Recordings ("
                     + "recording_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "type TEXT,"
                     + "recordingDate TIMESTAMP,"
@@ -85,7 +83,7 @@ public class JDBCManager {
             st.executeUpdate(sql_recordings);
 
             //Table frames
-            String sql_frames = "CREATE TABLE RecordingFrames ("
+            String sql_frames = "CREATE TABLE IF NOT EXISTS RecordingFrames ("
                     + "frame_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "recording_id INTEGER NOT NULL,"
                     + "frame_index INTEGER NOT NULL,"

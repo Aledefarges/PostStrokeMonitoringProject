@@ -18,6 +18,8 @@ public class RegisterPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
     private JComboBox<String> doctors_box;
+    private volatile boolean running = true;
+
     public RegisterPanel(AppFrame appFrame, Connection_Patient connection) {
         this.appFrame = appFrame;
         this.connection = connection;
@@ -196,6 +198,7 @@ public class RegisterPanel extends JPanel {
     }
 
     private void registerPatient(){
+        running = false;
         try{
             String name = name_field.getText().trim();  // trim() se encarga de quitar las espacios que el usuario puede dejar al escribir
             String surname = surname_field.getText().trim();
@@ -237,8 +240,9 @@ public class RegisterPanel extends JPanel {
     }
 
     private void startAutoRefreshDoctor(){
+        running = true;
         new Thread(()->{
-            while(true){
+            while(running){
                 try{
                     String response = connection.requestAllDoctor();
                     SwingUtilities.invokeLater(()->{
@@ -267,6 +271,7 @@ public class RegisterPanel extends JPanel {
                     Thread.sleep(5000);
                 }catch(Exception e){
                     e.printStackTrace();
+                    running = false;
                     break;
                 }
             }

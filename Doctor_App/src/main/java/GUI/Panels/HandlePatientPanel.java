@@ -17,6 +17,7 @@ public class HandlePatientPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     private JList<Patient> patient_list;
+    private volatile boolean running = true;
 
     public HandlePatientPanel(AppFrameDoctor appFrame, Connection_Doctor connection) {
         this.connection = connection;
@@ -101,6 +102,7 @@ public class HandlePatientPanel extends JPanel {
     }
     
     public void backToMenu(){
+        running = false;
         appFrame.switchPanel(new DoctorMenuPanel(appFrame,connection));
     }
 
@@ -135,8 +137,9 @@ public class HandlePatientPanel extends JPanel {
         } );
     }
     private void startAutoRefresh(){
+        running = true;
         new Thread(()->{
-            while(true){
+            while(running){
                 try{
                     List<Patient> updated_list = connection.requestAllPatients();
                     SwingUtilities.invokeLater(()->{
@@ -153,6 +156,7 @@ public class HandlePatientPanel extends JPanel {
                     Thread.sleep(5000);
                 }catch(Exception e){
                     e.printStackTrace();
+                    running = false;
                     break;
                 }
             }

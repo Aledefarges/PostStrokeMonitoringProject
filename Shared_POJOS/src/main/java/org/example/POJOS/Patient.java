@@ -1,7 +1,6 @@
 package org.example.POJOS;
 
 import javax.swing.*;
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -148,14 +147,6 @@ public class Patient {
         this.medicalhistory = medicalhistory;
     }
 
-    public List<Recording> getRecordings() {
-        return recordings;
-    }
-
-    public void setRecordings(List<Recording> recordings) {
-        this.recordings = recordings;
-    }
-
     public int getPhone() {
         return phone;
     }
@@ -191,18 +182,6 @@ public class Patient {
         this.password = password;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Patient patient = (Patient) o;
-//        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name) && Objects.equals(surname, patient.surname) && Objects.equals(email, patient.email) && Objects.equals(password, patient.password) && sex == patient.sex && Objects.equals(dob, patient.dob) && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory) && Objects.equals(doctor, patient.doctor);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(patient_id, name, surname, email, password, sex, dob, phone, recordings, medicalhistory, doctor);
-//    }
-
     @Override
     public String toString() {
         return "Patient{" +
@@ -210,7 +189,6 @@ public class Patient {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", sex=" + sex +
                 ", dob=" + dob +
                 ", phone=" + phone +
@@ -223,7 +201,7 @@ public class Patient {
     public enum Sex {
         M,F;
     } //
-    public boolean checkEmailFormat(String email) {
+    private static boolean checkEmailFormat(String email) {
         if(email == null || email.isEmpty()) {
             return false;
         }
@@ -232,14 +210,14 @@ public class Patient {
         }
         return false;
     }
-    public boolean checkPhoneFormat(int phone) {
+    private static boolean checkPhoneFormat(int phone) {
         if (phone < 600000000 || phone > 799999999) {
             return false;
         }
         else
             return true;
     }
-    public boolean checkNameFormat(String name) {
+    private static boolean checkNameFormat(String name) {
         for (char character : name.toCharArray()) {
             if (!Character.isLetter(character) && character != ' ') {
                 return false;
@@ -247,7 +225,7 @@ public class Patient {
         }
         return true;
     }
-    public boolean checkSurnameFormat(String surname) {
+    private static boolean checkSurnameFormat(String surname) {
         for (char character : surname.toCharArray()) {
             if (!Character.isLetter(character) && character != ' ') {
                 return false;

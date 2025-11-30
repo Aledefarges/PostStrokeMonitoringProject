@@ -1,5 +1,5 @@
 package org.example.POJOS;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -91,14 +91,6 @@ public class Doctor  {
         this.phone = phone;
     }
 
-    public List<Patient> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
-    }
-
     public int getDoctor_id() {
         return doctor_id;
     }
@@ -145,13 +137,11 @@ public class Doctor  {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", phone=" + phone +
-                ", patients=" + patients +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 
-    public boolean checkEmailFormat(String email) {
+    private static boolean checkEmailFormat(String email) {
         if(email == null || email.isEmpty()) {
             return false;
         }
@@ -160,14 +150,14 @@ public class Doctor  {
         }
         return false;
     }
-    public boolean checkPhoneFormat(int phone) {
+    private static boolean checkPhoneFormat(int phone) {
         if (phone < 600000000 || phone > 799999999) {
             return false;
         }
         else
             return true;
     }
-    public boolean checkNameFormat(String name) {
+    private static boolean checkNameFormat(String name) {
         for (char character : name.toCharArray()) {
             if (!Character.isLetter(character) && character != ' ') {
                 return false;
@@ -175,7 +165,7 @@ public class Doctor  {
         }
         return true;
     }
-    public boolean checkSurnameFormat(String surname) {
+    private static boolean checkSurnameFormat(String surname) {
         for (char character : surname.toCharArray()) {
             if (!Character.isLetter(character) && character != ' ') {
                 return false;
