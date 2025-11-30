@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -228,10 +229,22 @@ public class Connection_Doctor {
     }
 
     public String readLineHandlingListener()throws IOException{
-        String response = in.readLine();
+        String response = null;
 
-        if (response == null || response.equals("SERVER SHUTDOWN")) {
-            close();
+        try{
+            response = in.readLine();
+        }catch(SocketException e){
+            shutdownApp();
+            throw e;
+        }
+
+        if(response == null){
+            shutdownApp();
+            throw new IOException("Server shutdown");
+        }
+
+
+        if (response.equals("SERVER SHUTDOWN")) {
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(
                         null,
@@ -239,15 +252,21 @@ public class Connection_Doctor {
                         "Warning",
                         JOptionPane.WARNING_MESSAGE
                 );
-                for(Window window : Window.getWindows()){
-                    window.dispose();
-                }
+//                for(Window window : Window.getWindows()){
+//                    window.dispose();
+//                }
                 System.exit(0);
             });
-        throw new IOException("Server shutdown");
         }
         return response;
     }
 
+    private void shutdownApp(){
+        try{
+            socket.close();
+        }catch (Exception e){
+            System.exit(0);
+        }
+    }
 
 }
