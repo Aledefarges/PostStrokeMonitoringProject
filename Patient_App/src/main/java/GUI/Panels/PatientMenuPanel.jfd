@@ -34,8 +34,8 @@ new FormModel {
 				"gridy": 3
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "mh_button"
-				"text": "2. Observe medical history "
+				name: "feedback_button"
+				"text": "2. Observe feedback from doctor"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 4
 			} )

@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Sat Nov 29 19:35:28 CET 2025
- */
 
 package GUI.Panels;
 
@@ -30,7 +27,7 @@ public class FeedbackPanel extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
 
-        label1.setFont(new Font("Arial", Font.BOLD, 16));
+        label1.setFont(new Font("Arial", Font.BOLD, 18));
         feedback_button.setFont(new Font("Arial", Font.PLAIN, 14));
         back_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
@@ -46,8 +43,8 @@ public class FeedbackPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
+        scrollPane1 = new JScrollPane();
         text_field = new JTextPane();
         feedback_button = new JButton();
         back_button = new JButton();
@@ -55,28 +52,34 @@ public class FeedbackPanel extends JPanel {
         //======== this ========
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {304, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
         //---- label1 ----
-        label1.setText("Insert the new and updated medical history ");
+        label1.setText("Insert feedback about the patient's health");
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
         add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 5, 0), 0, 0));
-        add(text_field, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+
+        //======== scrollPane1 ========
+        {
+            scrollPane1.setViewportView(text_field);
+        }
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.5, 0.5,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- feedback_button ----
-        feedback_button.setText("UPDATE");
-        add(feedback_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+        feedback_button.setText("SEND FEEDBACK");
+        add(feedback_button, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- back_button ----
         back_button.setText("BACK");
-        add(back_button, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+        add(back_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -108,8 +111,8 @@ public class FeedbackPanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
+    private JScrollPane scrollPane1;
     private JTextPane text_field;
     private JButton feedback_button;
     private JButton back_button;

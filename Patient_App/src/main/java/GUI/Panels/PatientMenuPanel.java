@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Connection.Connection_Patient;
+import com.jgoodies.forms.factories.*;
 
 
 
@@ -24,7 +25,7 @@ public class PatientMenuPanel extends JPanel {
         title1.setFont(new Font("Arial", Font.BOLD, 20)); 
         select_label.setFont(new Font("Arial", Font.BOLD, 16));
         recording_button.setFont(new Font("Arial", Font.PLAIN, 14));
-        mh_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        feedback_button.setFont(new Font("Arial", Font.PLAIN, 14));
         email_button.setFont(new Font("Arial", Font.PLAIN, 14));
         password_button.setFont(new Font("Arial", Font.PLAIN, 14));
         update_button.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -34,8 +35,8 @@ public class PatientMenuPanel extends JPanel {
         separator1.setBackground(new Color(70,130,180));
         recording_button.setBackground(new Color(70,130,180));
         recording_button.setForeground(Color.white);
-        mh_button.setBackground(new Color(70,130,180));
-        mh_button.setForeground(Color.white);
+        feedback_button.setBackground(new Color(70,130,180));
+        feedback_button.setForeground(Color.white);
         email_button.setBackground(new Color(70,130,180));
         email_button.setForeground(Color.white);
         password_button.setBackground(new Color(70,130,180));
@@ -47,12 +48,12 @@ public class PatientMenuPanel extends JPanel {
         exit_button.setBackground(new Color(62,156,118));
         exit_button.setForeground(Color.white);
 
+        recording_button.addActionListener(e-> goToRecording());
+        feedback_button.addActionListener(e-> goToFeedback());
         email_button.addActionListener(e-> goToChangeEmail());
         password_button.addActionListener(e-> goToChangePassword());
         update_button.addActionListener(e-> goToUpdate());
         delete_button.addActionListener(e-> goToDelete());
-        recording_button.addActionListener(e-> goToRecording());
-        mh_button.addActionListener(e-> goToMedicalHistory());
         exit_button.addActionListener(e->{
             connection.close();
             System.exit(0);
@@ -63,11 +64,12 @@ public class PatientMenuPanel extends JPanel {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Nerea Leria
-        title1 = new JLabel();
-        separator1 = new JSeparator();
+        DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
+        title1 = compFactory.createTitle("Patient Menu");
+        separator1 = compFactory.createSeparator("");
         select_label = new JLabel();
         recording_button = new JButton();
-        mh_button = new JButton();
+        feedback_button = new JButton();
         email_button = new JButton();
         password_button = new JButton();
         update_button = new JButton();
@@ -75,6 +77,13 @@ public class PatientMenuPanel extends JPanel {
         exit_button = new JButton();
 
         //======== this ========
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
+        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing
+        . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
+        Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
+        ) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
+        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName (
+        ) )) throw new RuntimeException( ); }} );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {327, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0};
@@ -99,9 +108,9 @@ public class PatientMenuPanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
-        //---- mh_button ----
-        mh_button.setText("2. Observe medical history ");
-        add(mh_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+        //---- feedback_button ----
+        feedback_button.setText("2. Observe feedback from doctor");
+        add(feedback_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
@@ -146,7 +155,7 @@ public class PatientMenuPanel extends JPanel {
     private void goToUpdate() {
        appFrame.switchPanel(new UpdatePanel(appFrame));
     }
-    private void goToMedicalHistory(){appFrame.switchPanel(new MedicalPanel(appFrame));}
+    private void goToFeedback(){appFrame.switchPanel(new FeedbackPatientPanel(appFrame));}
     private void goToDelete() {
        connection.deletePatientFromServer();
         appFrame.switchPanel(new MenuPanel(appFrame));
@@ -161,7 +170,7 @@ public class PatientMenuPanel extends JPanel {
     private JComponent separator1;
     private JLabel select_label;
     private JButton recording_button;
-    private JButton mh_button;
+    private JButton feedback_button;
     private JButton email_button;
     private JButton password_button;
     private JButton update_button;

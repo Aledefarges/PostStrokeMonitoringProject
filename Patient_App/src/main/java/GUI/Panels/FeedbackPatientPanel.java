@@ -7,14 +7,15 @@ import Connection.Connection_Patient;
 import java.awt.*;
 import javax.swing.*;
 
-public class MedicalPanel extends JPanel {
+public class FeedbackPatientPanel extends JPanel {
     private Connection_Patient connection;
     private AppFrame appFrame;
-    public MedicalPanel(AppFrame appFrame) {
+    public FeedbackPatientPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
         this.connection = appFrame.getConnection();
         initComponents();
 
+        setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
         feedback_text.setEditable(false); // This text can only be read
         feedback_text.setLineWrap(true);
         feedback_text.setWrapStyleWord(true);
@@ -32,20 +33,12 @@ public class MedicalPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
         feedback_text = new JTextArea();
         back_button = new JButton();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-        . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder
-        . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-        awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder( )) )
-        ;  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-        ) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-        ;
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {285, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
@@ -54,15 +47,16 @@ public class MedicalPanel extends JPanel {
 
         //---- label1 ----
         label1.setText("Feedback from Doctor");
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
         add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //======== scrollPane1 ========
         {
             scrollPane1.setViewportView(feedback_text);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.0, 0.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.5, 0.5,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 

@@ -90,7 +90,7 @@ public class Connection_Server implements Runnable{
                         break;
                     case "ADD_FEEDBACK":
                         String[] info = parts[1].split(";",2);
-                        handleAddFeedback(info[0],parts[1]);
+                        handleAddFeedback(info[0],info[1]);
                         break;
                     case "GET_FEEDBACK": handleGetFeedback(Integer.parseInt(parts[1]));
                         break;
