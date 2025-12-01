@@ -133,22 +133,22 @@ public class ConnectionPatientTest {
         verify(out).println("UPDATE_PATIENT|dob;" + new_date);
     }
     @Test
-    @DisplayName("Update email: Sends UPDATE_PATIENT|email and verifies answer OK")
-    public void testUpdateEmail() throws IOException {
+    @DisplayName("Change email: Sends CHANGE_EMAIL and verifies answer OK")
+    public void testChangeEmail() throws IOException {
         String new_email = "testemail2@gmail.com";
-        when(in.readLine()).thenReturn("OK|PATIENT_UPDATED");
-        boolean result = conn.sendUpdateToServer("email", new_email);
+        when(in.readLine()).thenReturn("OK|EMAIL_CHANGED");
+        boolean result = conn.sendChangeEmail(test_email, new_email);
         assertTrue(result, "Returns true if patient's email has been correctly updated");
-        verify(out).println("UPDATE_PATIENT|email;" + new_email);
+        verify(out).println("CHANGE_EMAIL|" + test_email + ";" + new_email);
     }
     @Test
-    @DisplayName("Update password: Sends UPDATE_PATIENT|password and verifies answer OK")
-    public void testUpdatePassword() throws Exception {
+    @DisplayName("Change password: Sends CHANGE_PASSWORD and verifies answer OK")
+    public void testChangePassword() throws IOException {
         String new_password = "New_password";
-        when(in.readLine()).thenReturn("OK|PATIENT_UPDATED");
-        boolean result = conn.sendUpdateToServer("password", new_password);
+        when(in.readLine()).thenReturn("OK|PASSWORD_CHANGED");
+        boolean result = conn.sendChangePassword(password, new_password);
         assertTrue(result, "Returns true if patient's password has been correctly updated");
-        verify(out).println("UPDATE_PATIENT|password;" + new_password);
+        verify(out).println("CHANGE_PASSWORD|" + password + ";" + new_password);
     }
     @Test
     @DisplayName("Delete patient: sends DELETE_ACOUNT and it verifies if it is OK")
@@ -207,11 +207,19 @@ public class ConnectionPatientTest {
         assertArrayEquals(new Double [] {10.0, 20.0, 30.0}, result[0]);
         verify(out).println("GET_RECORDING|25");
     }
+    @Test
+    @DisplayName("Request medical history: Sends GET_MEDICAL_HISTORY and waits for server response")
+    public void testGetMedicalHistory() throws IOException {
+        String medicalHistory = "Diabetes";
+        when(in.readLine()).thenReturn("MEDICAL_HISTORY|"+medicalHistory);
+        String result = conn.requestMedicalHistory(test_id);
+        assertEquals(medicalHistory, result, "Must return the medical history");
+        verify(out).println("GET_MEDICAL_HISTORY|" + test_id);
+    }
     @AfterEach
     public void cleanup(){
-
+        conn.close();
     }
-
 
 
 }

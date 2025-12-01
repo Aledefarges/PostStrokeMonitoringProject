@@ -127,6 +127,16 @@ public class ConnectionDoctorTest {
         assertEquals("Jorge", result.get(0).getName());
     }
     @Test
+    @DisplayName("Request all patients (list of patients is empty)")
+    public void testRequestAllPatientsEmpty() throws IOException {
+        when(in.readLine()).thenReturn("PATIENTS_LIST|EMPTY");
+        List<Patient> result = conn.requestAllPatients();
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(out).println("VIEW_ALL_PATIENTS|");
+        verify(out).flush();
+    }
+    @Test
     @DisplayName("Login: Sends LOGIN and verifies answer from server")
     public void testLogin() throws IOException {
         String data = "OK|LOGIN_SUCCESS|9999"; //9999 is the id
@@ -151,6 +161,15 @@ public class ConnectionDoctorTest {
 
         verify(out).println("VIEW_RECORDINGS_BY_PATIENT|" + patient_id);
         verify(out).flush();
+    }
+    @Test
+    @DisplayName("Request recording by patient (list of recordings is empty)")
+    public void testRecordingByPatientEmpty() throws IOException {
+        int patient_id = 15;
+        when(in.readLine()).thenReturn("RECORDINGS_LIST|EMPTY");
+        List<Recording> result = conn.requestRecordingsByPatient(patient_id);
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     @AfterEach
