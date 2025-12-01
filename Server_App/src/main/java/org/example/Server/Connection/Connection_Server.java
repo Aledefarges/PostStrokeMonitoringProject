@@ -86,8 +86,6 @@ public class Connection_Server implements Runnable{
                         break;
                     case "VIEW_ALL_PATIENTS": getListOfPatients();
                         break;
-                    case "DELETE_RECORDING": handleDeleteRecording(Integer.parseInt(parts[1]));
-                        break;
                     case "VIEW_RECORDINGS_BY_PATIENT": getListRecording(Integer.parseInt(parts[1]));
                         break;
                     case "ADD_FEEDBACK":
@@ -595,53 +593,6 @@ private void savePatientRegistration(String p){
     }
 
 
-    private static void releaseResourcesServer(PrintWriter out, BufferedReader in, Socket socket){
-        try {
-            try{
-                out.close();
-            }catch(Exception ex){
-                Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try{
-                in.close();
-            }catch(Exception ex){
-                Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            socket.close();
-        }catch(IOException ex){
-            Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void handleDeleteRecording(int recording_id){
-        try{
-            if(loggedDoctor == null){
-                out.println("ERROR|NOT_LOGGED_IN");
-                return;
-            }
-
-            // Verifies recording already exists
-            Recording rec = recordingManager.getRecordingById(recording_id);
-            if(rec == null){
-                out.println("ERROR|RECORDING_NOT_FOUND");
-                return;
-            }
-
-            boolean recordingDeleted = recordingManager.deleteRecording(recording_id);
-
-            if(recordingDeleted){
-                out.println("OK|RECORDING_DELETED");
-                System.out.println("Recording " + recording_id + " deleted by doctor.");
-            }else{
-                out.println("ERROR|DELETE_FAILED");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            out.println("ERROR|EXCEPTION");
-            System.out.println("ERROR deleting recording: " + e.getMessage());
-        }
-    }
-
     private void getListRecording(int patient_id){
         try{
             List<Recording> recordings = recordingManager.getRecordingsByPatient(patient_id);
@@ -664,27 +615,6 @@ private void savePatientRegistration(String p){
             System.out.println("ERROR viewing recordings: " + e.getMessage());
         }
 
-    }
-
-    public void sendShutdownMessage(){
-        try{
-            out.println("SERVER SHUTDOWN");
-            out.flush();
-        }catch(Exception e){}
-    }
-
-    public void onServerShutdown(){
-        running = false;
-        close();
-    }
-
-    public void close() {
-       running = false;
-        try {
-            if (out != null) out.close();  // Stop sending data to server
-            if (in != null) in.close();   // Stop receiving data to server
-            if (socket != null && !socket.isClosed()) socket.close(); // close connection
-        } catch (IOException e) {}
     }
 
     private void handleGetFeedback(int patient_id){
@@ -732,6 +662,46 @@ private void savePatientRegistration(String p){
             System.out.println("ERROR sending patient data: " + e.getMessage());
         }
     }
+
+    private static void releaseResourcesServer(PrintWriter out, BufferedReader in, Socket socket){
+        try {
+            try{
+                out.close();
+            }catch(Exception ex){
+                Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try{
+                in.close();
+            }catch(Exception ex){
+                Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            socket.close();
+        }catch(IOException ex){
+            Logger.getLogger(Connection_Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sendShutdownMessage(){
+        try{
+            out.println("SERVER SHUTDOWN");
+            out.flush();
+        }catch(Exception e){}
+    }
+
+    public void onServerShutdown(){
+        running = false;
+        close();
+    }
+
+    public void close() {
+       running = false;
+        try {
+            if (out != null) out.close();  // Stop sending data to server
+            if (in != null) in.close();   // Stop receiving data to server
+            if (socket != null && !socket.isClosed()) socket.close(); // close connection
+        } catch (IOException e) {}
+    }
+
 
 
     enum UserType{PATIENT, DOCTOR}
