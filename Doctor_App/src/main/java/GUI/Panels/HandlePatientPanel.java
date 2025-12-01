@@ -33,6 +33,7 @@ public class HandlePatientPanel extends JPanel {
                         patient.getDob() + " | " + patient.getSex() + "<br>" +
                         "Medical history: " + patient.getMedicalhistory() + "<br>" +
                         "Contact: " + patient.getEmail() + " | " + patient.getPhone() + "<br>" +
+                        "Feedback:  " + patient.getFeedback() + "<br>" +
                         "     -------------------     " + "</html>";
                 JLabel label = new JLabel(text);
                 label.setFont(new Font("Arial", Font.BOLD, 14));

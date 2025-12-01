@@ -554,7 +554,8 @@ private void savePatientRegistration(String p){
                         .append(p.getEmail()).append(";")
                         .append(p.getPhone()).append(";")
                         .append(p.getMedicalhistory()).append(";")
-                        .append(p.getSex().name()).append("|");
+                        .append(p.getSex().name()).append(";")
+                        .append(p.getFeedback()).append("|");
             }
 
             sb.deleteCharAt(sb.length() - 1); //eliminar el último "|"
