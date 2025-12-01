@@ -223,7 +223,7 @@ public class RegisterPanel extends JPanel {
                 return;
             }
 
-            Patient patient = new Patient(name,surname, dob_1,email,sexEnum,medicalHistory,phone_1,encryptedPassword);
+            Patient patient = new Patient(name,surname, dob_1,email,sexEnum,medicalHistory,phone_1,encryptedPassword, "");
             boolean ok_register = connection.sendPatientToServer(patient, doctot_id);
             if(ok_register){
                 JOptionPane.showMessageDialog(this, "Register successful", "SUCCESS",

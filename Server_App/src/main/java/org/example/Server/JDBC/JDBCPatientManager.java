@@ -21,7 +21,7 @@ public class JDBCPatientManager implements PatientManager {
 
     @Override
     public void addPatient(Patient patient) {
-        String sql = "INSERT INTO Patients (name, surname, dob, email, sex, phone, medicalHistory, password, doctor_id) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Patients (name, surname, dob, email, sex, phone, medicalHistory, password) VALUES (?,?,?,?,?,?,?,?)";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -39,7 +39,6 @@ public class JDBCPatientManager implements PatientManager {
             ps.setInt(6, patient.getPhone());
             ps.setString(7, patient.getMedicalhistory());
             ps.setString(8, patient.getPassword());
-            ps.setInt(9,patient.getDoctor().getDoctor_id());
             ps.executeUpdate();
 
             try(ResultSet rs = ps.getGeneratedKeys()){
