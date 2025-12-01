@@ -212,7 +212,7 @@ public class ConnectionPatientTest {
     public void testGetMedicalHistory() throws IOException {
         String medicalHistory = "Diabetes";
         when(in.readLine()).thenReturn("MEDICAL_HISTORY|"+medicalHistory);
-        String result = conn.requestMedicalHistory(test_id);
+        String result = conn.requestMedicalHistory();
         assertEquals(medicalHistory, result, "Must return the medical history");
         verify(out).println("GET_MEDICAL_HISTORY|" + test_id);
     }

@@ -1,6 +1,7 @@
 package Connection;
 
 import Bitalino.Frame;
+import org.example.POJOS.Exceptions;
 import org.example.POJOS.Patient;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.sql.Date;
 
 public class Connection_Patient {
 
@@ -15,6 +17,7 @@ public class Connection_Patient {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private Patient loggedPatient;
 
     public boolean connection(String ip_host, int port){
         // The function is boolean because it indicates whether the connection has succeeded or not
@@ -202,14 +205,33 @@ public class Connection_Patient {
         return new Double[][]{emgArray, ecgArray};
     }
 
-    //Funciones que teníamos en Utilities:
 
     public String sendLogIn(String email, String password) throws IOException {
-            // Enviar comando
+
             out.println("LOGIN|" + email + ";" + password);
 
-            // Leer respuesta
             String response = readLineHandlingListener();
+            if("OK|LOGIN_SUCCESS_PATIENT".equals(response)){
+                out.println("GET_LOGGED_PATIENT");
+                String data = readLineHandlingListener();
+                try{
+                    if (data != null && data.startsWith("PATIENT_DATA|")){
+                        String[] patient = data.split("\\|")[1].split(";");
+                        loggedPatient = new Patient(
+                                Integer.parseInt(patient[0]),
+                                "", patient[1],
+                                patient[2],
+                                Date.valueOf(patient[3]),
+                                patient[4],
+                                Integer.parseInt(patient[5]),
+                                patient[6],
+                                Patient.Sex.valueOf(patient[7]));
+                        }
+                }catch (Exceptions e){
+                    e.printStackTrace();
+                }
+
+            }
             return response;
     }
 
@@ -291,9 +313,9 @@ public class Connection_Patient {
         return response;
     }
 
-    public String requestMedicalHistory(int patient_id){
+    public String requestMedicalHistory(){
         try{
-            out.println("GET_MEDICAL_HISTORY|" + patient_id);
+            out.println("GET_MEDICAL_HISTORY|" + loggedPatient.getPatient_id());
             String response = readLineHandlingListener();
 
             if(response != null && response.startsWith("MEDICAL_HISTORY|")){
@@ -313,6 +335,10 @@ public class Connection_Patient {
     public void setPrintWriter(PrintWriter pw_out){ this.out = pw_out;}
     public void setBufferedReader(BufferedReader br_in){ this.in = br_in;}
 
+    public Patient getLoggedPatient(){
+        return loggedPatient;
+    }
+    public void setLoggedPatient(Patient p){this.loggedPatient = p;}
 
 
 }

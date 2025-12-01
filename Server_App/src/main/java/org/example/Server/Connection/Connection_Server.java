@@ -98,6 +98,8 @@ public class Connection_Server implements Runnable{
                         break;
                     case "GET_MEDICAL_HISTORY": handleGetMedicalHistory(Integer.parseInt(parts[1]));
                         break;
+                    case "GET_LOGGED_PATIENT": handleGetLoggedPatient();
+                        break;
                     default:
                         out.println("ERROR|Unknown command");
                         break;
@@ -693,8 +695,12 @@ private void savePatientRegistration(String p){
                 out.println("ERROR|NOT_LOGGED_IN");
                 return;
             }
+            if(loggedPatient != null && loggedPatient.getPatient_id() != patient_id){
+                out.println("ERROR|FORBIDDEN");
+                return;
+            }
             String history = patientManager.getMedicalHistoryById(patient_id);
-            if(history == null){
+            if(history == null || history.isEmpty()){
                 out.println("ERROR|NO_HISTORY_FOUND");
             }else {
                 out.println("MEDICAL_HISTORY|" + history);
@@ -703,6 +709,28 @@ private void savePatientRegistration(String p){
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
             System.out.println("ERROR getting medical history: " + e.getMessage());
+        }
+    }
+
+    private void handleGetLoggedPatient(){
+        try{
+            if(loggedPatient == null){
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+            Patient patient = loggedPatient;
+            out.println("PATIENT_DATA|" +
+                    patient.getPatient_id() + ";" +
+                    patient.getName() + ";" +
+                    patient.getSurname() + ";" +
+                    patient.getDob() + ";" +
+                    patient.getEmail() + ";"+
+                    patient.getPhone() + ";" +
+                    patient.getMedicalhistory() + ";"+
+                    patient.getSex());
+        }catch(Exception e){
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR sending patient data: " + e.getMessage());
         }
     }
 

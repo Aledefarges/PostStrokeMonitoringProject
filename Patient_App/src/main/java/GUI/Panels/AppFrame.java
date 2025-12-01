@@ -1,12 +1,14 @@
 package GUI.Panels;
 
 import Connection.Connection_Patient;
+import org.example.POJOS.Patient;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AppFrame extends JFrame {
     private Connection_Patient connection;
+    private Patient loggedPatient;
     public AppFrame() {
 
         setTitle("Patient App");
@@ -22,6 +24,8 @@ public class AppFrame extends JFrame {
     public void setConnection(Connection_Patient connection){
         this.connection = connection;
     }
+    public void setLoggedPatient(Patient loggedPatient){this.loggedPatient = loggedPatient;}
+    public Patient getLoggedPatient(){return loggedPatient;}
     public void switchPanel(JPanel newPanel){
         setContentPane(newPanel);
         revalidate();

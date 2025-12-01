@@ -123,11 +123,11 @@ public class LoginPanel extends JPanel {
                 return;
             }
 
-            //Encrypt password:
             String encryptedPassword = connection.encryptPatientPassword(password);
 
             String response = connection.sendLogIn(email, encryptedPassword);
             if (response.startsWith("OK|LOGIN_SUCCESS_PATIENT")) {
+                appFrame.setLoggedPatient(connection.getLoggedPatient());
                 JOptionPane.showMessageDialog(this, "Log In successful", "SUCCESS",
                         JOptionPane.INFORMATION_MESSAGE);
                 appFrame.switchPanel(new PatientMenuPanel(appFrame));

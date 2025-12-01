@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Connection.Connection_Patient;
+import com.jgoodies.forms.factories.*;
 
 
 
@@ -24,6 +25,7 @@ public class PatientMenuPanel extends JPanel {
         title1.setFont(new Font("Arial", Font.BOLD, 20)); 
         select_label.setFont(new Font("Arial", Font.BOLD, 16));
         recording_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        mh_button.setFont(new Font("Arial", Font.PLAIN, 14));
         email_button.setFont(new Font("Arial", Font.PLAIN, 14));
         password_button.setFont(new Font("Arial", Font.PLAIN, 14));
         update_button.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -33,6 +35,8 @@ public class PatientMenuPanel extends JPanel {
         separator1.setBackground(new Color(70,130,180));
         recording_button.setBackground(new Color(70,130,180));
         recording_button.setForeground(Color.white);
+        mh_button.setBackground(new Color(70,130,180));
+        mh_button.setForeground(Color.white);
         email_button.setBackground(new Color(70,130,180));
         email_button.setForeground(Color.white);
         password_button.setBackground(new Color(70,130,180));
@@ -49,6 +53,7 @@ public class PatientMenuPanel extends JPanel {
         update_button.addActionListener(e-> goToUpdate());
         delete_button.addActionListener(e-> goToDelete());
         recording_button.addActionListener(e-> goToRecording());
+        mh_button.addActionListener(e-> goToMedicalHistory());
         exit_button.addActionListener(e->{
             connection.close();
             System.exit(0);
@@ -58,10 +63,13 @@ public class PatientMenuPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        title1 = new JLabel();
-        separator1 = new JSeparator();
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
+        DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
+        title1 = compFactory.createTitle("Patient Menu");
+        separator1 = compFactory.createSeparator("");
         select_label = new JLabel();
         recording_button = new JButton();
+        mh_button = new JButton();
         email_button = new JButton();
         password_button = new JButton();
         update_button = new JButton();
@@ -69,11 +77,18 @@ public class PatientMenuPanel extends JPanel {
         exit_button = new JButton();
 
         //======== this ========
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax
+        .swing.border.EmptyBorder(0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing
+        .border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.
+        Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt.Color.red
+        ), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override
+        public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName(
+        )))throw new RuntimeException();}});
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {327, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 25, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0};
         ((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
         add(title1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
@@ -93,33 +108,39 @@ public class PatientMenuPanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
+        //---- mh_button ----
+        mh_button.setText("2. Observe medical history ");
+        add(mh_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
+
         //---- email_button ----
-        email_button.setText("2. Change email");
-        add(email_button, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+        email_button.setText("3.  Change email");
+        add(email_button, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- password_button ----
-        password_button.setText("3. Change password");
-        add(password_button, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
+        password_button.setText("4. Change password");
+        add(password_button, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- update_button ----
-        update_button.setText("4. Update information");
-        add(update_button, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
+        update_button.setText("5. Update information");
+        add(update_button, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- delete_button ----
-        delete_button.setText("5. Delete account ");
-        add(delete_button, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
+        delete_button.setText("6. Delete account ");
+        add(delete_button, new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- exit_button ----
         exit_button.setText("EXIT");
-        add(exit_button, new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0,
+        add(exit_button, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -134,6 +155,7 @@ public class PatientMenuPanel extends JPanel {
     private void goToUpdate() {
        appFrame.switchPanel(new UpdatePanel(appFrame));
     }
+    private void goToMedicalHistory(){appFrame.switchPanel(new MedicalPanel(appFrame));}
     private void goToDelete() {
        connection.deletePatientFromServer();
         appFrame.switchPanel(new MenuPanel(appFrame));
@@ -148,6 +170,7 @@ public class PatientMenuPanel extends JPanel {
     private JComponent separator1;
     private JLabel select_label;
     private JButton recording_button;
+    private JButton mh_button;
     private JButton email_button;
     private JButton password_button;
     private JButton update_button;
