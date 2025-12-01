@@ -22,7 +22,7 @@ new FormModel {
 				"gridy": 1
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "update_button"
+				name: "feedback_button"
 				"text": "UPDATE"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 2

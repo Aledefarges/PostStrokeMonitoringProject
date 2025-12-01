@@ -116,8 +116,10 @@ public class Connection_Doctor {
                     String medical_history = patient[6];
                     String sex = patient[7];
                     Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
+                    String feedback = patient[8];
 
-                    Patient patients = new Patient(patient_id, "", name, surname, dob1, email, phone, medical_history, sexEnum, "");
+                    Patient patients = new Patient(patient_id, "", name, surname, dob1, email, phone,
+                            medical_history, sexEnum, feedback);
                     patient_list.add(patients);
                 }
                 return patient_list;
@@ -179,11 +181,11 @@ public class Connection_Doctor {
     }
 
 
-    public boolean sendPatientHistory(String email, String newMedicalHistory){
+    public boolean sendFeedback(String email, String feedback){
         try{
-            out.println("UPDATE_PATIENT_HISTORY|" + email + ";" + newMedicalHistory);
+            out.println("ADD_FEEDBACK|" + email + ";" + feedback);
             String response = readLineHandlingListener();
-            return response.equals("OK|MEDICAL_HISTORY_UPDATED");
+            return response.equals("OK|FEEDBACK_SAVED");
         }catch(IOException e){
             return false;
         }

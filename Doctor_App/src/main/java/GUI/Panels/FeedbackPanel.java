@@ -11,41 +11,55 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class UpdatePanel extends JPanel {
+public class FeedbackPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     private Patient patient;
 
-    public UpdatePanel(AppFrameDoctor appFrame, Patient patient) {
+    public FeedbackPanel(AppFrameDoctor appFrame, Patient patient) {
         this.connection = appFrame.getConnection();
         this.appFrame = appFrame;
         this.patient = patient;
         initComponents();
 
+
+        // This allows the doctor to read and modify already existing feedback
+        if (patient.getFeedback()!= null){
+            text_field.setText(patient.getFeedback());
+        }
+
         setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
 
         label1.setFont(new Font("Arial", Font.BOLD, 16));
-        update_button.setFont(new Font("Arial", Font.PLAIN, 14));
+        feedback_button.setFont(new Font("Arial", Font.PLAIN, 14));
         back_button.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        update_button.setBackground(new Color(70, 130, 180));
-        update_button.setForeground(Color.WHITE);
+        feedback_button.setBackground(new Color(70, 130, 180));
+        feedback_button.setForeground(Color.WHITE);
         back_button.setBackground(new Color(62, 156, 118));
         back_button.setForeground(Color.WHITE);
 
-        update_button.addActionListener(e-> updateHistory());
+        feedback_button.addActionListener(e-> addFeedbackPatient());
         back_button.addActionListener(e-> backToMenu());
 
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         text_field = new JTextPane();
-        update_button = new JButton();
+        feedback_button = new JButton();
         back_button = new JButton();
 
         //======== this ========
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new
+        javax.swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax
+        .swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java
+        .awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt
+        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.
+        PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".
+        equals(e.getPropertyName()))throw new RuntimeException();}});
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {304, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
@@ -61,9 +75,9 @@ public class UpdatePanel extends JPanel {
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
-        //---- update_button ----
-        update_button.setText("UPDATE");
-        add(update_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+        //---- feedback_button ----
+        feedback_button.setText("UPDATE");
+        add(feedback_button, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
@@ -75,22 +89,23 @@ public class UpdatePanel extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
-    private void updateHistory() {
-        String newHistory = text_field.getText().trim();
-        if(newHistory.isEmpty()){
-            JOptionPane.showMessageDialog(this, "The medical history cannot be empty",
-                    "FIELD EMPTY", JOptionPane.WARNING_MESSAGE);
+    private void addFeedbackPatient() {
+        String feedback = text_field.getText().trim();
+
+        if(feedback.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill out the field", "WARNING",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        boolean ok = connection.sendPatientHistory(patient.getEmail(), newHistory);
+        boolean ok = connection.sendFeedback(patient.getEmail(), feedback);
         if(ok){
-            patient.setMedicalhistory(newHistory);
-            JOptionPane.showMessageDialog(this, "The medical history updated successfully",
+            patient.setFeedback(feedback);
+            JOptionPane.showMessageDialog(this, "The feedback has been sent",
                     "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             appFrame.switchPanel(new PatientOptionPanel(appFrame, patient));
         }else{
-            JOptionPane.showMessageDialog(this, "Medical history not updated", "ERROR",
+            JOptionPane.showMessageDialog(this, "Feedback not sent", "ERROR",
                     JOptionPane.ERROR_MESSAGE);
         }
 
@@ -100,9 +115,10 @@ public class UpdatePanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JTextPane text_field;
-    private JButton update_button;
+    private JButton feedback_button;
     private JButton back_button;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

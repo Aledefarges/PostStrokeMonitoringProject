@@ -85,7 +85,7 @@ public class PatientOptionPanel extends JPanel {
         appFrame.switchPanel(new RecordingsPanel(appFrame, patient));
     }
     private void goToUpdate() {
-        appFrame.switchPanel(new UpdatePanel(appFrame, patient));
+        appFrame.switchPanel(new FeedbackPanel(appFrame, patient));
     }
     private void backToMenu() {
         appFrame.switchPanel(new DoctorMenuPanel(appFrame));

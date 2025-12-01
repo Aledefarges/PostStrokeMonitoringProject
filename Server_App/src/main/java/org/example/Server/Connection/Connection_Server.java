@@ -86,17 +86,15 @@ public class Connection_Server implements Runnable{
                         break;
                     case "VIEW_ALL_PATIENTS": getListOfPatients();
                         break;
-                    case "UPDATE_PATIENT_HISTORY": {
-                        String load = parts[1];
-                        String[] info = load.split(";",2);
-                        updatePatientHistory(info[0], info[1]);
-                        break;
-                    }
                     case "DELETE_RECORDING": handleDeleteRecording(Integer.parseInt(parts[1]));
                         break;
                     case "VIEW_RECORDINGS_BY_PATIENT": getListRecording(Integer.parseInt(parts[1]));
                         break;
-                    case "GET_MEDICAL_HISTORY": handleGetMedicalHistory(Integer.parseInt(parts[1]));
+                    case "ADD_FEEDBACK":
+                        String[] info = parts[1].split(";",2);
+                        handleAddFeedback(info[0],parts[1]);
+                        break;
+                    case "GET_FEEDBACK": handleGetFeedback(Integer.parseInt(parts[1]));
                         break;
                     case "GET_LOGGED_PATIENT": handleGetLoggedPatient();
                         break;
@@ -574,7 +572,7 @@ private void savePatientRegistration(String p){
     }
 
 
-    private void updatePatientHistory(String patient_email, String new_history){
+    private void handleAddFeedback(String patient_email, String feedback){
         try{
             if (loggedDoctor == null) {
                 out.println("ERROR|NOT_LOGGED_IN");
@@ -586,12 +584,12 @@ private void savePatientRegistration(String p){
                 out.println("ERROR|PATIENT_NOT_FOUND");
                 return;
             }
-            patientManager.updateMedicalHistory(patient.getPatient_id(), new_history);
-            out.println("OK|MEDICAL_HISTORY_UPDATED");
+            patientManager.addFeedback(patient.getPatient_id(), feedback);
+            out.println("OK|FEEDBACK_SAVED");
         } catch (Exception e) {
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
-            System.out.println("ERROR updating patient history: " + e.getMessage());
+            System.out.println("ERROR adding Doctor feedback: " + e.getMessage());
         }
 
     }
@@ -622,7 +620,7 @@ private void savePatientRegistration(String p){
                 return;
             }
 
-            // verifica que el recording existe
+            // Verifies recording already exists
             Recording rec = recordingManager.getRecordingById(recording_id);
             if(rec == null){
                 out.println("ERROR|RECORDING_NOT_FOUND");
@@ -689,7 +687,7 @@ private void savePatientRegistration(String p){
         } catch (IOException e) {}
     }
 
-    private void handleGetMedicalHistory(int patient_id){
+    private void handleGetFeedback(int patient_id){
         try{
             if (loggedDoctor == null && loggedPatient == null){
                 out.println("ERROR|NOT_LOGGED_IN");
@@ -699,16 +697,16 @@ private void savePatientRegistration(String p){
                 out.println("ERROR|FORBIDDEN");
                 return;
             }
-            String history = patientManager.getMedicalHistoryById(patient_id);
-            if(history == null || history.isEmpty()){
-                out.println("ERROR|NO_HISTORY_FOUND");
+            String feedback = patientManager.getFeedback(patient_id);
+            if(feedback == null || feedback.isEmpty()){
+                out.println("ERROR|NO_FEEDBACK");
             }else {
-                out.println("MEDICAL_HISTORY|" + history);
+                out.println("FEEDBACK|" + feedback);
             }
         }catch (Exception e){
             e.printStackTrace();
             out.println("ERROR|EXCEPTION");
-            System.out.println("ERROR getting medical history: " + e.getMessage());
+            System.out.println("ERROR getting feedback from Doctor: " + e.getMessage());
         }
     }
 
@@ -727,7 +725,8 @@ private void savePatientRegistration(String p){
                     patient.getEmail() + ";"+
                     patient.getPhone() + ";" +
                     patient.getMedicalhistory() + ";"+
-                    patient.getSex());
+                    patient.getSex() + ";"+
+                    patient.getFeedback());
         }catch(Exception e){
             out.println("ERROR|EXCEPTION");
             System.out.println("ERROR sending patient data: " + e.getMessage());

@@ -15,6 +15,9 @@ public class MedicalPanel extends JPanel {
         this.connection = appFrame.getConnection();
         initComponents();
 
+        feedback_text.setEditable(false); // This text can only be read
+        feedback_text.setLineWrap(true);
+        feedback_text.setWrapStyleWord(true);
         label1.setFont(new Font("Arial", Font.BOLD, 18));
         feedback_text.setFont(new Font("Arial", Font.BOLD, 14));
         back_button.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -72,7 +75,7 @@ public class MedicalPanel extends JPanel {
     }
 
     private void obtainFeedback(){
-        String feedback = connection.requestMedicalHistory();
+        String feedback = connection.requestFeedback();
         if (feedback == null){
             feedback_text.setText("No feedback available yet");
         }else{

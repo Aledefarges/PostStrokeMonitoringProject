@@ -219,7 +219,8 @@ public class Connection_Patient {
                         String[] patient = data.split("\\|")[1].split(";");
                         loggedPatient = new Patient(
                                 Integer.parseInt(patient[0]),
-                                "", patient[1],
+                                "",
+                                patient[1],
                                 patient[2],
                                 Date.valueOf(patient[3]),
                                 patient[4],
@@ -314,12 +315,12 @@ public class Connection_Patient {
         return response;
     }
 
-    public String requestMedicalHistory(){
+    public String requestFeedback(){
         try{
-            out.println("GET_MEDICAL_HISTORY|" + loggedPatient.getPatient_id());
+            out.println("GET_FEEDBACK|" + loggedPatient.getPatient_id());
             String response = readLineHandlingListener();
 
-            if(response != null && response.startsWith("MEDICAL_HISTORY|")){
+            if(response != null && response.startsWith("FEEDBACK|")){
                 return response.split("\\|")[1];
             }
             return null;
