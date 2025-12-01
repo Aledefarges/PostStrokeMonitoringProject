@@ -117,7 +117,7 @@ public class Connection_Doctor {
                     String sex = patient[7];
                     Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
 
-                    Patient patients = new Patient(patient_id, "", name, surname, dob1, email, phone, medical_history, sexEnum);
+                    Patient patients = new Patient(patient_id, "", name, surname, dob1, email, phone, medical_history, sexEnum, "");
                     patient_list.add(patients);
                 }
                 return patient_list;

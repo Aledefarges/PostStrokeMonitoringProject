@@ -51,7 +51,7 @@ public class ConnectionPatientTest {
 
         //Add the patient we are going to test
         Date dob = Date.valueOf(LocalDate.of(2020, 1, 1));
-        patient = new Patient(test_id, password, "Juan", "García", dob, test_email, 678934567, "Diabetes", Patient.Sex.M);
+        patient = new Patient(test_id, password, "Juan", "García", dob, test_email, 678934567, "Diabetes", Patient.Sex.M, "");
 
     }
     @Test

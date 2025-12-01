@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class JDBCManager {
 
-    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb3.db";
+    private static final String DB_URL = "jdbc:sqlite:./Server_App/db/PostStrokedb4.db";
 
     static {
         try{
@@ -68,6 +68,7 @@ public class JDBCManager {
                     + "medicalHistory TEXT,"
                     + "sex TEXT,"
                     + "doctor_id INTEGER,"
+                    + "feedback TEXT,"
                     + "FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL"//si un doctor se elimina, todos sus pacientes quedan con el campo doctor_id = NULL pero los pacientes no se borran
                     +")";
             st.executeUpdate(sql_patient);
@@ -105,7 +106,7 @@ public class JDBCManager {
             System.out.println("Database initialized, tables ensured");
         }
         catch (SQLException sqlE) {
-            if (sqlE.getMessage().contains("already exists")){
+            if (sqlE.getMessage().contains("Already exists")){
                 System.out.println("No need to create the tables; already there");
             }
             else {

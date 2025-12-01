@@ -12,14 +12,14 @@ public class signalsAnalyzer {
             return rPeaks;
         }
 
-        // 1) Calcular media
+        // 1) Calculate average
         double sum = 0.0;
         for (double v : data) {
             sum += v;
         }
         double mean = sum / data.length;
 
-        // 2) Calcular desviación estándar
+        // 2) Calculate standard deviation
         double var = 0.0;
         for (double v : data) {
             double diff = v - mean;
@@ -28,16 +28,16 @@ public class signalsAnalyzer {
         var /= data.length;
         double std = Math.sqrt(var);
 
-        // 3) Definir umbral
-        double k = 1.0; // si detecta demasiados o muy pocos, se ajusta este valor
+        // 3) Define threshold
+        double k = 1.0;
         double threshold = mean + k * std;
 
-        // 4) Periodo refractario mínimo entre picos R (por ejemplo 0.25 s)
+        // 4) Minimum refractory period between Rs
         int minDistanceSamples = (int) (0.25 * fs); // 250 ms
 
         int lastPeakIndex = -minDistanceSamples;
 
-        // 5) Buscar máximos locales por encima del umbral
+        // 5) Look for local minimums over the threshold
         for (int i = 1; i < data.length - 1; i++) {
             double prev = data[i - 1];
             double curr = data[i];
@@ -63,13 +63,13 @@ public class signalsAnalyzer {
             return "The signal is too short or has no clear R peaks. It cannot be analysed.";
         }
 
-        // Calcular intervalos RR en segundos
+        // Calculate RR int in seconds
         double sumRR = 0.0;
         int countRR = 0;
         for (int i = 1; i < rPeaks.size(); i++) {
             int diffSamples = rPeaks.get(i) - rPeaks.get(i - 1);
             if (diffSamples <= 0) continue;
-            double rr = diffSamples / fs; // segundos
+            double rr = diffSamples / fs; // secs
             sumRR += rr;
             countRR++;
         }
@@ -78,10 +78,10 @@ public class signalsAnalyzer {
             return "Valid R-R intervals could not be calculated.";
         }
 
-        double meanRR = sumRR / countRR;      // segundos
-        double heartRate = 60.0 / meanRR;     // lpm
+        double meanRR = sumRR / countRR;      // seconds
+        double heartRate = 60.0 / meanRR;     // bpm
 
-        // Formatear con 1 decimal
+        // Only 1 decimal
         String hrStr = String.format(Locale.US, "%.1f", heartRate);
 
         if (heartRate > 100.0) {

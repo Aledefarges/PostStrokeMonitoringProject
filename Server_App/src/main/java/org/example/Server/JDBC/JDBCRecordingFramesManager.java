@@ -28,14 +28,13 @@ public class JDBCRecordingFramesManager implements RecordingFramesManager {
             ps.setInt(3,crc);
             ps.setInt(4,seq);
 
-            // Rellena las 6 columnas analógicas (a0–a5): pone los valores recibidos
-            // y completa las que faltan con 0 para evitar errores y mantener la tabla fija.
+            // Fills the 6 analog comlumn: puts the received values in the array
+            // and any empty values are filled in with 0
             for (int i = 0; i < 6; i++){
                 if (i< analog.length){
                     ps.setInt(5 + i, analog[i]);
                 }else
                     ps.setInt(5 + i, 0);
-
             }
 
             for (int i = 0; i < 4; i++){
@@ -92,7 +91,7 @@ public class JDBCRecordingFramesManager implements RecordingFramesManager {
                             rs.getInt("d3")
                     };
 
-                    // Formato combinado: [seq, a0..a5, d0..d3, crc]
+                    // Combined format: [seq, a0..a5, d0..d3, crc]
                     int[] frame = new int[12];
                     frame[0] = seq;
 

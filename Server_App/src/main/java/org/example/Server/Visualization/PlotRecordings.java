@@ -24,8 +24,8 @@ public static void showChartFromArray(Double[] data, String title) {
 
     JFreeChart chart = ChartFactory.createXYLineChart(
             title,
-            "Tiempo (s)",
-            "Valor",
+            "Time (s)",
+            "Value",
             dataset
     );
 
@@ -37,14 +37,14 @@ public static void showChartFromArray(Double[] data, String title) {
     if (min == max) {
         max = min + 1;
     }
-    // Expandir el rango para ver la señal
+    // Fix margins
     double margin = (max - min) * 0.1;
     plot.getRangeAxis().setRange(min-margin, max+margin);
 
     ChartPanel chartPanel = new ChartPanel(chart);
 
-    JFrame frame = new JFrame("Gráfica "+title);
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//Esto hace que si cierras una ventana, no se cierre el programa, sigue funcionando
+    JFrame frame = new JFrame("Grafic "+title);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     frame.setContentPane(chartPanel);
     frame.pack();
     frame.setLocationRelativeTo(null);

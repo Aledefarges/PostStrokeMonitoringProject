@@ -121,7 +121,7 @@ public class Connection_Server implements Runnable{
 private void savePatientRegistration(String p){
 
         try{
-            String [] parts = p.split(";");
+           String [] parts = p.split(";");
            String name = parts[0];
            String surname = parts[1];
            Date dob = Date.valueOf(parts[2]);
@@ -132,7 +132,7 @@ private void savePatientRegistration(String p){
            String password = parts[7];
            int doctorId = Integer.parseInt(parts[8]);
 
-            Patient patient = new Patient(name, surname, dob, email, sex, medicalHistory,phone,password);
+            Patient patient = new Patient(name, surname, dob, email, sex, medicalHistory,phone,password, "");
 
             patientManager.addPatient(patient);
 

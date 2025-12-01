@@ -4,9 +4,6 @@ package org.example.Server.JDBC;
 import org.example.POJOS.Exceptions;
 import org.example.Server.IFaces.PatientManager;
 import org.example.POJOS.Patient;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -24,11 +21,10 @@ public class JDBCPatientManager implements PatientManager {
 
     @Override
     public void addPatient(Patient patient) {
-
-        String sql = "INSERT INTO Patients (name,surname,dob,email, sex,phone,medicalHistory,password) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Patients (name, surname, dob, email, sex, phone, medicalHistory, password, doctor_id) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try(Connection c = manager.getConnection();
-        PreparedStatement ps = c.prepareStatement(sql)) {
+        PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, patient.getName());
             ps.setString(2, patient.getSurname());
@@ -38,15 +34,12 @@ public class JDBCPatientManager implements PatientManager {
                     dob.atStartOfDay(ZoneId.systemDefault()).toLocalDate()
             );
             ps.setDate(3, sqlDate);
-
             ps.setString(4, patient.getEmail());
             ps.setString(5, patient.getSex().toString().trim());
             ps.setInt(6, patient.getPhone());
             ps.setString(7, patient.getMedicalhistory());
-            //ps.setInt(9, patient.getDoctor().getDoctor_id());
-
-
             ps.setString(8, patient.getPassword());
+            ps.setInt(9,patient.getDoctor().getDoctor_id());
             ps.executeUpdate();
 
             try(ResultSet rs = ps.getGeneratedKeys()){
@@ -55,7 +48,6 @@ public class JDBCPatientManager implements PatientManager {
                     patient.setPatient_id(generatedId);
                 }
             }
-            //FALTA AÑADIR Doctor
         }catch(SQLException e){
             e.printStackTrace();
         }catch (Exception e){
@@ -81,7 +73,7 @@ public class JDBCPatientManager implements PatientManager {
     @Override
     public List<Patient> getListOfPatients(){
         List<Patient> patients = new ArrayList<Patient>();
-        String sql = "SELECT patient_id, password, name, surname, dob, email, phone, medicalHistory, sex, doctor_id FROM Patients";
+        String sql = "SELECT patient_id, password, name, surname, dob, email, phone, medicalHistory, sex, doctor_id, feedback FROM Patients";
 
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql);
@@ -97,11 +89,12 @@ public class JDBCPatientManager implements PatientManager {
                 int phone = rs.getInt("phone");
                 String medicalHistory = rs.getString("medicalHistory");
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+                String feedback = rs.getString("feedback");
 
                 //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
                 //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
 
-                Patient p= new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex);
+                Patient p= new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex, feedback);
                 //cuando este el getRecordingOfPatient añadir aqui tambien el atributo recording
                 patients.add(p);
             }
@@ -135,8 +128,9 @@ public class JDBCPatientManager implements PatientManager {
                     Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                     int doctor_id = rs.getInt("doctor_id");
                     String email = rs.getString("email");
+                    String feedback = rs.getString("feedback");
 
-                    patient = new Patient(patient_id, password, name,  surname, dob, email, phone, medicalHistory, sex);
+                    patient = new Patient(patient_id, password, name,  surname, dob, email, phone, medicalHistory, sex, feedback);
                 }
             } catch (Exceptions e) {
                 throw new RuntimeException(e);
@@ -157,15 +151,16 @@ public class JDBCPatientManager implements PatientManager {
             ps.setString(1, email);
             try(ResultSet rs = ps.executeQuery()){
                 if (rs.next()) {
-                    Integer patient_id = rs.getInt("patient_id");
+                    int patient_id = rs.getInt("patient_id");
                     String name = rs.getString("name");
                     String surname = rs.getString("surname");
                     Date dob = new Date(rs.getLong("dob"));
-                    Integer phone = rs.getInt("phone");
+                    int phone = rs.getInt("phone");
                     String medicalhistory = rs.getString("medicalHistory");
                     Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                     String password = rs.getString("password");
-                    patient = new Patient(patient_id, password, name, surname, dob, email, phone, medicalhistory, sex);
+                    String feedback = rs.getString("feedback");
+                    patient = new Patient(patient_id, password, name, surname, dob, email, phone, medicalhistory, sex, feedback);
 
                 }
             } catch (Exceptions e) {
@@ -300,11 +295,12 @@ public class JDBCPatientManager implements PatientManager {
                    String surname = rs.getString("surname");
                    Date dob = new Date(rs.getLong("dob"));
                    String email = rs.getString("email");
-                   Integer phone = rs.getInt("phone");
+                   int phone = rs.getInt("phone");
                    String medicalHistory = rs.getString("medicalHistory");
                    Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
+                   String feedback = rs.getString("feedback");
 
-                   Patient p = new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex);
+                   Patient p = new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex, feedback);
                    patients.add(p);
                }
            } catch (Exceptions e) {

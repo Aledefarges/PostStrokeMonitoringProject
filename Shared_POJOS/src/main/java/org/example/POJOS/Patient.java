@@ -11,14 +11,15 @@ public class Patient {
     private String surname;
     private String email;
     private String password;
-    private Sex sex; //he cambiado el enumerado de sex a string para que sea compatible con sql
-    private Date dob; //he cambiado el Localdate a Date para que sea compatible con sql
+    private Sex sex;
+    private Date dob;
     private int phone;
     private List<Recording> recordings;
     private String medicalhistory;
     private Doctor doctor;
+    private String feedback;
 
-    public Patient(String name, String surname, Date dob, String email, Sex sex , String medicalHistory, int phone,String password) throws Exceptions{
+    public Patient(String name, String surname, Date dob, String email, Sex sex , String medicalHistory, int phone,String password, String feedback) throws Exceptions{
         if(!checkNameFormat(name)){
             throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
@@ -39,9 +40,10 @@ public class Patient {
         this.sex = sex;
         this.email = email;
         this.password = password;
+        this.feedback = feedback;
     }
 
-    public Patient(int patient_id, String name, String surname, Date dob, String email, int phone, String medicalHistory, Sex sex) throws Exceptions{
+    public Patient(int patient_id, String name, String surname, Date dob, String email, int phone, String medicalHistory, Sex sex, String feedback) throws Exceptions{
         // para los métodos sin password
         if(!checkNameFormat(name)){
             throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
@@ -64,9 +66,10 @@ public class Patient {
         this.sex = sex;
         this.email = email;
         this.password = null;
+        this.feedback = feedback;
     }
 
-    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  int phone, String medicalHistory, Sex sex) throws Exceptions{
+    public Patient(int patient_id, String password, String name, String surname, Date dob, String email,  int phone, String medicalHistory, Sex sex, String feedback) throws Exceptions{
         if(!checkNameFormat(name)){
             throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
@@ -88,6 +91,7 @@ public class Patient {
         this.sex=sex;
         this.email = email;
         this.password = password;
+        this.feedback = feedback;
     }
 
     public int getPatient_id() {
@@ -182,6 +186,14 @@ public class Patient {
         this.password = password;
     }
 
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
@@ -194,7 +206,8 @@ public class Patient {
                 ", phone=" + phone +
                 ", recordings=" + recordings +
                 ", medicalhistory='" + medicalhistory + '\'' +
-                ", doctor=" + doctor +
+                ", doctor=" + doctor + '\'' +
+                ", feedback='" + feedback +
                 '}';
     }
 

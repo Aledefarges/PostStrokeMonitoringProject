@@ -225,7 +225,8 @@ public class Connection_Patient {
                                 patient[4],
                                 Integer.parseInt(patient[5]),
                                 patient[6],
-                                Patient.Sex.valueOf(patient[7]));
+                                Patient.Sex.valueOf(patient[7]),
+                                patient[8]);
                         }
                 }catch (Exceptions e){
                     e.printStackTrace();
