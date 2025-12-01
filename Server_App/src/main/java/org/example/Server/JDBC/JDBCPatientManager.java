@@ -352,11 +352,11 @@ public class JDBCPatientManager implements PatientManager {
         return false;
     }
     @Override
-    public void addFeedback(String email, String feedback){
-        String sql = "UPDATE Patients SET feedback = ? WHERE email = ?";
+    public void addFeedback(int patient_id, String feedback){
+        String sql = "UPDATE Patients SET feedback = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
             ps.setString(1, feedback);
-            ps.setString(2, email);
+            ps.setInt(2, patient_id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -25,6 +25,6 @@ public interface PatientManager {
     public void updatePassword(int patient_id, String newPassword);
     public boolean checkPassword(String email, String password);
     public String getMedicalHistoryById(int patient_id);
-    public void addFeedback(String email, String feedback);
+    public void addFeedback(int patient_id, String feedback);
 }
 
