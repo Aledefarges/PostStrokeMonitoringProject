@@ -351,6 +351,17 @@ public class JDBCPatientManager implements PatientManager {
         }
         return false;
     }
+    @Override
+    public void addFeedback(String email, String feedback){
+        String sql = "UPDATE Patients SET feedback = ? WHERE email = ?";
+        try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
+            ps.setString(1, feedback);
+            ps.setString(2, email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
