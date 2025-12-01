@@ -96,6 +96,8 @@ public class Connection_Server implements Runnable{
                         break;
                     case "VIEW_RECORDINGS_BY_PATIENT": getListRecording(Integer.parseInt(parts[1]));
                         break;
+                    case "GET_MEDICAL_HISTORY": handleGetMedicalHistory(Integer.parseInt(parts[1]));
+                        break;
                     default:
                         out.println("ERROR|Unknown command");
                         break;
@@ -683,6 +685,25 @@ private void savePatientRegistration(String p){
             if (in != null) in.close();   // Stop receiving data to server
             if (socket != null && !socket.isClosed()) socket.close(); // close connection
         } catch (IOException e) {}
+    }
+
+    private void handleGetMedicalHistory(int patient_id){
+        try{
+            if (loggedDoctor == null && loggedPatient == null){
+                out.println("ERROR|NOT_LOGGED_IN");
+                return;
+            }
+            String history = patientManager.getMedicalHistoryById(patient_id);
+            if(history == null){
+                out.println("ERROR|NO_HISTORY_FOUND");
+            }else {
+                out.println("MEDICAL_HISTORY|" + history);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            out.println("ERROR|EXCEPTION");
+            System.out.println("ERROR getting medical history: " + e.getMessage());
+        }
     }
 
 

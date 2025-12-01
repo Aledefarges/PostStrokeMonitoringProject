@@ -178,6 +178,26 @@ public class JDBCPatientManager implements PatientManager {
     }
 
     @Override
+    public String getMedicalHistoryById(int patient_id) {
+        String medicalHistory = null;
+        String sql = "SELECT medicalHistory FROM Patients WHERE patient_id = ?";
+
+        try(PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+            ps.setInt(1, patient_id);
+            try (ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    medicalHistory = rs.getString("medicalHistory");
+                }
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return medicalHistory;
+    }
+
+    @Override
     public void updateName(int patient_id, String name) {
         String sql = "UPDATE Patients SET name = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {

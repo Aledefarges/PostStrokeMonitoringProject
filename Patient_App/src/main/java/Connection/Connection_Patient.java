@@ -291,6 +291,21 @@ public class Connection_Patient {
         return response;
     }
 
+    public String requestMedicalHistory(int patient_id){
+        try{
+            out.println("GET_MEDICAL_HISTORY|" + patient_id);
+            String response = readLineHandlingListener();
+
+            if(response != null && response.startsWith("MEDICAL_HISTORY|")){
+                return response.split("\\|")[1];
+            }
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Socket getSocket(){return socket;}
     public PrintWriter getPrintWriter(){return out;}
     public BufferedReader getBufferedReader(){return in;}

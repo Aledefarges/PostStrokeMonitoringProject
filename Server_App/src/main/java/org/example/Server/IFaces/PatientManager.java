@@ -24,5 +24,6 @@ public interface PatientManager {
     public List<Patient> getListOfPatientsOfDoctor(Integer doctor_id);
     public void updatePassword(int patient_id, String newPassword);
     public boolean checkPassword(String email, String password);
+    public String getMedicalHistoryById(int patient_id);
 }
 
