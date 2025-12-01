@@ -30,6 +30,8 @@ public class ConnectionPatientTest {
     @Mock
     private PrintWriter out;
 
+    @Mock
+    private Patient loggedPatientMock;
     //Class to be tested
     private Connection_Patient conn;
 
@@ -208,13 +210,20 @@ public class ConnectionPatientTest {
         verify(out).println("GET_RECORDING|25");
     }
     @Test
-    @DisplayName("Request medical history: Sends GET_MEDICAL_HISTORY and waits for server response")
-    public void testGetMedicalHistory() throws IOException {
-        String medicalHistory = "Diabetes";
-        when(in.readLine()).thenReturn("MEDICAL_HISTORY|"+medicalHistory);
-        String result = conn.requestMedicalHistory();
-        assertEquals(medicalHistory, result, "Must return the medical history");
-        verify(out).println("GET_MEDICAL_HISTORY|" + test_id);
+    @DisplayName("Request feedback: Sends GET_FEEDBACK and waits for server response")
+    public void testGetFeedback() throws IOException {
+        String feedback = "Normal heart rhythm";
+        int id = 1;
+
+        //Here we use the loggedPatient
+        when(loggedPatientMock.getPatient_id()).thenReturn(id);
+        conn.setLoggedPatient(loggedPatientMock);
+
+        when(in.readLine()).thenReturn("FEEDBACK|" + feedback);
+        String result = conn.requestFeedback();
+
+        assertEquals(feedback, result, "Must return the feedback");
+        verify(out).println("GET_FEEDBACK|" + id);
     }
     @AfterEach
     public void cleanup(){

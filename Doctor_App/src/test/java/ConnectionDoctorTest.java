@@ -96,22 +96,34 @@ public class ConnectionDoctorTest {
 
     }
     @Test
-    @DisplayName("Update patient's medical history: Sends UPDATE_PATIENT HISTORY and verifies answer OK")
-    public void testSendPatientHistory() throws IOException {
-        when(in.readLine()).thenReturn("OK|MEDICAL_HISTORY_UPDATED");
-        String new_medicalHistory = "Bronchitis";
+    @DisplayName("Send feedback to patient: Sends ADD_FEEDBACK and verifies answer OK")
+    public void testSendFeedback() throws IOException {
+        when(in.readLine()).thenReturn("OK|FEEDBACK_SAVED");
+        String feedback = "Patient's heart rhythm is stable";
         String patientEmail = "patientemail123@gmail.com";
 
-        boolean result = conn.sendPatientHistory(patientEmail, new_medicalHistory);
-        assertTrue(result, "Returns true if patient history has been correctly updated");
-        verify(out).println("UPDATE_PATIENT_HISTORY|" + patientEmail + ";" + new_medicalHistory);
+        boolean result = conn.sendFeedback(patientEmail, feedback);
+        assertTrue(result, "Returns true if patient's feedback has been correctly updated");
+        verify(out).println("ADD_FEEDBACK|" + patientEmail + ";" + feedback);
     }
+    /*
+    public boolean sendFeedback(String email, String feedback){
+        try{
+            out.println("ADD_FEEDBACK|" + email + ";" + feedback);
+            String response = readLineHandlingListener();
+            return response.equals("OK|FEEDBACK_SAVED");
+        }catch(IOException e){
+            return false;
+        }
+    }
+
+     */
     @Test
     @DisplayName("Request all patients: Sends VIEW_ALL_PATIENTS")
     public void testViewAllPatients() throws IOException {
         //Create a few strings of patient's data
-        String patient1 = "19;Jorge;Diaz;1987-06-09;jorge@gmail.com;672309346;Asthma;M";
-        String patient2 = "7;Laura;López;2001-08-02;laura@yahoo.es;634987234;None;F";
+        String patient1 = "19;Jorge;Diaz;1987-06-09;jorge@gmail.com;672309346;Asthma;M;None";
+        String patient2 = "7;Laura;López;2001-08-02;laura@yahoo.es;634987234;None;F;Tachycardia";
         String data = "PATIENTS_LIST|" + patient1 + "|" + patient2;
 
         when(in.readLine()).thenReturn(data);

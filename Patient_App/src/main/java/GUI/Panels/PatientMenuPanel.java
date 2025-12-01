@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import Connection.Connection_Patient;
-import com.jgoodies.forms.factories.*;
 
 
 
@@ -64,9 +63,8 @@ public class PatientMenuPanel extends JPanel {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Evaluation license - Nerea Leria
-        DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
-        title1 = compFactory.createTitle("Patient Menu");
-        separator1 = compFactory.createSeparator("");
+        title1 = new JLabel();
+        separator1 = new JSeparator();
         select_label = new JLabel();
         recording_button = new JButton();
         feedback_button = new JButton();
@@ -77,13 +75,6 @@ public class PatientMenuPanel extends JPanel {
         exit_button = new JButton();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing
-        . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-        Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-        ) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName (
-        ) )) throw new RuntimeException( ); }} );
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {327, 0};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0};
