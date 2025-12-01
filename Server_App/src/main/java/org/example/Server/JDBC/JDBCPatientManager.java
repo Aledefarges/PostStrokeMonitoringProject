@@ -362,6 +362,25 @@ public class JDBCPatientManager implements PatientManager {
             e.printStackTrace();
         }
     }
+    @Override
+    public String getFeedback(int patient_id) {
+        String feedback = null;
+        String sql = "SELECT feedback FROM Patients WHERE patient_id = ?";
+
+        try(PreparedStatement ps = manager.getConnection().prepareStatement(sql)){
+            ps.setInt(1, patient_id);
+            try (ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    feedback = rs.getString("feedback");
+                }
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return feedback;
+    }
 
 }
 
