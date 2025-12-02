@@ -254,6 +254,7 @@ public class Patient {
     private static boolean checkSurnameFormat(String surname) {
         for (char character : surname.toCharArray()) {
             if (!Character.isLetter(character) && character != ' ' && character != '-' && character != '\'') {
+                //Accepts compound surnames separated by a - and surnames including '
                 return false;
             }
         }

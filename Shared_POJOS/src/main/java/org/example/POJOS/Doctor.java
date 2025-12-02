@@ -169,6 +169,7 @@ public class Doctor  {
         for (char character : surname.toCharArray()) {
             if (!Character.isLetter(character) && character != ' ' && character != '-' && character != '\'') {
                 return false;
+                //Accepts compound surnames separated by a - and surnames including '
             }
         }
         return true;
