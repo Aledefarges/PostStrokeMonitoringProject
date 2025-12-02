@@ -118,7 +118,7 @@ public class ConnectionPatientTest {
     }
     @Test
     @DisplayName("Update medical history: Sends UPDATE_PATIENT|medical_history and verifies answer OK")
-    public void testMedicalHistory() throws IOException {
+    public void testUpdateMedicalHistory() throws IOException {
         String new_medicalHistory = "High fever";
         when(in.readLine()).thenReturn("OK|PATIENT_UPDATED");
         boolean result = conn.sendUpdateToServer("medical_history", new_medicalHistory);

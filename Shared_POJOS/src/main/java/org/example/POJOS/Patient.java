@@ -3,6 +3,7 @@ package org.example.POJOS;
 import javax.swing.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Patient {
 
@@ -209,6 +210,18 @@ public class Patient {
                 ", doctor=" + doctor + '\'' +
                 ", feedback='" + feedback +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return patient_id == patient.patient_id && phone == patient.phone && Objects.equals(name, patient.name) && Objects.equals(surname, patient.surname) && Objects.equals(email, patient.email) && Objects.equals(password, patient.password) && sex == patient.sex && Objects.equals(dob, patient.dob) && Objects.equals(recordings, patient.recordings) && Objects.equals(medicalhistory, patient.medicalhistory) && Objects.equals(doctor, patient.doctor) && Objects.equals(feedback, patient.feedback);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(patient_id, name, surname, email, password, sex, dob, phone, recordings, medicalhistory, doctor, feedback);
     }
 
     public enum Sex {
