@@ -253,7 +253,7 @@ public class Patient {
     }
     private static boolean checkSurnameFormat(String surname) {
         for (char character : surname.toCharArray()) {
-            if (!Character.isLetter(character) && character != ' ') {
+            if (!Character.isLetter(character) && character != ' ' && character != '-' && character != '\'') {
                 return false;
             }
         }
