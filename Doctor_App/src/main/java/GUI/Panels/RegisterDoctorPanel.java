@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Fri Nov 28 08:58:27 CET 2025
- */
 
 package GUI.Panels;
 
@@ -14,7 +11,6 @@ public class RegisterDoctorPanel extends JPanel {
     private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
     public RegisterDoctorPanel(AppFrameDoctor appFrame) {
-        //this.connection = connection;
         this.appFrame = appFrame;
         this.connection = appFrame.getConnection();
 
@@ -130,13 +126,13 @@ public class RegisterDoctorPanel extends JPanel {
 
     private void registerDoctor(){
         try{
-            String name = name_field.getText().trim();  // trim() se encarga de quitar las espacios que el usuario puede dejar al escribir
+            String name = name_field.getText().trim();  // trim() erase spaces written by the user
             String surname = surname_field.getText().trim();
             String phone = phone_field.getText().trim();
             int phone_1 = Integer.parseInt(phone);
             String email = email_field.getText().trim();
             String password = password_field.getText().trim();
-            //Encrypted contraseña:
+            //Encrypted password:
             String encryptedPassword = connection.encryptDoctorPassword(password);
 
             if(name.isEmpty() || surname.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()){

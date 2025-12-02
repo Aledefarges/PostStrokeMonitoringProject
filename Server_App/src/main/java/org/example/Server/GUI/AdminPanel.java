@@ -1,11 +1,6 @@
-/*
- * Created by JFormDesigner on Fri Nov 28 13:01:45 CET 2025
- */
-
 package org.example.Server.GUI;
 
 import org.example.Server.Connection.Server;
-import org.example.Server.JDBC.JDBCManager;
 
 import java.awt.*;
 import java.io.IOException;

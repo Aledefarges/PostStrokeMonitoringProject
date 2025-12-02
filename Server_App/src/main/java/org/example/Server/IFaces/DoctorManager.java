@@ -13,5 +13,5 @@ public interface DoctorManager {
    public void updateEmail(int doctor_id, String newEmail);
    public Doctor searchDoctorById(int doctor_id);
    public List<Doctor> getAllDoctors();
-    public Doctor getDoctorByEmail(String email);
+   public Doctor getDoctorByEmail(String email);
 }

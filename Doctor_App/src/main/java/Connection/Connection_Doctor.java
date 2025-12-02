@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -22,7 +21,6 @@ public class Connection_Doctor {
     private BufferedReader in;
     private PrintWriter out;
 
-    boolean loggedIn = false;
 
 
     public boolean connection(String ip, int port) {
@@ -74,9 +72,8 @@ public class Connection_Doctor {
 
 
     public String sendDoctorLogin(String email, String password) throws IOException {
-        // Enviar comando
+
         out.println("LOGIN|" + email + ";" + password);
-        // Leer respuesta
         String response = readLineHandlingListener();
         return response;
     }

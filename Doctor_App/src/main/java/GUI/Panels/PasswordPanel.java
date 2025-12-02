@@ -1,6 +1,3 @@
-/*
- * Created by JFormDesigner on Wed Nov 26 10:24:14 CET 2025
- */
 
 package GUI.Panels;
 
@@ -35,7 +32,6 @@ public class PasswordPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         old_label = new JLabel();
         old_field = new JTextField();
         new_label = new JLabel();
@@ -99,7 +95,6 @@ public class PasswordPanel extends JPanel {
                 return;
             }
 
-            //Función de prueba para encryptar la constraseña:
             String old_enc = connection.encryptDoctorPassword(old_password);
             String new_enc = connection.encryptDoctorPassword(new_password);
 

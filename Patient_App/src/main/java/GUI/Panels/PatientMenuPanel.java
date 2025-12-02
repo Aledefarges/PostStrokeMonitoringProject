@@ -62,7 +62,6 @@ public class PatientMenuPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         title1 = new JLabel();
         separator1 = new JSeparator();
         select_label = new JLabel();

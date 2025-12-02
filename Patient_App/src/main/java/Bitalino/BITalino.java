@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 
-// H
 public class BITalino {
     private int[] analogChannels = null;
 

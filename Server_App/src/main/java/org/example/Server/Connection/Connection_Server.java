@@ -176,7 +176,6 @@ private void savePatientRegistration(String p){
                     loggedPatient = patient;
                     loggedDoctor = null;
                     userType = UserType.PATIENT;
-                    //loggedPatient.setPassword(password);
                     out.println("OK|LOGIN_SUCCESS_PATIENT");
                 }else{
                     out.println("ERROR|WRONG_PASSWORD");
@@ -369,7 +368,7 @@ private void savePatientRegistration(String p){
 
         String[] p = data.split(";");
         int seq = Integer.parseInt(p[0]);
-        // Leer analógicos según el número de canales activos (1 o 2)
+        // Read analogs depending on the number of active channels (1 or 2)
         int[] analogFull = new int[6];
         for (int i = 0; i < activeChannels.length; i++) {
             int bitalinoChannel = activeChannels[i];
@@ -378,8 +377,8 @@ private void savePatientRegistration(String p){
             analogFull[bitalinoChannel] = value;
         }
         int[] digital = new int[4];
-        // digitalStart indica el primer valor digital
-        int digitalStart = 1 + activeChannels.length; // Indica donde empiezan los digitales
+        // digitalStart indicates the first digital value
+        int digitalStart = 1 + activeChannels.length; // Indicates where the digital frames start
         for (int i = 0; i < 4; i++) {
             digital[i] = Integer.parseInt(p[digitalStart + i]);
         }
@@ -558,7 +557,7 @@ private void savePatientRegistration(String p){
                         .append(p.getFeedback()).append("|");
             }
 
-            sb.deleteCharAt(sb.length() - 1); //eliminar el último "|"
+            sb.deleteCharAt(sb.length() - 1); //deletes the last "|"
             out.println(sb.toString());
 
             System.out.println("Sent list of patients to doctor: " + loggedDoctor.getEmail());

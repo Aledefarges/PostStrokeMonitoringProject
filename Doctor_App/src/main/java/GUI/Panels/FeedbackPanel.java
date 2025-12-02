@@ -43,7 +43,6 @@ public class FeedbackPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
         text_field = new JTextPane();
@@ -67,7 +66,7 @@ public class FeedbackPanel extends JPanel {
         {
             scrollPane1.setViewportView(text_field);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.0, 0.0,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.5, 0.5,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 

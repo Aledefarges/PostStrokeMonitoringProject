@@ -35,7 +35,6 @@ public class EmailPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         old_label = new JLabel();
         old_field = new JTextField();
         new_label = new JLabel();

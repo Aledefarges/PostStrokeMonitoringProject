@@ -45,7 +45,6 @@ public class Patient {
     }
 
     public Patient(int patient_id, String name, String surname, Date dob, String email, int phone, String medicalHistory, Sex sex, String feedback) throws Exceptions{
-        // para los métodos sin password
         if(!checkNameFormat(name)){
             throw new Exceptions(ValidationError.INVALID_NAME_FORMAT);
         }
@@ -226,7 +225,8 @@ public class Patient {
 
     public enum Sex {
         M,F;
-    } //
+    }
+
     private static boolean checkEmailFormat(String email) {
         if(email == null || email.isEmpty()) {
             return false;

@@ -100,7 +100,6 @@ public class PasswordPanel extends JPanel {
                 return;
             }
 
-            //Función de prueba para encryptar la constraseña:
             String old_enc = Connection_Patient.encryptPatientPassword(old_password);
             String new_enc = Connection_Patient.encryptPatientPassword(new_password);
 

@@ -25,7 +25,6 @@ public class AppFrame extends JFrame {
         this.connection = connection;
     }
     public void setLoggedPatient(Patient loggedPatient){this.loggedPatient = loggedPatient;}
-    public Patient getLoggedPatient(){return loggedPatient;}
     public void switchPanel(JPanel newPanel){
         setContentPane(newPanel);
         revalidate();

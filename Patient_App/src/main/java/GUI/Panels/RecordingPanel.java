@@ -1,11 +1,7 @@
-/*
- * Created by JFormDesigner on Wed Nov 26 12:08:06 CET 2025
- */
 
 package GUI.Panels;
 
 
-import Bitalino.BITalinoException;
 import Connection.Connection_Patient;
 import Bitalino.Frame;
 import Bitalino.BITalino;
@@ -58,7 +54,6 @@ public class RecordingPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label2 = new JLabel();
         MAC_field = new JTextField();
         done_button = new JButton();
@@ -128,7 +123,7 @@ public class RecordingPanel extends JPanel {
     }//
 
     private void startRecording(String type) {
-    // Desactivar botones mientras graba
+    // This disables the buttons while recording is in progress
     emg_button.setEnabled(false);
     ecg_button.setEnabled(false);
     both_button.setEnabled(false);

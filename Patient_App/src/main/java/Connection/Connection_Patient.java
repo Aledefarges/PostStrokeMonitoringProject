@@ -101,7 +101,7 @@ public class Connection_Patient {
     }
 
     // Indicates that a new Recording needs to be created as a new row in the Database
-    // Then it send to the server which channels are being used by BITalino
+    // Then it sends to the server which channels are being used by BITalino
     public int[][] startRecording(String type){
 
         int [] channel;
@@ -123,7 +123,7 @@ public class Connection_Patient {
             if(!response.startsWith("OK|RECORDING_STARTED")){
                 System.out.println("Server error to start recording");
             }else{
-                //Para obtener recording_id
+                //To obtain recording_id
                 String[] parts = response.split("\\|");
                 recording_id = Integer.parseInt(parts[2]);
             }
@@ -169,10 +169,8 @@ public class Connection_Patient {
 
 
     public Double[][] requestRecordingData(int recording_id, String type) throws IOException{
-        //Pedir al servidor el recording
         out.println("GET_RECORDING|" + recording_id);
 
-        //Leer la respuesta
         String response = readLineHandlingListener();
 
         if(response == null || !response.startsWith("RECORDING_DATA|")){
@@ -184,7 +182,7 @@ public class Connection_Patient {
         String csv = parts[2];
         String[] samples = csv.split(",");
 
-        //Si solo es un canal:
+        //If just one channel
         if(type.equals("ECG")||type.equals("EMG")){
             Double[] oneChannel = new Double[samples.length];
             for(int i = 0; i<samples.length; i++){
@@ -193,7 +191,7 @@ public class Connection_Patient {
             return new Double[][]{oneChannel};
         }
 
-        //Si son both
+        //For both channels
         Double[] emgArray = new Double[samples.length];
         Double[] ecgArray = new Double[samples.length];
 
@@ -273,7 +271,7 @@ public class Connection_Patient {
         }
     }
 
-    //Encryption of password of patient:
+    //Encryption of password patient:
     public static String encryptPatientPassword(String password){
         try{
             MessageDigest md = MessageDigest.getInstance("MD5");

@@ -7,12 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class IP_Panel extends JPanel {
-    //private Connection_Doctor connection;
     private AppFrameDoctor appFrame;
 
     public IP_Panel(AppFrameDoctor appFrame) {
         this.appFrame = appFrame;
-        //this.connection = connection;
         initComponents();
         setBorder(BorderFactory.createEmptyBorder(110,110,30,30));
 
@@ -75,11 +73,10 @@ public class IP_Panel extends JPanel {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            //connection = new Connection_Doctor();
             Connection_Doctor connection = new Connection_Doctor();
 
             if (connection.connection(ip, 9000)) {
-                appFrame.setConnection(connection); // saves connection in App Frame
+                appFrame.setConnection(connection); // Saves connection in App Frame
                 appFrame.switchPanel(new MenuPanel(appFrame));
             } else {
                 JOptionPane.showMessageDialog(this,

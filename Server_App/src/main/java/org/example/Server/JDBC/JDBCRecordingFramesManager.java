@@ -28,8 +28,7 @@ public class JDBCRecordingFramesManager implements RecordingFramesManager {
             ps.setInt(3,crc);
             ps.setInt(4,seq);
 
-            // Fills the 6 analog comlumn: puts the received values in the array
-            // and any empty values are filled in with 0
+            // Fills analog and digital values
             for (int i = 0; i < 6; i++){
                 if (i< analog.length){
                     ps.setInt(5 + i, analog[i]);

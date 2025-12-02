@@ -61,8 +61,8 @@ public class JDBCPatientManager implements PatientManager {
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1, email);
-            int rowsAffected = ps.executeUpdate(); //executeUpdate devuelve cuanats filas fueron eliminadas por el sql, el resultado puede ser 0 (no exsiet este mail), 1 se elimino paciente (ya que el mail es UNIQUE y no puede haber más de uno)
-            return  rowsAffected == 1; //False si no se elimino ningun paciente (no existia ese email), true si se elimino un paciente
+            int rowsAffected = ps.executeUpdate(); //executeUpdate returns number of deleted rows, may be: 0 (email does not exist), 1 (patient deleted)
+            return  rowsAffected == 1;
         }catch(SQLException e){
             e.printStackTrace();
             return false;
@@ -90,16 +90,11 @@ public class JDBCPatientManager implements PatientManager {
                 Patient.Sex sex = Patient.Sex.valueOf(rs.getString("sex"));
                 String feedback = rs.getString("feedback");
 
-                //List<Recording> recordings = jdbcRecordingManager.getRecordingOfPatient(patient_id);
-                //TODO cuando este hecho getRecordingOfPatient usarlo en este metodo para que aparezcan los recordings cuando se muestra a los pacientes
-
                 Patient p= new Patient(patient_id, password, name, surname, dob, email, phone, medicalHistory, sex, feedback);
-                //cuando este el getRecordingOfPatient añadir aqui tambien el atributo recording
                 patients.add(p);
             }
         }catch(Exception e) {
             e.printStackTrace();}
-
         return patients;
     }
 
@@ -111,10 +106,7 @@ public class JDBCPatientManager implements PatientManager {
         try(Connection c = manager.getConnection();
         PreparedStatement ps = c.prepareStatement(sql)){
             ps.setInt(1, patient_id);
-            // The SQL query uses a placeholder (?) for the patient_id value, it is needed to replace that
-            // placeholder before executing the query.
-            // 'setInt(1, patient_id)' inserts the value into the first '?' in the SQL.
-            // If we don't set it, the query remains incomplete and will fail.
+
             try(ResultSet rs = ps.executeQuery()){
                 if(rs.next()) {
                     String password = rs.getString("password");
@@ -265,7 +257,6 @@ public class JDBCPatientManager implements PatientManager {
 
     @Override
     public void updateMedicalHistory(int patient_id, String medicalHistory) {
-
         String sql = "UPDATE Patients SET medicalHistory = ? WHERE patient_id = ?";
         try (PreparedStatement ps = manager.getConnection().prepareStatement(sql)) {
             ps.setString(1, medicalHistory);

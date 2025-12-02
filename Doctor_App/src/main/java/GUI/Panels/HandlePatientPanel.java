@@ -125,7 +125,7 @@ public class HandlePatientPanel extends JPanel {
     }
     private void configureHandleSelect(){
         patient_list.addListSelectionListener( e-> {
-            if(!e.getValueIsAdjusting()){ // indica que se ha terminado de selecionar un elemento de la lista
+            if(!e.getValueIsAdjusting()){ // Indicates that an element of the list has been selected
                 Patient selected = patient_list.getSelectedValue();
                 if(selected!=null){
                     appFrame.switchPanel(new PatientOptionPanel(appFrame,selected));

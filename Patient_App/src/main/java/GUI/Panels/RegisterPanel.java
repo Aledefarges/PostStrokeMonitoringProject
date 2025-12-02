@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Tue Nov 25 23:48:45 CET 2025
- */
-
 package GUI.Panels;
 
 import Connection.Connection_Patient;
@@ -200,7 +196,7 @@ public class RegisterPanel extends JPanel {
     private void registerPatient(){
         running = false;
         try{
-            String name = name_field.getText().trim();  // trim() se encarga de quitar las espacios que el usuario puede dejar al escribir
+            String name = name_field.getText().trim();
             String surname = surname_field.getText().trim();
             String dob = dob_field.getText().trim();
 
@@ -212,7 +208,7 @@ public class RegisterPanel extends JPanel {
             String sex = sex_field.getText().trim().toUpperCase();
             Patient.Sex sexEnum = Patient.Sex.valueOf(sex);
             String password = password_field.getText().trim();
-            //Encrypted contraseña:
+            //Encrypted password:
             String encryptedPassword = connection.encryptPatientPassword(password);
             String doctor_selected = doctors_box.getSelectedItem().toString();
             int doctot_id = Integer.parseInt(doctor_selected.split(" - ")[0]);

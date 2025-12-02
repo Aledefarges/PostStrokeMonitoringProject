@@ -1,7 +1,5 @@
 package org.example.Server.IFaces;
 
-
-
 import org.example.POJOS.Patient;
 
 import java.sql.Date;
@@ -10,7 +8,6 @@ import java.util.List;
 public interface PatientManager {
     public void addPatient(Patient patient);
     public boolean deletePatient (String email);
-    //public void deletePatientByEmail(String email);
     public List<Patient> getListOfPatients();
     public Patient getPatientById(int patient_id);
     public Patient getPatientByEmail(String email);

@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Wed Nov 26 11:07:32 CET 2025
- */
-
 package GUI.Panels;
 
 import Connection.Connection_Patient;
@@ -43,7 +39,6 @@ public class UpdatePanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label = new JLabel();
         name_label = new JLabel();
         name_field = new JTextField();
@@ -110,7 +105,7 @@ public class UpdatePanel extends JPanel {
             new Insets(0, 0, 5, 0), 0, 0));
 
         //---- dob_label ----
-        dob_label.setText("Date of birh:");
+        dob_label.setText("Date of birth:");
         add(dob_label, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
@@ -205,7 +200,6 @@ public class UpdatePanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label;
     private JLabel name_label;
     private JTextField name_field;

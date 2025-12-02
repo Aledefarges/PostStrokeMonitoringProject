@@ -1,6 +1,4 @@
-/*
- * Created by JFormDesigner on Tue Nov 25 23:28:01 CET 2025
- */
+
 
 package GUI.Panels;
 

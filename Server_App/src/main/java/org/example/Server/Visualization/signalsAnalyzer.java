@@ -81,7 +81,6 @@ public class signalsAnalyzer {
         double meanRR = sumRR / countRR;      // seconds
         double heartRate = 60.0 / meanRR;     // bpm
 
-        // Only 1 decimal
         String hrStr = String.format(Locale.US, "%.1f", heartRate);
 
         if (heartRate > 100.0) {

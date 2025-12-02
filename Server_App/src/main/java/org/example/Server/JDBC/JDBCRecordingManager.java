@@ -1,14 +1,10 @@
 package org.example.Server.JDBC;
 
-
-
 import org.example.Server.IFaces.RecordingManager;
 import org.example.POJOS.Recording;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +106,4 @@ public class JDBCRecordingManager implements RecordingManager {
         }
         return recordings;
     }
-
-
-
 }

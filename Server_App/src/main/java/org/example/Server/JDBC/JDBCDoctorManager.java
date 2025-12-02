@@ -75,8 +75,6 @@ public Doctor getDoctorByEmail(String email){
                  int phone = rs.getInt("phone");
                  int doctor_id = rs.getInt("doctor_id");
 
-                 // List<Patient> patients= jdbcPatientManager.getListOfPatientsOfDoctor(doctor_id);
-
                  doctor = new Doctor(name, surname, phone, email, password);
                  doctor.setDoctor_id(doctor_id);
              }
@@ -157,9 +155,7 @@ public Doctor getDoctorByEmail(String email){
             try(ResultSet rs = ps.executeQuery()){
                 if(rs.next()){
                     String pass = rs.getString("password");
-
                     return pass.equalsIgnoreCase(password);
-
                 }
             }
         }

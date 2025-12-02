@@ -84,7 +84,6 @@ public class ConnectionDoctorTest {
         verify(out).println("CHANGE_PASSWORD|" + password + ";" + new_password);
     }
     @Test
-    //REVISAR
     @DisplayName("Request specific recording: Sends GET_RECORDING")
     public void testGetRecording() throws IOException {
         int recording_id = 5;
@@ -106,18 +105,7 @@ public class ConnectionDoctorTest {
         assertTrue(result, "Returns true if patient's feedback has been correctly updated");
         verify(out).println("ADD_FEEDBACK|" + patientEmail + ";" + feedback);
     }
-    /*
-    public boolean sendFeedback(String email, String feedback){
-        try{
-            out.println("ADD_FEEDBACK|" + email + ";" + feedback);
-            String response = readLineHandlingListener();
-            return response.equals("OK|FEEDBACK_SAVED");
-        }catch(IOException e){
-            return false;
-        }
-    }
 
-     */
     @Test
     @DisplayName("Request all patients: Sends VIEW_ALL_PATIENTS")
     public void testViewAllPatients() throws IOException {
