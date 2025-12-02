@@ -292,10 +292,33 @@ public class Connection_Patient {
 
 
     public String readLineHandlingListener()throws IOException{
-        String response = in.readLine();
+        try{
+            String response = in.readLine();
 
-        if (response == null || response.equals("SERVER SHUTDOWN")) {
-            close();
+            if (response == null || response.equals("SERVER SHUTDOWN")) {
+                try{
+                    close();
+                }catch (Exception ignored){}
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "The server has been shut down. The application will close.",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    for(Window window : Window.getWindows()){
+                        window.dispose();
+                    }
+                    System.exit(0);
+                });
+                return null;
+            }
+            return response;
+        } catch (IOException e){
+            System.out.println("Server disconnected.");
+            try{
+                close();
+            }catch (Exception ignored){}
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(
                         null,
@@ -310,7 +333,7 @@ public class Connection_Patient {
             });
             return null;
         }
-        return response;
+
     }
 
     public String requestFeedback(){

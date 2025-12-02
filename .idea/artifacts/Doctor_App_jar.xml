@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Doctor_App:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Doctor_App_jar</output-path>
+    <root id="archive" name="Doctor_App.jar">
+      <element id="module-output" name="Doctor_App" />
+      <element id="module-output" name="Shared_POJOS" />
+      <element id="module-output" name="Server_App" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/jfreechart/1.5.3/jfreechart-1.5.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ultreia/bluecove/2.1.1/bluecove-2.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple/2.0.12/slf4j-simple-2.0.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.24/jcommon-1.0.24.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
