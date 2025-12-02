@@ -40,6 +40,7 @@ public class PatientOptionPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+
         label1 = new JLabel();
         recordings_button = new JButton();
         feedback_button = new JButton();

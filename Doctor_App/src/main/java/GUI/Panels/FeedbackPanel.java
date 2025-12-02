@@ -43,6 +43,7 @@ public class FeedbackPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        // Generated using JFormDesigner Evaluation license - Nerea Leria
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
         text_field = new JTextPane();
@@ -58,16 +59,15 @@ public class FeedbackPanel extends JPanel {
 
         //---- label1 ----
         label1.setText("Insert feedback about the patient's health");
-        label1.setHorizontalAlignment(SwingConstants.CENTER);
         add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
         //======== scrollPane1 ========
         {
             scrollPane1.setViewportView(text_field);
         }
-        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.5, 0.5,
+        add(scrollPane1, new GridBagConstraints(0, 1, 1, 2, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
 
@@ -111,6 +111,7 @@ public class FeedbackPanel extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
+    // Generated using JFormDesigner Evaluation license - Nerea Leria
     private JLabel label1;
     private JScrollPane scrollPane1;
     private JTextPane text_field;
